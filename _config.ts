@@ -10,7 +10,7 @@ import netlifyCMS from "lume/plugins/netlify_cms.ts";
 import gpm from "https://deno.land/x/gpm@v0.4.1/mod.ts";
 
 const site = lume({
-  location: new URL("https://github.com/daltontf/daltontf.github.io"),
+  location: new URL("https://daltontf.github.io"),
 });
 
 site
