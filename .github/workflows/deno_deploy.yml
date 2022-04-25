@@ -27,5 +27,5 @@ jobs:
       - name: Deploy to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: lume-blog
+          project: daltontf.github.io
           entrypoint: server.ts
