@@ -22,7 +22,7 @@ jobs:
 
       - name: Build site
         run: |
-          deno run -A https://deno.land/x/lume/ci.ts --location=https://lume-blog.deno.dev
+          deno run -A https://deno.land/x/lume/ci.ts --location=https://github.com/daltontf/daltontf.github.io
 
       - name: Deploy to Deno Deploy
         uses: denoland/deployctl@v1
