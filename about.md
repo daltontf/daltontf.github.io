@@ -7,4 +7,4 @@ menu:
   order: 2
 ---
 
-I am a person that writes stuff.
+Software developer
