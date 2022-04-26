@@ -11,10 +11,10 @@ oom-search::part(label) {
   font-weight: bold;
 }
 oom-search::part(input) {
-  border: solid 2px var(--darkgray);
+  border: solid 2px var(--lightgray);
   border-radius: 4px;
   padding: .5em;
-  background: none;
+  background: lightgrey;
 }
 oom-search::part(items) {
   padding: .5em;

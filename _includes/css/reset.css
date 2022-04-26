@@ -2,7 +2,7 @@
   --red: #c04;
   --lightgray: #e6e6e6;
   --darkgray: #0d1117;
-  --blue: #135;
+  --blue: #26A;
   --white: #fff;
 }
 
@@ -11,8 +11,8 @@ body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, system-ui, sans-serif;
-  color: var(--darkgray);
-  background-color: var(--white);
+  color: var(--lightgray);
+  background-color: var(--darkgray);
 }
 
 main {
