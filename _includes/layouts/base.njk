@@ -15,8 +15,8 @@
     <nav class="navbar">
       <a href="/" class="navbar-home">
         <strong>{{ site.title }}</strong>
+        <div class="box"> </div>
       </a>
-
       <ul class="navbar-links">
       {%- for entry in search.pages("menu.visible=true", "menu.order") %}
         <li>

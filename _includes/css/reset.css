@@ -12,7 +12,7 @@ body {
   margin: 0;
   font-family: -apple-system, system-ui, sans-serif;
   color: var(--lightgray);
-  background-color: var(--darkgray);
+  background-color: #000;
 }
 
 main {
@@ -24,7 +24,7 @@ main {
 }
 
 a {
-  color: var(--blue);
+  color: #f40;   
 }
 
 /* Warning */

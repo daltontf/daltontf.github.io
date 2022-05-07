@@ -1,16 +1,23 @@
 .navbar {
-  border-bottom: 1px dashed var(--lightgray);
+  border-bottom: 1px dashed white;
   display: flex;
   flex-wrap: wrap;
-
+  font-size: 20pt;
+ 
+  
   & a {
     padding: 1em;
     display: block;
+    
 
     &:not(:hover) {
       text-decoration: none;
     }
   }
+}
+
+.navbar-home {
+  color: #0cf;
 }
 
 .navbar-links {
@@ -19,12 +26,13 @@
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-
+  
   & [aria-current="page"] {
     font-weight: bold;
     text-decoration: underline;
   }
 }
+
 .navbar-search {
   padding: 0 1em;
   margin-left: auto;
