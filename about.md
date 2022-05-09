@@ -17,6 +17,7 @@ menu:
 - Rust Programming
 - Books
 - Sports
+- Fitness 
 
 
 The styling of this site is an homage to my first computers. The TRS-80 Color Computer <sup>1</sup>. 
