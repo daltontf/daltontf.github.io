@@ -1,11 +1,7 @@
----
-layout: layouts/post.njk
-title: About Me
-templateClass: tmpl-post
-menu:
-  visible: true
-  order: 2
----
++++
+title = "About"
+weight = 0
++++
 
 ### Who Am I
  - Software developer (Java pays the bills).
@@ -25,5 +21,3 @@ The styling of this site is an homage to my first computers. The TRS-80 Color Co
 
 
 <sup>1</sup> Tandy should not have put the TRS-80 moniker on something that did not use the Z-80 processor.
-
-
