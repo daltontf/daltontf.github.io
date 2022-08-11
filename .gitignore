@@ -7,3 +7,5 @@ public/fonts/iosevka-italic.woff2
 public/fonts/iosevka-regular.woff2
 public/icons/github.svg
 public/icons/twitter.svg
+target
+*.class
