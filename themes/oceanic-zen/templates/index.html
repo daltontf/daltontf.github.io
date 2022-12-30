@@ -18,11 +18,11 @@
     </head>
     <body>
         <div class="content">
-        {% block body%}
+        {% block body %}
         {% block header %}
             <header>
                 <div class="header-left">
-                    <a href="{{ config.base_url }}" class="logo">{{ config.title }}</a>
+                    <a href="{{ config.base_url }}" class="logo">{{ config.title }}</a><div class="cursor"> </div>
                 </div>
                 <div class="header-right">
                     <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
@@ -40,9 +40,9 @@
             </header>
         {% endblock header %}
         {% block content %}
-        <main>
+        <main>            
             {% block main %}
-            <h1>Index <div class="cursor"> </div></h1>
+            <h1>Content</h1>
                 <ul>
                 {% set index = get_section(path="_index.md") %}
                 {% for s in index.subsections %}

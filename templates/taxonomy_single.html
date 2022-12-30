@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+{% block main %}
+{% if term.pages %}
+    <h1>{{ term.name }}</h1>
+    {% for page in term.pages %}
+        <a href="{{page.path}}">{{ page.title }}</a><br/>
+    {% endfor %}
+{% endif %}
+{% endblock main %}
