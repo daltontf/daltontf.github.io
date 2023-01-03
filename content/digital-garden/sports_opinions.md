@@ -1,5 +1,5 @@
 +++
-title = "Facets of Software Development"
+title = "Rule Changes for Sports"
 
 [taxonomies]
 tags=["Sports", "Soapbox"]
