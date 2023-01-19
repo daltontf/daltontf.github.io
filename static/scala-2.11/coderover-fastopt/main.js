@@ -6127,6 +6127,7 @@ $c_Ltfd_coderover_Controller.prototype.push__I__Ltfd_coderover_ResultOrAbend = (
   var this$1 = this.Ltfd_coderover_Controller__f_executionState.Ltfd_coderover_ExecutionState__f_stack;
   var this$2 = this$1.scm_Stack__f_elems;
   if (($s_sc_LinearSeqOptimized$class__length__sc_LinearSeqOptimized__I(this$2) > this.Ltfd_coderover_Controller__f_constraints.Ltfd_coderover_Constraints__f_maxStackSize)) {
+    this.Ltfd_coderover_Controller__f_delegate.appendStep(new $c_Ltfd_coderover_PrintEvent("StackOverflow"));
     var rawAbend = $m_Ltfd_coderover_StackOverflow$();
     return $ct_Ltfd_coderover_ResultOrAbend__Ltfd_coderover_Abend__(new $c_Ltfd_coderover_ResultOrAbend(), rawAbend)
   } else {
@@ -6139,6 +6140,7 @@ $c_Ltfd_coderover_Controller.prototype.pop__Ltfd_coderover_ResultOrAbend = (func
     this.Ltfd_coderover_Controller__f_executionState.Ltfd_coderover_ExecutionState__f_stack.pop__O();
     return $m_Ltfd_coderover_SuccessResultUnit$()
   } else {
+    this.Ltfd_coderover_Controller__f_delegate.appendStep(new $c_Ltfd_coderover_PrintEvent("IllegalOperationOnEmptyStack"));
     var rawAbend = $m_Ltfd_coderover_IllegalOperationOnEmptyStack$();
     return $ct_Ltfd_coderover_ResultOrAbend__Ltfd_coderover_Abend__(new $c_Ltfd_coderover_ResultOrAbend(), rawAbend)
   }
@@ -6150,6 +6152,7 @@ $c_Ltfd_coderover_Controller.prototype.top__Ltfd_coderover_ResultOrAbend = (func
     var rawValue = this$2.scm_Stack__f_elems.head__O();
     return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), rawValue)
   } else {
+    this.Ltfd_coderover_Controller__f_delegate.appendStep(new $c_Ltfd_coderover_PrintEvent("IllegalOperationOnEmptyStack"));
     var rawAbend = $m_Ltfd_coderover_IllegalOperationOnEmptyStack$();
     return $ct_Ltfd_coderover_ResultOrAbend__Ltfd_coderover_Abend__(new $c_Ltfd_coderover_ResultOrAbend(), rawAbend)
   }
@@ -6162,6 +6165,7 @@ $c_Ltfd_coderover_Controller.prototype.depth__I = (function() {
 $c_Ltfd_coderover_Controller.prototype.incrementCallStack__Ltfd_coderover_ResultOrAbend = (function() {
   this.Ltfd_coderover_Controller__f_executionState.incrementCallStack__V();
   if ((this.Ltfd_coderover_Controller__f_executionState.Ltfd_coderover_ExecutionState__f_callStackSize > this.Ltfd_coderover_Controller__f_constraints.Ltfd_coderover_Constraints__f_maxCallStackSize)) {
+    this.Ltfd_coderover_Controller__f_delegate.appendStep(new $c_Ltfd_coderover_PrintEvent("CallStackOverflow"));
     var rawAbend = $m_Ltfd_coderover_CallStackOverflow$();
     return $ct_Ltfd_coderover_ResultOrAbend__Ltfd_coderover_Abend__(new $c_Ltfd_coderover_ResultOrAbend(), rawAbend)
   } else {
@@ -6179,6 +6183,7 @@ $c_Ltfd_coderover_Controller.prototype.mem__I__Ltfd_coderover_ResultOrAbend = (f
     var rawValue = this.Ltfd_coderover_Controller__f_executionState.Ltfd_coderover_ExecutionState__f_memory.get(address);
     return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), rawValue)
   } else {
+    this.Ltfd_coderover_Controller__f_delegate.appendStep(new $c_Ltfd_coderover_PrintEvent((("InvalidMEMAddress(" + address) + ")")));
     var rawAbend = new $c_Ltfd_coderover_InvalidMEMAddress(address);
     return $ct_Ltfd_coderover_ResultOrAbend__Ltfd_coderover_Abend__(new $c_Ltfd_coderover_ResultOrAbend(), rawAbend)
   }
@@ -6195,6 +6200,7 @@ $c_Ltfd_coderover_Controller.prototype.store__I__I__Ltfd_coderover_ResultOrAbend
     var rawValue = (void 0);
     return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), rawValue)
   } else {
+    this.Ltfd_coderover_Controller__f_delegate.appendStep(new $c_Ltfd_coderover_PrintEvent((("InvalidMEMAddress(" + address) + ")")));
     var rawAbend = new $c_Ltfd_coderover_InvalidMEMAddress(address);
     return $ct_Ltfd_coderover_ResultOrAbend__Ltfd_coderover_Abend__(new $c_Ltfd_coderover_ResultOrAbend(), rawAbend)
   }
@@ -6328,9 +6334,13 @@ $c_Ltfd_coderover_Environment.prototype.addObstruction__I__I__V = (function(x, y
   this.Ltfd_coderover_Environment__f_obstructed.$plus$eq__O__scm_HashSet(new $c_T2$mcII$sp(x, y))
 });
 $c_Ltfd_coderover_Environment.prototype.isObstructed__I__I__Z = (function(x, y) {
-  var this$1 = this.Ltfd_coderover_Environment__f_obstructed;
-  var elem = new $c_T2$mcII$sp(x, y);
-  return $s_scm_FlatHashTable$class__containsElem__scm_FlatHashTable__O__Z(this$1, elem)
+  if (((((x < 0) || (x >= this.Ltfd_coderover_Environment__f_sizeY)) || (y < 0)) || (y >= this.Ltfd_coderover_Environment__f_sizeY))) {
+    return true
+  } else {
+    var this$1 = this.Ltfd_coderover_Environment__f_obstructed;
+    var elem = new $c_T2$mcII$sp(x, y);
+    return $s_scm_FlatHashTable$class__containsElem__scm_FlatHashTable__O__Z(this$1, elem)
+  }
 });
 $c_Ltfd_coderover_Environment.prototype.paint__I__I__V = (function(x, y) {
   this.Ltfd_coderover_Environment__f_painted.get(x).set(y, true)
@@ -6830,107 +6840,113 @@ $c_Ltfd_coderover_Evaluator.prototype.evaluateInt__Ltfd_coderover_IntExpression_
   } else if ((expression instanceof $c_Ltfd_coderover_Depth)) {
     var rawValue$4 = controller.depth__I();
     return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), rawValue$4)
+  } else if ((expression instanceof $c_Ltfd_coderover_SizeX)) {
+    var rawValue$5 = controller.Ltfd_coderover_Controller__f_sizeX;
+    return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), rawValue$5)
+  } else if ((expression instanceof $c_Ltfd_coderover_SizeY)) {
+    var rawValue$6 = controller.Ltfd_coderover_Controller__f_sizeY;
+    return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), rawValue$6)
   } else if ((expression instanceof $c_Ltfd_coderover_Abs)) {
-    var x14 = $as_Ltfd_coderover_Abs(expression);
-    var expr = x14.Ltfd_coderover_Abs__f_expression;
-    var this$17 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr, args, controller);
-    if (this$17.success__Z()) {
-      var arg1$5 = this$17.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+    var x16 = $as_Ltfd_coderover_Abs(expression);
+    var expr = x16.Ltfd_coderover_Abs__f_expression;
+    var this$19 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr, args, controller);
+    if (this$19.success__Z()) {
+      var arg1$5 = this$19.Ltfd_coderover_ResultOrAbend__f_value.get__O();
       var x$1 = $uI(arg1$5);
       return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), ((x$1 < 0) ? ((-x$1) | 0) : x$1))
     } else {
-      return this$17
+      return this$19
     }
   } else if ((expression instanceof $c_Ltfd_coderover_Max)) {
-    var x15 = $as_Ltfd_coderover_Max(expression);
-    var expr1 = x15.Ltfd_coderover_Max__f_expression1;
-    var expr2 = x15.Ltfd_coderover_Max__f_expression2;
-    var this$19 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr1, args, controller);
-    if (this$19.success__Z()) {
-      var v1$10 = this$19.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+    var x17 = $as_Ltfd_coderover_Max(expression);
+    var expr1 = x17.Ltfd_coderover_Max__f_expression1;
+    var expr2 = x17.Ltfd_coderover_Max__f_expression2;
+    var this$21 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr1, args, controller);
+    if (this$21.success__Z()) {
+      var v1$10 = this$21.Ltfd_coderover_ResultOrAbend__f_value.get__O();
       var x$2 = $uI(v1$10);
-      var this$20 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr2, args, controller);
-      if (this$20.success__Z()) {
-        var arg1$6 = this$20.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+      var this$22 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr2, args, controller);
+      if (this$22.success__Z()) {
+        var arg1$6 = this$22.Ltfd_coderover_ResultOrAbend__f_value.get__O();
         var y = $uI(arg1$6);
         return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), ((x$2 > y) ? x$2 : y))
       } else {
-        return this$20
+        return this$22
       }
     } else {
-      return this$19
+      return this$21
     }
   } else if ((expression instanceof $c_Ltfd_coderover_Min)) {
-    var x16 = $as_Ltfd_coderover_Min(expression);
-    var expr1$2 = x16.Ltfd_coderover_Min__f_expression1;
-    var expr2$2 = x16.Ltfd_coderover_Min__f_expression2;
-    var this$22 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr1$2, args, controller);
-    if (this$22.success__Z()) {
-      var v1$11 = this$22.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+    var x18 = $as_Ltfd_coderover_Min(expression);
+    var expr1$2 = x18.Ltfd_coderover_Min__f_expression1;
+    var expr2$2 = x18.Ltfd_coderover_Min__f_expression2;
+    var this$24 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr1$2, args, controller);
+    if (this$24.success__Z()) {
+      var v1$11 = this$24.Ltfd_coderover_ResultOrAbend__f_value.get__O();
       var x$3 = $uI(v1$11);
-      var this$23 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr2$2, args, controller);
-      if (this$23.success__Z()) {
-        var arg1$7 = this$23.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+      var this$25 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr2$2, args, controller);
+      if (this$25.success__Z()) {
+        var arg1$7 = this$25.Ltfd_coderover_ResultOrAbend__f_value.get__O();
         var y$1 = $uI(arg1$7);
         return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), ((x$3 < y$1) ? x$3 : y$1))
       } else {
-        return this$23
+        return this$25
       }
     } else {
-      return this$22
+      return this$24
     }
   } else if ((expression instanceof $c_Ltfd_coderover_Negate)) {
-    var x17 = $as_Ltfd_coderover_Negate(expression);
-    var expr$2 = x17.Ltfd_coderover_Negate__f_expression;
-    var this$25 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr$2, args, controller);
-    if (this$25.success__Z()) {
-      var arg1$8 = this$25.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+    var x19 = $as_Ltfd_coderover_Negate(expression);
+    var expr$2 = x19.Ltfd_coderover_Negate__f_expression;
+    var this$27 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr$2, args, controller);
+    if (this$27.success__Z()) {
+      var arg1$8 = this$27.Ltfd_coderover_ResultOrAbend__f_value.get__O();
       var x$4 = $uI(arg1$8);
       return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), ((-x$4) | 0))
     } else {
-      return this$25
+      return this$27
     }
   } else if ((expression instanceof $c_Ltfd_coderover_DistanceX)) {
-    var x18 = $as_Ltfd_coderover_DistanceX(expression);
-    var entity = x18.Ltfd_coderover_DistanceX__f_entity;
-    var expr$3 = x18.Ltfd_coderover_DistanceX__f_indexExpression;
-    var this$26 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr$3, args, controller);
-    if (this$26.success__Z()) {
-      var v1$12 = this$26.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+    var x20 = $as_Ltfd_coderover_DistanceX(expression);
+    var entity = x20.Ltfd_coderover_DistanceX__f_entity;
+    var expr$3 = x20.Ltfd_coderover_DistanceX__f_indexExpression;
+    var this$28 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr$3, args, controller);
+    if (this$28.success__Z()) {
+      var v1$12 = this$28.Ltfd_coderover_ResultOrAbend__f_value.get__O();
       var index = $uI(v1$12);
-      var this$27 = this.tfd$coderover$Evaluator$$processDistance__s_Option__I__T__Ltfd_coderover_ResultOrAbend(controller.distanceX__T__I__s_Option(entity, (((-1) + index) | 0)), index, entity);
-      if (this$27.success__Z()) {
-        var arg1$9 = this$27.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+      var this$29 = this.tfd$coderover$Evaluator$$processDistance__s_Option__I__T__Ltfd_coderover_ResultOrAbend(controller.distanceX__T__I__s_Option(entity, (((-1) + index) | 0)), index, entity);
+      if (this$29.success__Z()) {
+        var arg1$9 = this$29.Ltfd_coderover_ResultOrAbend__f_value.get__O();
         var distance = $uI(arg1$9);
         return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), distance)
-      } else {
-        return this$27
-      }
-    } else {
-      return this$26
-    }
-  } else if ((expression instanceof $c_Ltfd_coderover_DistanceY)) {
-    var x19 = $as_Ltfd_coderover_DistanceY(expression);
-    var entity$2 = x19.Ltfd_coderover_DistanceY__f_entity;
-    var expr$4 = x19.Ltfd_coderover_DistanceY__f_indexExpression;
-    var this$28 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr$4, args, controller);
-    if (this$28.success__Z()) {
-      var v1$13 = this$28.Ltfd_coderover_ResultOrAbend__f_value.get__O();
-      var index$1 = $uI(v1$13);
-      var this$29 = this.tfd$coderover$Evaluator$$processDistance__s_Option__I__T__Ltfd_coderover_ResultOrAbend(controller.distanceY__T__I__s_Option(entity$2, (((-1) + index$1) | 0)), index$1, entity$2);
-      if (this$29.success__Z()) {
-        var arg1$10 = this$29.Ltfd_coderover_ResultOrAbend__f_value.get__O();
-        var distance$1 = $uI(arg1$10);
-        return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), distance$1)
       } else {
         return this$29
       }
     } else {
       return this$28
     }
+  } else if ((expression instanceof $c_Ltfd_coderover_DistanceY)) {
+    var x21 = $as_Ltfd_coderover_DistanceY(expression);
+    var entity$2 = x21.Ltfd_coderover_DistanceY__f_entity;
+    var expr$4 = x21.Ltfd_coderover_DistanceY__f_indexExpression;
+    var this$30 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr$4, args, controller);
+    if (this$30.success__Z()) {
+      var v1$13 = this$30.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+      var index$1 = $uI(v1$13);
+      var this$31 = this.tfd$coderover$Evaluator$$processDistance__s_Option__I__T__Ltfd_coderover_ResultOrAbend(controller.distanceY__T__I__s_Option(entity$2, (((-1) + index$1) | 0)), index$1, entity$2);
+      if (this$31.success__Z()) {
+        var arg1$10 = this$31.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+        var distance$1 = $uI(arg1$10);
+        return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), distance$1)
+      } else {
+        return this$31
+      }
+    } else {
+      return this$30
+    }
   } else if ((expression instanceof $c_Ltfd_coderover_Count)) {
-    var x20 = $as_Ltfd_coderover_Count(expression);
-    var entity$3 = x20.Ltfd_coderover_Count__f_entity;
+    var x22 = $as_Ltfd_coderover_Count(expression);
+    var entity$3 = x22.Ltfd_coderover_Count__f_entity;
     var x1$2 = controller.count__T__s_Option(entity$3);
     if ((x1$2 instanceof $c_s_Some)) {
       var x2$2 = $as_s_Some(x1$2);
@@ -6946,62 +6962,62 @@ $c_Ltfd_coderover_Evaluator.prototype.evaluateInt__Ltfd_coderover_IntExpression_
       }
     }
   } else if ((expression instanceof $c_Ltfd_coderover_Mem)) {
-    var x21 = $as_Ltfd_coderover_Mem(expression);
-    var address = x21.Ltfd_coderover_Mem__f_expression;
-    var this$32 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(address, args, controller);
-    if (this$32.success__Z()) {
-      var v1$14 = this$32.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+    var x23 = $as_Ltfd_coderover_Mem(expression);
+    var address = x23.Ltfd_coderover_Mem__f_expression;
+    var this$34 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(address, args, controller);
+    if (this$34.success__Z()) {
+      var v1$14 = this$34.Ltfd_coderover_ResultOrAbend__f_value.get__O();
       var x$5 = $uI(v1$14);
-      var this$33 = controller.mem__I__Ltfd_coderover_ResultOrAbend(x$5);
-      if (this$33.success__Z()) {
-        var arg1$11 = this$33.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+      var this$35 = controller.mem__I__Ltfd_coderover_ResultOrAbend(x$5);
+      if (this$35.success__Z()) {
+        var arg1$11 = this$35.Ltfd_coderover_ResultOrAbend__f_value.get__O();
         var y$2 = $uI(arg1$11);
         return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), y$2)
       } else {
-        return this$33
-      }
-    } else {
-      return this$32
-    }
-  } else if ((expression instanceof $c_Ltfd_coderover_EvalParam)) {
-    var x22 = $as_Ltfd_coderover_EvalParam(expression);
-    var expr$5 = x22.Ltfd_coderover_EvalParam__f_expression;
-    var this$34 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr$5, args, controller);
-    if (this$34.success__Z()) {
-      var v1$15 = this$34.Ltfd_coderover_ResultOrAbend__f_value.get__O();
-      var position = $uI(v1$15);
-      if (((position > 0) && (position <= args.u.length))) {
-        var rawValue$5 = args.get((((-1) + position) | 0));
-        var this$37 = $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), rawValue$5)
-      } else {
-        var rawAbend$1 = new $c_Ltfd_coderover_UnboundParameter(position);
-        var this$37 = $ct_Ltfd_coderover_ResultOrAbend__Ltfd_coderover_Abend__(new $c_Ltfd_coderover_ResultOrAbend(), rawAbend$1)
-      };
-      if (this$37.success__Z()) {
-        var arg1$12 = this$37.Ltfd_coderover_ResultOrAbend__f_value.get__O();
-        var result = $uI(arg1$12);
-        return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), result)
-      } else {
-        return this$37
+        return this$35
       }
     } else {
       return this$34
     }
+  } else if ((expression instanceof $c_Ltfd_coderover_EvalParam)) {
+    var x24 = $as_Ltfd_coderover_EvalParam(expression);
+    var expr$5 = x24.Ltfd_coderover_EvalParam__f_expression;
+    var this$36 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(expr$5, args, controller);
+    if (this$36.success__Z()) {
+      var v1$15 = this$36.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+      var position = $uI(v1$15);
+      if (((position > 0) && (position <= args.u.length))) {
+        var rawValue$7 = args.get((((-1) + position) | 0));
+        var this$39 = $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), rawValue$7)
+      } else {
+        var rawAbend$1 = new $c_Ltfd_coderover_UnboundParameter(position);
+        var this$39 = $ct_Ltfd_coderover_ResultOrAbend__Ltfd_coderover_Abend__(new $c_Ltfd_coderover_ResultOrAbend(), rawAbend$1)
+      };
+      if (this$39.success__Z()) {
+        var arg1$12 = this$39.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+        var result = $uI(arg1$12);
+        return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), result)
+      } else {
+        return this$39
+      }
+    } else {
+      return this$36
+    }
   } else if ((expression instanceof $c_Ltfd_coderover_ParamCount)) {
-    var rawValue$6 = args.u.length;
-    return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), rawValue$6)
+    var rawValue$8 = args.u.length;
+    return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), rawValue$8)
   } else if ((expression instanceof $c_Ltfd_coderover_InvokeFunc)) {
-    var x24 = $as_Ltfd_coderover_InvokeFunc(expression);
-    var name = x24.Ltfd_coderover_InvokeFunc__f_name;
-    var invArgs = x24.Ltfd_coderover_InvokeFunc__f_args;
+    var x26 = $as_Ltfd_coderover_InvokeFunc(expression);
+    var name = x26.Ltfd_coderover_InvokeFunc__f_name;
+    var invArgs = x26.Ltfd_coderover_InvokeFunc__f_args;
     if (controller.Ltfd_coderover_Controller__f_executionState.Ltfd_coderover_ExecutionState__f_funcMap.contains__O__Z(name)) {
       controller.incrementCallStack__Ltfd_coderover_ResultOrAbend();
       var f = ((arg$outer, args$3, controller$3) => ((x$11$2) => {
         var x$11 = $as_Ltfd_coderover_IntExpression(x$11$2);
         return arg$outer.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(x$11, args$3, controller$3)
       }))(this, args, controller);
-      var this$39 = $m_sci_List$();
-      var bf = this$39.scg_GenTraversableFactory__f_ReusableCBFInstance;
+      var this$41 = $m_sci_List$();
+      var bf = this$41.scg_GenTraversableFactory__f_ReusableCBFInstance;
       if ((bf === $m_sci_List$().scg_GenTraversableFactory__f_ReusableCBFInstance)) {
         if ((invArgs === $m_sci_Nil$())) {
           var $$x1 = $m_sci_Nil$()
@@ -7015,8 +7031,8 @@ $c_Ltfd_coderover_Evaluator.prototype.evaluateInt__Ltfd_coderover_IntExpression_
             var nx = new $c_sci_$colon$colon(f(arg1$14), $m_sci_Nil$());
             t.sci_$colon$colon__f_tl = nx;
             t = nx;
-            var this$40 = rest;
-            rest = this$40.tail__sci_List()
+            var this$42 = rest;
+            rest = this$42.tail__sci_List()
           };
           var $$x1 = h
         }
@@ -7026,8 +7042,8 @@ $c_Ltfd_coderover_Evaluator.prototype.evaluateInt__Ltfd_coderover_IntExpression_
         while ((!these$5.isEmpty__Z())) {
           var arg1$15 = these$5.head__O();
           b.$plus$eq__O__scm_Builder(f(arg1$15));
-          var this$41 = these$5;
-          these$5 = this$41.tail__sci_List()
+          var this$43 = these$5;
+          these$5 = this$43.tail__sci_List()
         };
         var $$x1 = b.result__O()
       };
@@ -7051,8 +7067,8 @@ $c_Ltfd_coderover_Evaluator.prototype.evaluateInt__Ltfd_coderover_IntExpression_
           var x$13 = $as_Ltfd_coderover_ResultOrAbend(x$13$2);
           return $uI(x$13.Ltfd_coderover_ResultOrAbend__f_value.get__O())
         });
-        var this$42 = $m_sci_List$();
-        var bf$1 = this$42.scg_GenTraversableFactory__f_ReusableCBFInstance;
+        var this$44 = $m_sci_List$();
+        var bf$1 = this$44.scg_GenTraversableFactory__f_ReusableCBFInstance;
         if ((bf$1 === $m_sci_List$().scg_GenTraversableFactory__f_ReusableCBFInstance)) {
           if ((evalArgs === $m_sci_Nil$())) {
             var $$x2 = $m_sci_Nil$()
@@ -7066,8 +7082,8 @@ $c_Ltfd_coderover_Evaluator.prototype.evaluateInt__Ltfd_coderover_IntExpression_
               var nx$1 = new $c_sci_$colon$colon(f$1(arg1$18), $m_sci_Nil$());
               t$1.sci_$colon$colon__f_tl = nx$1;
               t$1 = nx$1;
-              var this$43 = rest$1;
-              rest$1 = this$43.tail__sci_List()
+              var this$45 = rest$1;
+              rest$1 = this$45.tail__sci_List()
             };
             var $$x2 = h$1
           }
@@ -7077,8 +7093,8 @@ $c_Ltfd_coderover_Evaluator.prototype.evaluateInt__Ltfd_coderover_IntExpression_
           while ((!these$7.isEmpty__Z())) {
             var arg1$19 = these$7.head__O();
             b$1.$plus$eq__O__scm_Builder(f$1(arg1$19));
-            var this$44 = these$7;
-            these$7 = this$44.tail__sci_List()
+            var this$46 = these$7;
+            these$7 = this$46.tail__sci_List()
           };
           var $$x2 = b$1.result__O()
         };
@@ -7094,24 +7110,24 @@ $c_Ltfd_coderover_Evaluator.prototype.evaluateInt__Ltfd_coderover_IntExpression_
       return $ct_Ltfd_coderover_ResultOrAbend__Ltfd_coderover_Abend__(new $c_Ltfd_coderover_ResultOrAbend(), rawAbend$3)
     }
   } else if ((expression instanceof $c_Ltfd_coderover_Ternary)) {
-    var x25 = $as_Ltfd_coderover_Ternary(expression);
-    var booleanExpression = x25.Ltfd_coderover_Ternary__f_booleanExpression;
-    var thenExpression = x25.Ltfd_coderover_Ternary__f_thenExpression;
-    var elseExpression = x25.Ltfd_coderover_Ternary__f_elseExpression;
-    var this$49 = this.evaluateBoolean__Ltfd_coderover_BooleanExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(booleanExpression, args, controller);
-    if (this$49.success__Z()) {
-      var v1$16 = this$49.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+    var x27 = $as_Ltfd_coderover_Ternary(expression);
+    var booleanExpression = x27.Ltfd_coderover_Ternary__f_booleanExpression;
+    var thenExpression = x27.Ltfd_coderover_Ternary__f_thenExpression;
+    var elseExpression = x27.Ltfd_coderover_Ternary__f_elseExpression;
+    var this$51 = this.evaluateBoolean__Ltfd_coderover_BooleanExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend(booleanExpression, args, controller);
+    if (this$51.success__Z()) {
+      var v1$16 = this$51.Ltfd_coderover_ResultOrAbend__f_value.get__O();
       var x$6 = $uZ(v1$16);
-      var this$50 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend((x$6 ? thenExpression : elseExpression), args, controller);
-      if (this$50.success__Z()) {
-        var arg1$20 = this$50.Ltfd_coderover_ResultOrAbend__f_value.get__O();
+      var this$52 = this.evaluateInt__Ltfd_coderover_IntExpression__AI__Ltfd_coderover_Controller__Ltfd_coderover_ResultOrAbend((x$6 ? thenExpression : elseExpression), args, controller);
+      if (this$52.success__Z()) {
+        var arg1$20 = this$52.Ltfd_coderover_ResultOrAbend__f_value.get__O();
         var res = $uI(arg1$20);
         return $ct_Ltfd_coderover_ResultOrAbend__O__(new $c_Ltfd_coderover_ResultOrAbend(), res)
       } else {
-        return this$50
+        return this$52
       }
     } else {
-      return this$49
+      return this$51
     }
   } else {
     throw new $c_s_MatchError(expression)
@@ -9332,7 +9348,7 @@ function $c_Ltfd_coderover_DefaultConstraints$() {
   this.Ltfd_coderover_Constraints__f_memorySize = 0;
   this.Ltfd_coderover_Constraints__f_maxStackSize = 0;
   this.Ltfd_coderover_Constraints__f_maxCallStackSize = 0;
-  $ct_Ltfd_coderover_Constraints__I__I__I__(this, 256, 1024, 1024)
+  $ct_Ltfd_coderover_Constraints__I__I__I__(this, 256, 1024, 256)
 }
 $c_Ltfd_coderover_DefaultConstraints$.prototype = new $h_Ltfd_coderover_Constraints();
 $c_Ltfd_coderover_DefaultConstraints$.prototype.constructor = $c_Ltfd_coderover_DefaultConstraints$;
@@ -11786,7 +11802,7 @@ function $p_Ltfd_coderover_LanguageParser__arityNoneIntFunction$lzycompute__s_ut
   var b = $thiz.Ltfd_coderover_LanguageParser__f_bitmap$0;
   var lo = (256 & b.RTLong__f_lo);
   if ((lo === 0)) {
-    $thiz.Ltfd_coderover_LanguageParser__f_arityNoneIntFunction = new $c_s_util_parsing_combinator_RegexParsers$$anon$1($thiz, "TOP").$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer, "X")))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer$1) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer$1, "Y")))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer$2) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer$2, "DX")))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer$3) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer$3, "DY")))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer$4) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer$4, "DEPTH")))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer$5) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer$5, "$COUNT")))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((x0$6$2) => {
+    $thiz.Ltfd_coderover_LanguageParser__f_arityNoneIntFunction = new $c_s_util_parsing_combinator_RegexParsers$$anon$1($thiz, "TOP").$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer, "X")))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer$1) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer$1, "Y")))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer$2) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer$2, "DX")))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer$3) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer$3, "DY")))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer$4) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer$4, "DEPTH")))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer$5) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer$5, "SIZEX")))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer$6) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer$6, "SIZEY")))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((arg$outer$7) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(arg$outer$7, "$COUNT")))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((x0$6$2) => {
       var x0$6 = $as_T(x0$6$2);
       if ((x0$6 === "TOP")) {
         return new $c_Ltfd_coderover_Top()
@@ -11800,6 +11816,10 @@ function $p_Ltfd_coderover_LanguageParser__arityNoneIntFunction$lzycompute__s_ut
         return new $c_Ltfd_coderover_DeltaY()
       } else if ((x0$6 === "DEPTH")) {
         return new $c_Ltfd_coderover_Depth()
+      } else if ((x0$6 === "SIZEX")) {
+        return new $c_Ltfd_coderover_SizeX()
+      } else if ((x0$6 === "SIZEY")) {
+        return new $c_Ltfd_coderover_SizeY()
       } else if ((x0$6 === "$COUNT")) {
         return new $c_Ltfd_coderover_ParamCount()
       } else {
@@ -21409,6 +21429,116 @@ var $d_Ltfd_coderover_Replace = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Ltfd_coderover_Replace.prototype.$classData = $d_Ltfd_coderover_Replace;
+/** @constructor */
+function $c_Ltfd_coderover_SizeX() {
+  /*<skip>*/
+}
+$c_Ltfd_coderover_SizeX.prototype = new $h_Ltfd_coderover_IntExpression();
+$c_Ltfd_coderover_SizeX.prototype.constructor = $c_Ltfd_coderover_SizeX;
+/** @constructor */
+function $h_Ltfd_coderover_SizeX() {
+  /*<skip>*/
+}
+$h_Ltfd_coderover_SizeX.prototype = $c_Ltfd_coderover_SizeX.prototype;
+$c_Ltfd_coderover_SizeX.prototype.productPrefix__T = (function() {
+  return "SizeX"
+});
+$c_Ltfd_coderover_SizeX.prototype.productArity__I = (function() {
+  return 0
+});
+$c_Ltfd_coderover_SizeX.prototype.productElement__I__O = (function(x$1) {
+  throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + x$1))
+});
+$c_Ltfd_coderover_SizeX.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1(this)
+});
+$c_Ltfd_coderover_SizeX.prototype.hashCode__I = (function() {
+  var this$2 = $m_s_util_hashing_MurmurHash3$();
+  return this$2.productHash__s_Product__I__I(this, (-889275714))
+});
+$c_Ltfd_coderover_SizeX.prototype.toString__T = (function() {
+  return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+});
+$c_Ltfd_coderover_SizeX.prototype.equals__O__Z = (function(x$1) {
+  return ((x$1 instanceof $c_Ltfd_coderover_SizeX) && ($as_Ltfd_coderover_SizeX(x$1), true))
+});
+function $as_Ltfd_coderover_SizeX(obj) {
+  return (((obj instanceof $c_Ltfd_coderover_SizeX) || (obj === null)) ? obj : $throwClassCastException(obj, "tfd.coderover.SizeX"))
+}
+function $isArrayOf_Ltfd_coderover_SizeX(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Ltfd_coderover_SizeX)))
+}
+function $asArrayOf_Ltfd_coderover_SizeX(obj, depth) {
+  return (($isArrayOf_Ltfd_coderover_SizeX(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Ltfd.coderover.SizeX;", depth))
+}
+var $d_Ltfd_coderover_SizeX = new $TypeData().initClass({
+  Ltfd_coderover_SizeX: 0
+}, false, "tfd.coderover.SizeX", {
+  Ltfd_coderover_SizeX: 1,
+  Ltfd_coderover_IntExpression: 1,
+  Ltfd_coderover_Expression: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Ltfd_coderover_SizeX.prototype.$classData = $d_Ltfd_coderover_SizeX;
+/** @constructor */
+function $c_Ltfd_coderover_SizeY() {
+  /*<skip>*/
+}
+$c_Ltfd_coderover_SizeY.prototype = new $h_Ltfd_coderover_IntExpression();
+$c_Ltfd_coderover_SizeY.prototype.constructor = $c_Ltfd_coderover_SizeY;
+/** @constructor */
+function $h_Ltfd_coderover_SizeY() {
+  /*<skip>*/
+}
+$h_Ltfd_coderover_SizeY.prototype = $c_Ltfd_coderover_SizeY.prototype;
+$c_Ltfd_coderover_SizeY.prototype.productPrefix__T = (function() {
+  return "SizeY"
+});
+$c_Ltfd_coderover_SizeY.prototype.productArity__I = (function() {
+  return 0
+});
+$c_Ltfd_coderover_SizeY.prototype.productElement__I__O = (function(x$1) {
+  throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + x$1))
+});
+$c_Ltfd_coderover_SizeY.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1(this)
+});
+$c_Ltfd_coderover_SizeY.prototype.hashCode__I = (function() {
+  var this$2 = $m_s_util_hashing_MurmurHash3$();
+  return this$2.productHash__s_Product__I__I(this, (-889275714))
+});
+$c_Ltfd_coderover_SizeY.prototype.toString__T = (function() {
+  return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+});
+$c_Ltfd_coderover_SizeY.prototype.equals__O__Z = (function(x$1) {
+  return ((x$1 instanceof $c_Ltfd_coderover_SizeY) && ($as_Ltfd_coderover_SizeY(x$1), true))
+});
+function $as_Ltfd_coderover_SizeY(obj) {
+  return (((obj instanceof $c_Ltfd_coderover_SizeY) || (obj === null)) ? obj : $throwClassCastException(obj, "tfd.coderover.SizeY"))
+}
+function $isArrayOf_Ltfd_coderover_SizeY(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Ltfd_coderover_SizeY)))
+}
+function $asArrayOf_Ltfd_coderover_SizeY(obj, depth) {
+  return (($isArrayOf_Ltfd_coderover_SizeY(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Ltfd.coderover.SizeY;", depth))
+}
+var $d_Ltfd_coderover_SizeY = new $TypeData().initClass({
+  Ltfd_coderover_SizeY: 0
+}, false, "tfd.coderover.SizeY", {
+  Ltfd_coderover_SizeY: 1,
+  Ltfd_coderover_IntExpression: 1,
+  Ltfd_coderover_Expression: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Ltfd_coderover_SizeY.prototype.$classData = $d_Ltfd_coderover_SizeY;
 /** @constructor */
 function $c_Ltfd_coderover_Store(address, value) {
   this.Ltfd_coderover_Instruction__f_pos = null;
