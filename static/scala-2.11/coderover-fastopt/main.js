@@ -5987,6 +5987,9 @@ function $h_Ltfd_coderover_Abend() {
   /*<skip>*/
 }
 $h_Ltfd_coderover_Abend.prototype = $c_Ltfd_coderover_Abend.prototype;
+$c_Ltfd_coderover_Abend.prototype.message__T = (function() {
+  return this.Ltfd_coderover_Abend__f_message
+});
 function $as_Ltfd_coderover_Abend(obj) {
   return (((obj instanceof $c_Ltfd_coderover_Abend) || (obj === null)) ? obj : $throwClassCastException(obj, "tfd.coderover.Abend"))
 }
@@ -6099,9 +6102,19 @@ $c_Ltfd_coderover_Controller.prototype.resetState__V = (function() {
 });
 $c_Ltfd_coderover_Controller.prototype.moveForward__s_Option = (function() {
   if (((!this.Ltfd_coderover_Controller__f_executionState.Ltfd_coderover_ExecutionState__f_stopped) && $p_Ltfd_coderover_Controller__canMoveForward__Ltfd_coderover_State__Z(this, this.Ltfd_coderover_Controller__f_state))) {
-    this.executeMoveForward__V()
-  };
-  return $m_s_None$()
+    this.executeMoveForward__V();
+    var value = this.Ltfd_coderover_Controller__f_delegate.evalIsMoveSafe();
+    var this$4 = ((value === (void 0)) ? $m_s_None$() : new $c_s_Some(value));
+    if (this$4.isEmpty__Z()) {
+      return $m_s_None$()
+    } else {
+      var arg1 = this$4.get__O();
+      var message = $as_T(arg1);
+      return new $c_s_Some(new $c_Ltfd_coderover_IllegalTaskState(message))
+    }
+  } else {
+    return $m_s_None$()
+  }
 });
 $c_Ltfd_coderover_Controller.prototype.executeMoveForward__V = (function() {
   this.Ltfd_coderover_Controller__f_state = this.Ltfd_coderover_Controller__f_state.moveForward__Ltfd_coderover_State();
@@ -7786,7 +7799,7 @@ $c_Ltfd_coderover_Evaluator.prototype.evaluateInstruction__Ltfd_coderover_Instru
         };
         return repeatResult
       } else {
-        var rawAbend$3 = new $c_Ltfd_coderover_InvalidRepeat($as_Ltfd_coderover_Abend(timesResult.Ltfd_coderover_ResultOrAbend__f_abend.get__O()).Ltfd_coderover_Abend__f_message);
+        var rawAbend$3 = new $c_Ltfd_coderover_InvalidRepeat($as_Ltfd_coderover_Abend(timesResult.Ltfd_coderover_ResultOrAbend__f_abend.get__O()).message__T());
         return $ct_Ltfd_coderover_ResultOrAbend__Ltfd_coderover_Abend__(new $c_Ltfd_coderover_ResultOrAbend(), rawAbend$3)
       }
     } else {
@@ -17894,6 +17907,75 @@ function $m_s_util_parsing_input_OffsetPosition$() {
   };
   return $n_s_util_parsing_input_OffsetPosition$
 }
+/** @constructor */
+function $c_Ltfd_coderover_IllegalTaskState(message) {
+  this.Ltfd_coderover_Abend__f_message = null;
+  $ct_Ltfd_coderover_Abend__T__(this, message)
+}
+$c_Ltfd_coderover_IllegalTaskState.prototype = new $h_Ltfd_coderover_Abend();
+$c_Ltfd_coderover_IllegalTaskState.prototype.constructor = $c_Ltfd_coderover_IllegalTaskState;
+/** @constructor */
+function $h_Ltfd_coderover_IllegalTaskState() {
+  /*<skip>*/
+}
+$h_Ltfd_coderover_IllegalTaskState.prototype = $c_Ltfd_coderover_IllegalTaskState.prototype;
+$c_Ltfd_coderover_IllegalTaskState.prototype.message__T = (function() {
+  return this.Ltfd_coderover_Abend__f_message
+});
+$c_Ltfd_coderover_IllegalTaskState.prototype.productPrefix__T = (function() {
+  return "IllegalTaskState"
+});
+$c_Ltfd_coderover_IllegalTaskState.prototype.productArity__I = (function() {
+  return 1
+});
+$c_Ltfd_coderover_IllegalTaskState.prototype.productElement__I__O = (function(x$1) {
+  if ((x$1 === 0)) {
+    return this.Ltfd_coderover_Abend__f_message
+  } else {
+    throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + x$1))
+  }
+});
+$c_Ltfd_coderover_IllegalTaskState.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1(this)
+});
+$c_Ltfd_coderover_IllegalTaskState.prototype.hashCode__I = (function() {
+  var this$2 = $m_s_util_hashing_MurmurHash3$();
+  return this$2.productHash__s_Product__I__I(this, (-889275714))
+});
+$c_Ltfd_coderover_IllegalTaskState.prototype.toString__T = (function() {
+  return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+});
+$c_Ltfd_coderover_IllegalTaskState.prototype.equals__O__Z = (function(x$1) {
+  if ((this === x$1)) {
+    return true
+  } else if ((x$1 instanceof $c_Ltfd_coderover_IllegalTaskState)) {
+    var IllegalTaskState$1 = $as_Ltfd_coderover_IllegalTaskState(x$1);
+    return (this.Ltfd_coderover_Abend__f_message === IllegalTaskState$1.Ltfd_coderover_Abend__f_message)
+  } else {
+    return false
+  }
+});
+function $as_Ltfd_coderover_IllegalTaskState(obj) {
+  return (((obj instanceof $c_Ltfd_coderover_IllegalTaskState) || (obj === null)) ? obj : $throwClassCastException(obj, "tfd.coderover.IllegalTaskState"))
+}
+function $isArrayOf_Ltfd_coderover_IllegalTaskState(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Ltfd_coderover_IllegalTaskState)))
+}
+function $asArrayOf_Ltfd_coderover_IllegalTaskState(obj, depth) {
+  return (($isArrayOf_Ltfd_coderover_IllegalTaskState(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Ltfd.coderover.IllegalTaskState;", depth))
+}
+var $d_Ltfd_coderover_IllegalTaskState = new $TypeData().initClass({
+  Ltfd_coderover_IllegalTaskState: 0
+}, false, "tfd.coderover.IllegalTaskState", {
+  Ltfd_coderover_IllegalTaskState: 1,
+  Ltfd_coderover_Abend: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Ltfd_coderover_IllegalTaskState.prototype.$classData = $d_Ltfd_coderover_IllegalTaskState;
 /** @constructor */
 function $c_Ltfd_coderover_InvalidEntity(entity, index) {
   this.Ltfd_coderover_Abend__f_message = null;
