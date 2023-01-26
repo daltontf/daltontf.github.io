@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf8" />
+<script src='./stltodaystats/sql-wasm.js'></script>
+<script>
+  var SQL;
+  var DB;
+
+  // tables to use to lookup school names for the sport
+  const SPORT_SCHOOL_TABLES = {
+      "baseball": "hitting_1",
+      "basketballb": "offense",
+      "basketballg": "offense",
+      "fieldhockey": "scoring",
+      "football": "rushing",
+      "hockey": "scoring",
+      "lacrosseb": "scoring",
+      "lacrosseg": "scoring",
+      "soccerb": "scoring",
+      "soccerg": "scoring",
+      "softball":  "hitting_1",
+      "volleyballb": "serving",
+      "volleyballg": "serving",
+      "waterpolob": "scoring",
+      "waterpolog": "scoring"
+  }
+
+    // sports shared query sets
+  const SPORT_QUERY_SET = {
+      "baseball": "baseball_softball",
+      "basketballb": "basketball",
+      "basketballg": "basketball",
+      "fieldhockey": "scoring",
+      "football": "football",
+      "hockey": "hockey",
+      "lacrosseb": "lacrosse",
+      "lacrosseg": "lacrosse",
+      "soccerb": "soccer",
+      "soccerg": "soccer",
+      "softball":  "baseball_softball",
+      "volleyballb": "volleyball",
+      "volleyballg": "volleyball",
+      "waterpolob": "waterpolo",
+      "waterpolog": "waterpolo"
+  }
+
+  var querySets;
+
+  async function init() {
+    const sqlPromise = initSqlJs({ locateFile: file => `./stltodaystats/${file}` });  
+    
+    fetch('./stltodaystats/queries.json')
+        .then((response) => response.json())
+        .then((json) => { 
+          querySets = eval(json);
+        });
+    
+    SQL = await sqlPromise; 
+    updateDb();
+  }  
+
+  async function updateDb() {
+    const selectedSport = document.getElementById("selectSport").selectedOptions[0].value;
+    const dataPromise = fetch("./stltodaystats/" + selectedSport + ".db").then(res => res.arrayBuffer());
+    const buf = await dataPromise;
+    DB = new SQL.Database(new Uint8Array(buf));
+
+    var select = document.getElementById("schools");
+    select.innerHTML = "";
+    select.options.add(new Option("ALL", ""));
+
+    const stmt = DB.prepare("select distinct school from " + SPORT_SCHOOL_TABLES[selectedSport] + " order by school asc");
+
+    while(stmt.step()) { //
+      const rowData = stmt.getAsObject();
+      const school = rowData["school"];
+      select.options.add(new Option(school,school))
+    }
+
+    const querySelect = document.getElementById("queries");
+    querySelect.innerHTML = "";
+    querySelect.options.add(new Option("", ""));
+
+    const queries = querySets[SPORT_QUERY_SET[selectedSport]];    
+
+    if (queries) {
+      for (var i = 0, max = queries.length; i < max; i++) {
+        querySelect.add(new Option(queries[i].description, i));
+      }
+    }
+
+    setQuery(""); 
+  }
+
+  function querySelected() {
+    const sport = document.getElementById("selectSport").selectedOptions[0].value; 
+    const queryIndex = document.getElementById("queries").selectedIndex;
+    if (queryIndex > 0) {
+      const query = querySets[SPORT_QUERY_SET[sport]][queryIndex - 1];
+      setQuery(query.sql);
+    } else {
+      setQuery(""); 
+    }
+  }
+
+  function setQuery(value) {
+    document.getElementById("query").value = value;
+  }
+
+  function clearResults() {
+    document.getElementById("results").innerHTML = "";  
+  }
+
+  function executeQuery() {    
+      var school = document.getElementById("schools").selectedOptions[0].value;
+      // Prepare a statement
+      try {
+      const stmt = DB.prepare(document.getElementById("query").value);
+
+      stmt.bind({$school:school + "%"});
+
+      var table = document.getElementById("results");
+      table.innerHTML = ""; 
+
+      var headerRendered = false;
+
+      var index = 0;
+
+      while(stmt.step()) { //
+        const rowData = stmt.getAsObject();
+        if (!headerRendered) {
+          var row = table.insertRow();
+          var cell = row.insertCell();
+          cell.innerHTML = "#";
+          for (var key in rowData) { 
+            cell = row.insertCell();
+            cell.innerHTML = key; 
+          }
+          headerRendered = true;
+        }
+        var row = table.insertRow();
+        var cell = row.insertCell();
+        cell.innerHTML = "" + (++index);
+        for (var key in rowData) { 
+          cell = row.insertCell();
+          cell.innerHTML = rowData[key]; 
+        }
+      }
+    } catch (ex) {
+      alert("Failure executing query:\n\n" + ex);
+    }
+  }
+  </script>
+<body onload="init()">
+  <h1>STLToday High School Sport StatsDB</h1>
+
+  </p>Sport:
+    <select id="selectSport" onchange="updateDb()">
+      <option value="baseball">Baseball</option>
+      <option value="basketballb">Basketball - Boys</option>
+      <option value="basketballg">Basketball - Girl</option>
+      <option value="fieldhockey">Field Hockey</option>
+      <option value="football">Football</option>
+      <option value="hockey">Hockey</option>
+      <option value="lacrosseb">Lacrosse - Boys</option>
+      <option value="lacrosseg">Lacrosse - Girls</option>
+      <option value="soccerb">Soccer - Boys</option>
+      <option value="soccerg">Soccer - Girls</option>
+      <option value="softball">Softball</option>
+      <option value="volleyballb">Volleyball - Boys</option>
+      <option value="volleyballg">Volleyball - Girls</option>
+      <option value="waterpolob">Water Polo - Boys</option>
+      <option value="waterpolog">Water Polo - Girls</option>
+    </select>
+  </p>
+  <p>
+    School: <select id="schools"></select>
+  </p>
+  <p>
+    Queries: <select id="queries" onchange="querySelected()"></select>
+  </p>
+  </p> 
+    <textarea id="query" rows="10" cols="80"></textarea>
+  </p>
+    <button onclick="executeQuery()">Execute</button>
+  </p>
+  <p>
+    <table id="results"></table>
+  </p>
+</body>
+</html>

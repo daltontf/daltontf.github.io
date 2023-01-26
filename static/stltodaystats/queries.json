@@ -1,0 +1,26 @@
+{
+    "baseball_softball": [{
+        "description": "Career Homers",
+        "sql": "select name, school, max(season), sum(homers) s from hitting_1 where school like $school group by name, school order by s desc"
+    },{
+        "description": "Career RBIs",
+        "sql": "select name, school, max(season), sum(rbis) s from hitting_1 where school like $school group by name, school order by s desc"
+    },{
+        "description": "Career Total Bases",
+        "sql": "select name, school, max(season), sum(total_bases) s from hitting_2 where school like $school group by name, school order by s desc"
+    },{
+        "description": "Career Stolen Bases",
+        "sql": "select name, school, max(season), sum(stolen_bases) s from hitting_2 where school like $school group by name, school order by s desc"
+    }],    
+    "hockey": [{
+        "description": "Career GAA",
+        "sql": "select name, school, max(season), sum(minutes) m, cast(sum(saves) as float) / cast(sum(goals_against) + sum(saves) as float) s from goalie where school like $school group by name, school having m > 600 order by s desc;"
+    }],    
+    "volleyball": [{
+        "description": "Career Digs",
+        "sql": "select name, school, max(season), sum(dig_attempts - dig_errors) s from defense where school like $school group by name, school order by s desc;"
+    }]
+
+
+
+}
