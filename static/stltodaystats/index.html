@@ -47,7 +47,7 @@
   var querySets;
 
   async function init() {
-    const sqlPromise = initSqlJs({ locateFile: file => `./stltodaystats/${file}` });  
+    const sqlPromise = initSqlJs({ locateFile: file => `./${file}` });  
     
     fetch('./stltodaystats/queries.json')
         .then((response) => response.json())
