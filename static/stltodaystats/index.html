@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="utf8" />
-<script src='./stltodaystats/sql-wasm.js'></script>
+<script src='sql-wasm.js'></script>
 <script>
   var SQL;
   var DB;
@@ -47,7 +47,7 @@
   var querySets;
 
   async function init() {
-    const sqlPromise = initSqlJs({ locateFile: file => `./${file}` });  
+    const sqlPromise = initSqlJs({ locateFile: file => `${file}` });  
     
     fetch('./stltodaystats/queries.json')
         .then((response) => response.json())
