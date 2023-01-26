@@ -49,7 +49,7 @@
   async function init() {
     const sqlPromise = initSqlJs({ locateFile: file => `${file}` });  
     
-    fetch('./stltodaystats/queries.json')
+    fetch('./queries.json')
         .then((response) => response.json())
         .then((json) => { 
           querySets = eval(json);
@@ -61,7 +61,7 @@
 
   async function updateDb() {
     const selectedSport = document.getElementById("selectSport").selectedOptions[0].value;
-    const dataPromise = fetch("./stltodaystats/" + selectedSport + ".db").then(res => res.arrayBuffer());
+    const dataPromise = fetch("./" + selectedSport + ".db").then(res => res.arrayBuffer());
     const buf = await dataPromise;
     DB = new SQL.Database(new Uint8Array(buf));
 
