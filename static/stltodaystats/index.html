@@ -83,7 +83,7 @@
 
   async function updateDb() {
     const selectedSport = document.getElementById("selectSport").selectedOptions[0].value;
-    const dataPromise = fetch("/" + selectedSport + ".db").then(res => res.arrayBuffer());
+    const dataPromise = fetch("./" + selectedSport + ".db").then(res => res.arrayBuffer());
     const buf = await dataPromise;
     DB = new SQL.Database(new Uint8Array(buf));
 
