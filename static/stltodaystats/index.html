@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta charset="utf8" />
-<script src='sql-wasm.js'></script>
+<head>
+  <meta charset="utf8" />
+  <link rel='stylesheet' type='text/css' href='styles.css'>
+  <title>STLToday High School Sport Stats DB</title>
+</head>
+<script src='./sql-wasm.js'></script>
 <script>
   var SQL;
   var DB;
@@ -30,7 +34,7 @@
       "baseball": "baseball_softball",
       "basketballb": "basketball",
       "basketballg": "basketball",
-      "fieldhockey": "scoring",
+      "fieldhockey": "fieldhockey",
       "football": "football",
       "hockey": "hockey",
       "lacrosseb": "lacrosse",
@@ -47,21 +51,39 @@
   var querySets;
 
   async function init() {
-    const sqlPromise = initSqlJs({ locateFile: file => `${file}` });  
+    const sqlPromise = initSqlJs({ locateFile: file => `./${file}` });  
     
-    fetch('./queries.json')
-        .then((response) => response.json())
-        .then((json) => { 
-          querySets = eval(json);
+    fetch('./queries.js')
+        .then((response) => response.text())
+        .then((queries) => { 
+          querySets = eval(queries);
+          updateQueries();
         });
     
     SQL = await sqlPromise; 
     updateDb();
   }  
 
+  function updateQueries() {
+    const selectedSport = document.getElementById("selectSport").selectedOptions[0].value;
+    const querySelect = document.getElementById("queries");
+    querySelect.innerHTML = "";
+    querySelect.options.add(new Option("", ""));
+
+    if (querySets && selectedSport) {
+      const queries = querySets[SPORT_QUERY_SET[selectedSport]];    
+
+      if (queries) {
+        for (var i = 0, max = queries.length; i < max; i++) {
+          querySelect.add(new Option(queries[i].description, i));
+        }
+      }
+    }
+  }
+
   async function updateDb() {
     const selectedSport = document.getElementById("selectSport").selectedOptions[0].value;
-    const dataPromise = fetch("./" + selectedSport + ".db").then(res => res.arrayBuffer());
+    const dataPromise = fetch("/" + selectedSport + ".db").then(res => res.arrayBuffer());
     const buf = await dataPromise;
     DB = new SQL.Database(new Uint8Array(buf));
 
@@ -77,17 +99,7 @@
       select.options.add(new Option(school,school))
     }
 
-    const querySelect = document.getElementById("queries");
-    querySelect.innerHTML = "";
-    querySelect.options.add(new Option("", ""));
-
-    const queries = querySets[SPORT_QUERY_SET[selectedSport]];    
-
-    if (queries) {
-      for (var i = 0, max = queries.length; i < max; i++) {
-        querySelect.add(new Option(queries[i].description, i));
-      }
-    }
+    updateQueries();
 
     setQuery(""); 
   }
@@ -113,42 +125,52 @@
 
   function executeQuery() {    
       var school = document.getElementById("schools").selectedOptions[0].value;
+      const executeButton = document.getElementById("execute");
       // Prepare a statement
       try {
-      const stmt = DB.prepare(document.getElementById("query").value);
+        executeButton.disabled = true;
 
-      stmt.bind({$school:school + "%"});
+        var querySQL = document.getElementById("query").value;
 
-      var table = document.getElementById("results");
-      table.innerHTML = ""; 
+        if (querySQL.toUpperCase().indexOf(" LIMIT ") == -1) {
+          querySQL += " LIMIT 250";
+        }
 
-      var headerRendered = false;
+        const stmt = DB.prepare(querySQL);
 
-      var index = 0;
+        stmt.bind({$school:school + "%"});
 
-      while(stmt.step()) { //
-        const rowData = stmt.getAsObject();
-        if (!headerRendered) {
+        var table = document.getElementById("results");
+        table.innerHTML = ""; 
+
+        var headerRendered = false;
+
+        var index = 0;
+
+        while(stmt.step()) { //
+          const rowData = stmt.getAsObject();
+          if (!headerRendered) {
+            var row = table.insertRow();
+            var cell = row.insertCell();
+            cell.innerHTML = "#";
+            for (var key in rowData) { 
+              cell = row.insertCell();
+              cell.innerHTML = key; 
+            }
+            headerRendered = true;
+          }
           var row = table.insertRow();
           var cell = row.insertCell();
-          cell.innerHTML = "#";
+          cell.innerHTML = "" + (++index);
           for (var key in rowData) { 
             cell = row.insertCell();
-            cell.innerHTML = key; 
+            cell.innerHTML = rowData[key]; 
           }
-          headerRendered = true;
         }
-        var row = table.insertRow();
-        var cell = row.insertCell();
-        cell.innerHTML = "" + (++index);
-        for (var key in rowData) { 
-          cell = row.insertCell();
-          cell.innerHTML = rowData[key]; 
-        }
+      } catch (ex) {
+        alert("Failure executing query:\n\n" + ex);
       }
-    } catch (ex) {
-      alert("Failure executing query:\n\n" + ex);
-    }
+      executeButton.disabled = false;
   }
   </script>
 <body onload="init()">
@@ -158,7 +180,7 @@
     <select id="selectSport" onchange="updateDb()">
       <option value="baseball">Baseball</option>
       <option value="basketballb">Basketball - Boys</option>
-      <option value="basketballg">Basketball - Girl</option>
+      <option value="basketballg">Basketball - Girls</option>
       <option value="fieldhockey">Field Hockey</option>
       <option value="football">Football</option>
       <option value="hockey">Hockey</option>
@@ -182,7 +204,7 @@
   </p> 
     <textarea id="query" rows="10" cols="80"></textarea>
   </p>
-    <button onclick="executeQuery()">Execute</button>
+    <button id="execute" onclick="executeQuery()">Execute</button>
   </p>
   <p>
     <table id="results"></table>

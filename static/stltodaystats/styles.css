@@ -1,0 +1,18 @@
+body {
+    background-color: #111122;
+    color: #DEE;
+}
+
+table {
+    width: 100%;
+}
+
+tr:nth-child(even) { background: #222211; }
+tr:nth-child(odd) { background: #111111; }
+
+textarea {
+   font-family: 'Courier New', Courier, monospace;
+   font-size: 14px;
+   color: #DDDD00;
+   background-color: #111111;
+}
