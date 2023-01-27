@@ -75,7 +75,7 @@
         careerSumQuery("Career Blocks", "blocks", "Blocks", "blocking"),
         careerSumQuery("Career Solo Blocks", "solo_blocks", "Solo Blocks", "blocking"),
         careerSumQuery("Career Digs", "dig_attempts - dig_errors", "Digs", "defense"),
-        careerSumQuery("Career Aces", "ace", "Aces", "serving"),
+        careerSumQuery("Career Aces", "aces", "Aces", "serving"),
     ],
     "waterpolo": [
         scoringGoals,
