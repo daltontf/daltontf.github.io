@@ -64,10 +64,10 @@
         careerSumQuery("Career Rebounds", "rebounds", "Rebounds", "defense"),
         careerSumQuery("Career Assists", "assists", "Assists", "defense"),
         careerSumQuery("Career 3s", "three_point_shots", "3s", "offense"),
-        createObject("Career 3 Pt% (>= 25 shots)",
+        //createObject("Career 3 Pt% (>= 25 shots)",
         // TODO Some schools only had 3 pts made and zero for attempts and later correct. 
         // Need better solution than throwing out > 1.0. Could end up less <= 1.0, but skewed
-         `${CAREER_SELECT}, ${threePtPct} as "3 Pt%" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(three_point_attempts) >= 25 and sum(three_point_attempts) >= sum(three_point_shots) order by ${threePtPct} desc`),
+        // `${CAREER_SELECT}, ${threePtPct} as "3 Pt%" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(three_point_attempts) >= 25 and sum(three_point_attempts) >= sum(three_point_shots) order by ${threePtPct} desc`),
         createObject("Career Free Throw% (>= 50 FTs)",
          `${CAREER_SELECT}, ${freeThrowPct} as "Free Throw%" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(free_throw_attempts) >= 50 order by ${freeThrowPct} desc`),
         careerSumQuery("Career Blocks", "blocks", "Blocks", "defense"),
@@ -75,8 +75,8 @@
         bestSeasonQuery("Season Points", "points", "Points", "offense"),
         bestSeasonQuery("Season Assists", "assists", "Assists", "defense"),
         bestSeasonQuery("Season 3's", "three_point_shots", "3's", "offense"),
-        createObject("Season 3 Pt% (>= 25 shots)",
-         `${SEASON_SELECT}, ${threePtPct} as "3 Pt%" from offense ${WHERE_LIKE_SCHOOL} and three_point_attempts > 0 ${GROUP_BY_NAME_SCHOOL_SEASON} having sum(three_point_attempts) >= 25 and sum(three_point_attempts) >= sum(three_point_shots) order by ${threePtPct} desc`),
+        //createObject("Season 3 Pt% (>= 25 shots)",
+        // `${SEASON_SELECT}, ${threePtPct} as "3 Pt%" from offense ${WHERE_LIKE_SCHOOL} and three_point_attempts > 0 ${GROUP_BY_NAME_SCHOOL_SEASON} having sum(three_point_attempts) >= 25 and sum(three_point_attempts) >= sum(three_point_shots) order by ${threePtPct} desc`),
         createObject("Season Free Throw% (>= 50 FTs)",
          `${SEASON_SELECT}, ${freeThrowPct} as "Free Throw%" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(free_throw_attempts) >= 50 order by ${freeThrowPct} desc`),
         bestSeasonQuery("Season Rebounds", "rebounds", "Rebounds", "defense"),
