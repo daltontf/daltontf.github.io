@@ -15,7 +15,7 @@
 
     function bestSeasonQuery(description, stat, header, table) {
           return createObject(description,
-            `${SEASON_SELECT}, ${stat} as "${header}" from ${table} ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} and ${stat} > 0 order by ${stat} desc`)
+            `${SEASON_SELECT}, ${stat} as "${header}" from ${table} ${WHERE_LIKE_SCHOOL} and ${stat} > 0 ${GROUP_BY_NAME_SCHOOL_SEASON} order by ${stat} desc`)
     }
     
     function careerSumQuery(description, stat, header, table) {
