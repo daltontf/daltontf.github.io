@@ -2,7 +2,7 @@
 
     const CAREER_SELECT = 'select name as "Name", school as "School", max(season) as "Final Season"';
     const SEASON_SELECT = 'select name as "Name", school as "School", season as "Season"';
-    const WHERE_LIKE_SCHOOL = " where school like $school";
+    const WHERE_LIKE_SCHOOL = " where school = $school";
     const GROUP_BY_NAME_SCHOOL = " group by name, school";
     const GROUP_BY_NAME_SCHOOL_SEASON = ` ${GROUP_BY_NAME_SCHOOL}, season`; 
 
@@ -41,6 +41,7 @@
     const freeThrowPct = 'printf("%.3f", cast(sum(free_throws) as float) / cast(sum(free_throw_attempts) as float))';
    
     const serveRcvPct = 'printf("%.3f", cast((sum(serves_received) - sum(serve_receive_errors)) as float) / cast(sum(serves_received) as float))';
+    const digsPerGame = 'printf("%.3f", cast((sum(dig_attempts) - sum(dig_errors)) as float) / cast(sum(games_played) as float))';
 
     return {
       "baseball_softball": [
@@ -142,6 +143,8 @@
         careerSumQuery("Career Blocks", "blocks", "Blocks", "blocking"),
         careerSumQuery("Career Solo Blocks", "solo_blocks", "Solo Blocks", "blocking"),
         careerSumQuery("Career Digs", "dig_attempts - dig_errors", "Digs", "defense"),
+//        createObject("Career Digs/Set (>= 75 games)",
+//            `${CAREER_SELECT}, ${digsPerGame} AS "Digs/Set" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(games_played) >= 75 order by ${digsPerGame} desc`),
         careerSumQuery("Career Aces", "aces", "Aces", "serving"),
         createObject("Career Receive% (>= 100 serves)",
             `${CAREER_SELECT}, ${serveRcvPct} AS "Receive%" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(serves_received) >= 100 order by ${serveRcvPct} desc`),
@@ -150,6 +153,8 @@
         bestSeasonQuery("Season Blocks", "blocks", "Blocks", "blocking"),
         bestSeasonQuery("Season Solo Blocks", "solo_blocks", "Solo Blocks", "blocking"),
         bestSeasonQuery("Season Digs", "dig_attempts - dig_errors", "Digs", "defense"),
+//        createObject("Season Digs/Set (>= 50 games)",
+//                    `${SEASON_SELECT}, ${digsPerGame} AS "Digs/Set" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(games_played) >= 50 order by ${digsPerGame} desc`),
         bestSeasonQuery("Season Aces", "aces", "Aces", "serving"),
         createObject("Season Receive% (>= 50 serves)",
             `${SEASON_SELECT}, ${serveRcvPct} AS "Receive%" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(serves_received) >= 50 order by ${serveRcvPct} desc`),

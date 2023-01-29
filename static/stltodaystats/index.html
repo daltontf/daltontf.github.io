@@ -132,13 +132,17 @@
 
         var querySQL = document.getElementById("query").value;
 
-        if (querySQL.toUpperCase().indexOf(" LIMIT ") == -1) {
+        if (school.length == 0) {
+          querySQL = querySQL.replace("school = $school", "school like '%'");
+        }
+
+        if (!querySQL.match(/^ *$/) && querySQL.toUpperCase().indexOf(" LIMIT ") == -1) {
           querySQL += " LIMIT 250";
         }
 
         const stmt = DB.prepare(querySQL);
 
-        stmt.bind({$school:school + "%"});
+        stmt.bind({$school:school});
 
         var table = document.getElementById("results");
         table.innerHTML = ""; 
