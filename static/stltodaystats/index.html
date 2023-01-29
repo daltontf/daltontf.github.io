@@ -10,6 +10,8 @@
   var SQL;
   var DB;
 
+  var lastSelectedSport;
+
   // tables to use to lookup school names for the sport
   const SPORT_SCHOOL_TABLES = {
       "baseball": "hitting_1",
@@ -61,33 +63,43 @@
         });
     
     SQL = await sqlPromise; 
-    updateDb();
-  }  
+    sportSelected();
+
+    window.onpageshow = (event) => {
+      showOrHideQuery();
+    }
+
+    document.getElementById("selectSport").onchange = sportSelected
+    document.getElementById("selectQuery").onchange = querySelected
+    document.getElementById("showQuery").onchange = showOrHideQuery
+    document.getElementById("execute").onclick = executeQuery
+  }
 
   function updateQueries() {
     const selectedSport = document.getElementById("selectSport").selectedOptions[0].value;
-    const querySelect = document.getElementById("queries");
-    querySelect.innerHTML = "";
-    querySelect.options.add(new Option("", ""));
+    const selectQuery = document.getElementById("selectQuery");
+    selectQuery.innerHTML = "";
+    selectQuery.options.add(new Option("", ""));
 
     if (querySets && selectedSport) {
       const queries = querySets[SPORT_QUERY_SET[selectedSport]];    
 
       if (queries) {
         for (var i = 0, max = queries.length; i < max; i++) {
-          querySelect.add(new Option(queries[i].description, i));
+          selectQuery.add(new Option(queries[i].description, i));
         }
       }
     }
   }
 
-  async function updateDb() {
+  async function sportSelected(event) {
     const selectedSport = document.getElementById("selectSport").selectedOptions[0].value;
     const dataPromise = fetch("./" + selectedSport + ".db").then(res => res.arrayBuffer());
     const buf = await dataPromise;
     DB = new SQL.Database(new Uint8Array(buf));
 
-    var select = document.getElementById("schools");
+    var select = document.getElementById("selectSchool");
+    let oldSchool = select.selectedOptions[0];
     select.innerHTML = "";
     select.options.add(new Option("ALL", ""));
 
@@ -96,17 +108,23 @@
     while(stmt.step()) { //
       const rowData = stmt.getAsObject();
       const school = rowData["school"];
-      select.options.add(new Option(school,school))
+      const option = new Option(school,school);
+      select.options.add(option)
+      if (oldSchool && school == oldSchool.value) {
+        option.selected = true;
+      }
     }
 
-    updateQueries();
-
-    setQuery(""); 
+    if (SPORT_QUERY_SET[selectedSport] != SPORT_QUERY_SET[lastSelectedSport]) {
+      updateQueries();
+      setQuery("");
+    }
+    lastSelectedSport = selectedSport
   }
 
   function querySelected() {
     const sport = document.getElementById("selectSport").selectedOptions[0].value; 
-    const queryIndex = document.getElementById("queries").selectedIndex;
+    const queryIndex = document.getElementById("selectQuery").selectedIndex;
     if (queryIndex > 0) {
       const query = querySets[SPORT_QUERY_SET[sport]][queryIndex - 1];
       setQuery(query.sql);
@@ -124,7 +142,7 @@
   }
 
   function executeQuery() {    
-      var school = document.getElementById("schools").selectedOptions[0].value;
+      var school = document.getElementById("selectSchool").selectedOptions[0].value;
       const executeButton = document.getElementById("execute");
       // Prepare a statement
       try {
@@ -187,7 +205,7 @@
   <h1>STLtoday High School Sport StatsDB<a href="about.html">About</a></h1>
 
   <p>Sport:
-    <select id="selectSport" onchange="updateDb()">
+    <select id="selectSport">
       <option value="baseball">Baseball</option>
       <option value="basketballb">Basketball - Boys</option>
       <option value="basketballg">Basketball - Girls</option>
@@ -206,19 +224,19 @@
     </select>
   </p>
   <p>
-    School: <select id="schools"></select>
+    School: <select id="selectSchool"></select>
   </p>
   <p>
-    Queries: <select id="queries" onchange="querySelected()"></select>
+    Queries: <select id="selectQuery"></select>
   </p>
   <p>
-    Show Query: <input id="showQuery" type="checkbox" onchange="showOrHideQuery()"/>
+    Show Query: <input id="showQuery" type="checkbox"/>
   </p>
   <p>
     <textarea id="query" rows="10" cols="80" style="display:none" spellcheck="false"></textarea>
   </p>
   <p>
-    <button id="execute" onclick="executeQuery()">Execute</button>
+    <button id="execute">Execute</button>
   </p>
   <p>
     <table id="results"></table>

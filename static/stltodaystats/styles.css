@@ -7,13 +7,30 @@ h1 {
     width: 100%;
     text-align:left;
 }
+
 h1 a{
     float:right;
     font-size: 50%;
 }
 
+a:link {
+    color: #4AF;
+}
+
+a:visited {
+    color: #A4F;
+}
+
 table {
     width: 100%;
+}
+
+p {
+    line-height: 1.5em;
+}
+
+li.footnote {
+    font-size: 75%;
 }
 
 textarea {
