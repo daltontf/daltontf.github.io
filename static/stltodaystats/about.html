@@ -3,23 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <link rel='stylesheet' type='text/css' href='styles.css'>
-    <title>STLToday High School Sport Stats DB - About</title>
+    <title>STLtoday High School Sport Stats DB - About</title>
 </head>
 <body>
-<p>This past year my daughter was approaching a milestone in one of her high school sports. I ended up going to the
-  STLToday High School Sport Stats page <a href="https://www.stltoday.com/sports/high-school/stats/#tracking-source=main-nav">https://www.stltoday.com/sports/high-school/stats/#tracking-source=main-nav</a>
+<h1>STLtoday High School Sport StatsDB - About</h1>
+<p>During her senior year, my daughter was approaching a milestone in one of her high school sports. To calculate where she was with that, I ended up going to the
+  STLtoday High School Sport Stats page <a href="https://www.stltoday.com/sports/high-school/stats/#tracking-source=main-nav">https://www.stltoday.com/sports/high-school/stats/#tracking-source=main-nav</a>
   and copy pasting data from into a Google Sheet and creating some queries to sum up the stats. She had classmates that
-  played other sports who were coming up on milestones so I did likewise for those sports. When us software developers
+  played other sports who were coming up on milestones, so I did likewise for those sports. When us software developers
   find ourselves doing something manually over and over, we seek ways to automate it. I once had contract gig where I wrote software to scrape data from various sources like
   spreadsheets and PDFs and store it in a database, scraping web pages can be relatively easy. If I can do it for one school,
-  I can do it for all schools and sports STLToday has stats for.
+  I can do it for all schools, seasons and sports STLToday has decent stats for. Now I have this data, I would be nice to share it with others, so this little web page thingy was created.
+</p>
+<h2>Ongoing Work</h2>
+<ul>
+    <li>Already mentioned finding variances in names where is it (hopefully) obvious it is the same person and correcting
+    names to be consistent across seasons.</li>
+    <li>Adding new queries that could be interest to users.</li>
+    <li>Make this prettier and mobile friendly.</li>
+</ul>
+<h2>Known Data Issues</h2>
+<p>
+    These are limitations to this data. The only way to identify a player as being the same player is by name and school.
+    This causes problems if the name is different between seasons ("Joe Smith" vs "Joseph Smith"). The information
+    will be corrected over time hopefully without error. Two players with identical names at the same school and same sport
+    would be considered one player. There may ways to mitigate that by looking for gaps in seasons played. Players who
+    transfer schools will appear as two different players. These problems are more of an issue with "Career" stats that
+    span seasons.
 </p>
 <p>
-  Now I have this data, I would be nice to share it with others, so this little web page thingy was created.
+    Here is some other more specific known issues:
 </p>
-<h2>Known Data Issue</h2>
 <ul>
-  <li>STLToday has no stats for Alton Marquette girls soccer 2016-2017.</li>
+  <li>STLtoday has no stats for Alton Marquette girls soccer 2016-2017.<sub>1</sub></li>
+  <li>I know of one missing game in Hockey<sub>2</sub>. There is likely a lot of missing games across sports.</li>
 </ul>
+<hr/>
+<h2>Technical Information - TODO</h2>
+<p>User that have knowledge of SQL can enter or edit existing queries</p>
+
+<ul>Footnotes</ul>
+    <li>[1] - Bummer it was my niece's senior season.</li>
+    <li>[2] - My son scored his first goal as a freshman in it.
+        The other sport I am most familiar with, Girls Volleyball, seems to have pretty complete stats.
+    </li>
 </body>
 </html>

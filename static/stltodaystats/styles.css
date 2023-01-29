@@ -1,18 +1,27 @@
 body {
-    background-color: #111122;
-    color: #DEE;
+    background-color: #222;
+    color: #BBB;
+}
+
+h1 {
+    width: 100%;
+    text-align:left;
+}
+h1 a{
+    float:right;
+    font-size: 50%;
 }
 
 table {
     width: 100%;
 }
 
-tr:nth-child(even) { background: #222211; }
-tr:nth-child(odd) { background: #111111; }
-
 textarea {
    font-family: 'Courier New', Courier, monospace;
    font-size: 14px;
-   color: #DDDD00;
-   background-color: #111111;
+   color: #DD0;
+   background-color: #111;
 }
+
+tr:nth-child(even) { background: #221; }
+tr:nth-child(odd) { background: #111; }

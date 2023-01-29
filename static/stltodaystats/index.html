@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf8" />
   <link rel='stylesheet' type='text/css' href='styles.css'>
-  <title>STLToday High School Sport Stats DB</title>
+  <title>STLtoday High School Sport Stats DB</title>
 </head>
 <script src='./sql-wasm.js'></script>
 <script>
@@ -172,11 +172,17 @@
       }
       executeButton.disabled = false;
   }
-  </script>
-<body onload="init()">
-  <h1>STLToday High School Sport StatsDB</h1>
 
-  </p>Sport:
+  function showOrHideQuery() {
+    let showQuery = document.getElementById("showQuery").checked;
+    document.getElementById("query").style.display = showQuery ? "initial" : "none";
+  }
+
+</script>
+<body onload="init()">
+  <h1>STLtoday High School Sport StatsDB<a href="about.html">About</a></h1>
+
+  <p>Sport:
     <select id="selectSport" onchange="updateDb()">
       <option value="baseball">Baseball</option>
       <option value="basketballb">Basketball - Boys</option>
@@ -201,9 +207,13 @@
   <p>
     Queries: <select id="queries" onchange="querySelected()"></select>
   </p>
-  </p> 
-    <textarea id="query" rows="10" cols="80"></textarea>
+  <p>
+    Show Query: <input id="showQuery" type="checkbox" onchange="showOrHideQuery()"/>
   </p>
+  <p>
+    <textarea id="query" rows="10" cols="80" style="display:none" spellcheck="false"></textarea>
+  </p>
+  <p>
     <button id="execute" onclick="executeQuery()">Execute</button>
   </p>
   <p>
