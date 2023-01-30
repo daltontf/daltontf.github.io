@@ -8,7 +8,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3.2.0
       - name: build_and_deploy
-        uses: shalzz/zola-deploy-action@master
+        uses: daltontf/zola-deploy-action@master
         env:
           BUILD_THEMES: ${{ vars.BUILD_THEMES }}
           # Target branch
