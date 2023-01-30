@@ -10,7 +10,7 @@ jobs:
       - name: build_and_deploy
         uses: shalzz/zola-deploy-action@master
         env:
-          BUILD_THEMES: false
+          BUILD_THEMES: "false"
           # Target branch
           PAGES_BRANCH: gh-pages
           # Provide personal access token
