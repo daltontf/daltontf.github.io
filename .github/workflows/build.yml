@@ -10,7 +10,7 @@ jobs:
       - name: build_and_deploy
         uses: shalzz/zola-deploy-action@v0.16.1
         env:
-          GIT_TEST_DEBUG_UNSAFE_DIRECTORIES: true
+          BUILD_THEMES: false
           # Target branch
           PAGES_BRANCH: gh-pages
           # Provide personal access token
