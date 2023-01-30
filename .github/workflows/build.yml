@@ -3,7 +3,7 @@ on: push
 name: Build and deploy GH Pages
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v3.2.0
