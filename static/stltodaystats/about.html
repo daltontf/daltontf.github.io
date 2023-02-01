@@ -20,23 +20,26 @@
     <li><p>Queries have a limit of 250 rows returned.</p></li>
     <li><p>TODO</p></li>
 </ul>
+<h2>Known Data Issues</h2>
+<p>These are limitations to this data. The only way to identify a player as being the same player is by name and school.
+    This causes problems if the name is different between seasons. Lafayette baseball had "David Freeze" and "David Freese".
+    At least that one was easy to get the correct spelling. I was able to write a bit of software that helped compare names
+    using a similarity algorithm. Sometimes there are discrepancies that looks like typos or spelling errors, but many times it a matter of
+    "Lindsay" or "Lindsey". I just pick one. Right now, it is more important to have consistent names for players that
+    getting the correct name of someone who played 10, 15 or 20 years ago. Two players with identical names at the same school
+    and same sport could erroneously treated as one player. If the number of seasons played by such a player is greater than
+    four or there is a greater than 3 year gap between seasons, then it can be detected.
+
+<p>Players who transfer schools will appear as two different players. These problems are more of an issue with "Career"
+    stats that span seasons.
+</p>
 <h2>Ongoing Work</h2>
 <ul>
-    <li><p>Already mentioned finding variances in names where is it (hopefully) obvious it is the same person and correcting
-    names to be consistent across seasons.</p></li>
+    <li><p>Already mentioned finding variances in names.</p></li>
     <li><p>Adding new queries that could be interest to users.</p></li>
     <li><p>Make this prettier and mobile friendly.</p></li>
     <li><p>More details and better verbiage on this 'about' page.</p></li>
 </ul>
-<h2>Known Data Issues</h2>
-<p>
-    These are limitations to this data. The only way to identify a player as being the same player is by name and school.
-    This causes problems if the name is different between seasons ("Joe Bagodonuts" vs "Joseph Bagodonuts"). The information
-    will be corrected over time hopefully without error. Two players with identical names at the same school and same sport
-    would be considered one player. There may ways to mitigate that by looking for gaps in seasons played. Players who
-    transfer schools will appear as two different players. These problems are more of an issue with "Career" stats that
-    span seasons.
-</p>
 <p>
     Here is some other more specific known issues:
 </p>

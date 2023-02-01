@@ -192,6 +192,10 @@
       } catch (ex) {
         alert("Failure executing query:\n\n" + ex);
       }
+
+      if (index == 0) {
+        table.innerHTML = "<caption>No data matches query criteria</caption>"
+      }
       executeButton.disabled = false;
   }
 
