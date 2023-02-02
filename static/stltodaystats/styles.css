@@ -21,10 +21,6 @@ a:visited {
     color: #A4F;
 }
 
-table {
-    width: 100%;
-}
-
 p {
     line-height: 1.5em;
 }
@@ -40,5 +36,13 @@ textarea {
    background-color: #111;
 }
 
-tr:nth-child(even) { background: #221; }
-tr:nth-child(odd) { background: #111; }
+table#results {
+    width: 100%;
+}
+
+table#results tr:nth-child(even) { background: #221; }
+table#results tr:nth-child(odd) { background: #111; }
+
+ul.schema {
+    list-style: none
+}

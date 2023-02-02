@@ -28,12 +28,12 @@
 
     const savePct = 'cast(sum(saves) as float) / cast(sum(goals_against) + sum(saves) as float)';
     const careerGoalieSavePct = createObject("Career Goalie Save% (> 600 min.)",
-     `${CAREER_SELECT}, sum(minutes) as "Minutes", printf("%.3f", ${savePct}) AS "Save%" from goalie ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(minutes) > 600 order by ${savePct} desc`);
+     `${CAREER_SELECT}, sum(saves) as "Saves", sum(goals_against) as "Goal Against", printf("%.3f", ${savePct}) AS "Save%" from goalie ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(minutes) > 600 order by ${savePct} desc`);
       
     const seasonGoalsFromScoring = bestSeasonQuery("Season Goals", "goals", "Goals", "scoring");
     const seasonAssistsFromScoring = bestSeasonQuery("Season Assists", "assists", "Assists", "scoring");
     const seasonGoalieSavePct = createObject("Season Goalie Save% (> 600 min.)",
-     `${SEASON_SELECT}, sum(minutes) as "Minutes", printf("%.3f", ${savePct}) AS "Save%" from goalie ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(minutes) > 600 order by ${savePct} desc`);
+     `${SEASON_SELECT}, sum(saves) as "Saves",sum(goals_against) as "Goal Against", printf("%.3f", ${savePct}) AS "Save%" from goalie ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(minutes) > 600 order by ${savePct} desc`);
 
     //baseball
     const battingAvg = 'cast(sum(singles) + sum(doubles) + sum(triples) + sum(homers) as float) / cast(sum(at_bats) as float)';

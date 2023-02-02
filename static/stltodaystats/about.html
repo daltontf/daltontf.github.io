@@ -3,42 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <link rel='stylesheet' type='text/css' href='styles.css'>
-    <title>STLtoday High School Sport Stats DB - About</title>
+    <title>STLtoday High School Sports Stats DB - About</title>
 </head>
 <body>
 <h1>STLtoday High School Sport StatsDB - About</h1>
-<p>During her senior year, my daughter was approaching a milestone in one of her high school sports. To calculate where she was with that, I ended up going to the
-  STLtoday High School Sport Stats page <a href="https://www.stltoday.com/sports/high-school/stats/#tracking-source=main-nav">https://www.stltoday.com/sports/high-school/stats/#tracking-source=main-nav</a>
-  and copy and pasting data from into a Google Sheet and creating some queries to sum up the stats. She had classmates that
-  played other sports who were coming up on milestones, so I did likewise for those sports. When us software developers
-  find ourselves doing something manually over and over, we seek ways to automate it. I once had contract gig where I wrote software to scrape data from various sources like
-  spreadsheets and PDFs and store it in a database, scraping web pages can be relatively easy. If I can do it for one school,
-  I can do it for all schools, seasons and sports STLtoday has decent stats for. Now I have this data, I would be nice to share it with others, so this little web page thingy was created.
+<p>During her senior year, my daughter was approaching a milestone in one of her high school sports. To calculate where she was on attaining it, I would up go to the STLtoday High School Sport Stats page <a href="https://www.stltoday.com/sports/high-school/stats/#tracking-source=main-nav">https://www.stltoday.com/sports/high-school/stats/#tracking-source=main-nav</a> and copy and paste data from into a Google Sheet and creating some queries to sum up the stats. She had classmates that played other sports who were coming up on milestones, so I did likewise for those sports. When us software developers find ourselves doing something manually over and over, we seek ways to automate it. I once had contract gig that involved writing software to scrape data from various sources like spreadsheets and PDFs and store it in a database, scraping web pages can be relatively easy. If I can do it for one school, I can do it for all schools, seasons and sports that STLtoday has decent stats for. Now I have this data, I would be nice to share it with others, so this little web page thing was created.
 </p>
 <p>Some other details about querying the statistics:</p>
 <ul>
     <li><p>Queries have a limit of 250 rows returned.</p></li>
     <li><p>TODO</p></li>
 </ul>
-<h2>Known Data Issues</h2>
-<p>These are limitations to this data. The only way to identify a player as being the same player is by name and school.
-    This causes problems if the name is different between seasons. Lafayette baseball had "David Freeze" and "David Freese".
-    At least that one was easy to get the correct spelling. I was able to write a bit of software that helped compare names
-    using a similarity algorithm. Sometimes there are discrepancies that looks like typos or spelling errors, but many times it a matter of
-    "Lindsay" or "Lindsey". I just pick one. Right now, it is more important to have consistent names for players that
-    getting the correct name of someone who played 10, 15 or 20 years ago. Two players with identical names at the same school
-    and same sport could erroneously treated as one player. If the number of seasons played by such a player is greater than
-    four or there is a greater than 3 year gap between seasons, then it can be detected.
-
-<p>Players who transfer schools will appear as two different players. These problems are more of an issue with "Career"
-    stats that span seasons.
-</p>
+<h2>Limitations</h2>
+<p>
+<ul>
+    <li>
+        <p>The only way to identify a player as being the same player is by name and school. This causes problems if the name is different between seasons. For example, Lafayette baseball had "David Freeze" and "David Freese". At least that one was easy to get the correct spelling. I was able to write a bit of software that helped compare names using a similarity algorithm. Sometimes there are discrepancies that looks like typos or spelling errors, but many times it a matter of "Lindsay" or "Lindsey". I just pick one. Right now, it is more important to have consistent names for players than getting the correct name of someone who played 10, 15 or 20 years ago. Two players with identical names at the same school and same sport could erroneously be treated as one player. If the number of seasons played by such a player is greater than four or there is a greater than 3 year gap between seasons, then it can be detected.
+        </p>
+    </li>
+    <li>
+        <p>Players who transfer schools will appear as two different players. These problems are more of an issue with "Career" stats that span seasons.
+        </p>
+    </li>
+</ul>
 <h2>Ongoing Work</h2>
 <ul>
-    <li><p>Already mentioned finding variances in names.</p></li>
+    <li><p>The already mentioned finding variances in names.</p></li>
     <li><p>Adding new queries that could be interest to users.</p></li>
     <li><p>Make this prettier and mobile friendly.</p></li>
-    <li><p>More details and better verbiage on this 'about' page.</p></li>
+    <li><p>More details and better verbiage on this 'About' page.</p></li>
 </ul>
 <p>
     Here is some other more specific known issues:
@@ -49,8 +42,43 @@
 </ul>
 <hr/>
 <h2>Technical Information</h2>
-<p>User that have knowledge of SQL can enter or edit existing queries. Here are descriptions of the database used
+<p>User that have knowledge of SQL can enter or edit existing queries. Here are descriptions of the databases used
     by the sports and the tables and columns defined:</p>
+<!--p>
+    All tables across sports have the following columns:
+</p>
+    <table>
+        <tr><th>Name</th><th>Type</th></tr>
+        <tr><td>school</td><td>string</td></tr>
+        <tr><td>season</td><td>string</td></tr>
+        <tr><td>name</td><td>string</td></tr>
+    </table>
+</p>
+<table class="schema">
+    <tr>
+        <td>Baseball & Softball</td>
+        <td>
+            <ul class="schema">
+                <li>
+                    hitting_1
+                    <table>
+                        <tr><th>Name</th><th>Type</th></tr>
+                        <tr><td>plate_appearances</td><td>integer</td></tr>
+                        <tr><td>at_bats</td><td>integer</td></tr>
+                    </table>
+                </li>
+                <li>
+                    hitting_2
+                    <table>
+                        <tr><th>Name</th><th>Type</th></tr>
+                        <tr><td>plate_appearances</td><td>integer</td></tr>
+                        <tr><td>total_bases</td><td>integer</td></tr>
+                    </table>
+                </li>
+            </ul>
+        </td>
+    </tr>
+</table-->
 <p>TODO</p>
 <h4>Footnotes</h4>
 <ul>
