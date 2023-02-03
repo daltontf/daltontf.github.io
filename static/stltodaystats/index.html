@@ -75,6 +75,22 @@
     document.getElementById("execute").onclick = executeQuery
   }
 
+  function allQueriesToElement(element, queries) {
+    if (queries) {
+        for (var i = 0, max = queries.length; i < max; i++) {
+          let query = queries[i];
+          if (query.queries) {
+            var optGroup = document.createElement("optgroup");
+            optGroup.setAttribute("label", query.group);
+            element.appendChild(optGroup);
+            allQueriesToElement(optGroup, query.queries);
+          } else {
+            element.appendChild(new Option(query.description, i));
+          }
+        }
+      }
+  }
+
   function updateQueries() {
     const selectedSport = document.getElementById("selectSport").selectedOptions[0].value;
     const selectQuery = document.getElementById("selectQuery");
@@ -84,11 +100,7 @@
     if (querySets && selectedSport) {
       const queries = querySets[SPORT_QUERY_SET[selectedSport]];    
 
-      if (queries) {
-        for (var i = 0, max = queries.length; i < max; i++) {
-          selectQuery.add(new Option(queries[i].description, i));
-        }
-      }
+      allQueriesToElement(selectQuery, queries);
     }
   }
 
