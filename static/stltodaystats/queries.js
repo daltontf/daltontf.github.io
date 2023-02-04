@@ -13,9 +13,28 @@
         }
     }
 
+    
+    function bestSeasonQueryExtraColumns(description, columnHeaders, table) {
+        let statColumn = columnHeaders[columnHeaders.length - 1].column;
+        let columnString = columnHeaders.map(it => {
+            return `${it.column} as "${it.header}"`
+        }).join(',');
+        return createObject(description,
+          `${SEASON_SELECT}, ${columnString} from ${table} ${WHERE_LIKE_SCHOOL} and ${statColumn} > 0 ${GROUP_BY_NAME_SCHOOL_SEASON} order by ${statColumn} desc`)
+  }
+
     function bestSeasonQuery(description, stat, header, table) {
           return createObject(description,
             `${SEASON_SELECT}, ${stat} as "${header}" from ${table} ${WHERE_LIKE_SCHOOL} and ${stat} > 0 ${GROUP_BY_NAME_SCHOOL_SEASON} order by ${stat} desc`)
+    }
+        
+    function careerSumQueryExtraColumns(description, columnHeaders, table) {
+        let statColumn = columnHeaders[columnHeaders.length - 1].column;
+        let columnString = columnHeaders.map(it => {
+            return `sum(${it.column}) as "${it.header}"`
+        }).join(',');
+        return createObject(description,
+            `${CAREER_SELECT}, ${columnString} from ${table} ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(${statColumn}) > 0 order by sum(${statColumn}) desc`)
     }
     
     function careerSumQuery(description, stat, header, table) {
@@ -36,7 +55,9 @@
      `${SEASON_SELECT}, sum(saves) as "Saves",sum(goals_against) as "Goal Against", printf("%.3f", ${savePct}) AS "Save%" from goalie ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(minutes) > 600 order by ${savePct} desc`);
 
     //baseball
+    const sluggingBases = "sum(singles) + sum(doubles) * 2 + sum(triples) * 3 + sum(homers) * 4" 
     const battingAvg = 'cast(sum(singles) + sum(doubles) + sum(triples) + sum(homers) as float) / cast(sum(at_bats) as float)';
+    const sluggingPct = `cast(${sluggingBases} as float) / cast(sum(at_bats) as float)`;
     const earnedRunAvg = '(sum(earned_runs) / sum(innings_pitched) * 7)';
 
     //basketball
@@ -54,12 +75,19 @@
 
     return {
       "baseball_softball": [
-        careerSumQuery("Career Homers", "homers", "Homers", "hitting_1"),
+        careerSumQueryExtraColumns("Career Homers",
+            [{
+                "column":"homers",
+                "header":"Homers"
+            }], "hitting_1"),
         careerSumQuery("Career RBIs", "rbis", "RBIs", "hitting_1"),
         careerSumQuery("Career Total Bases", "total_bases", "Total Bases", "hitting_2"),
         createObject("Career Batting Avg. (60+ AB)",
          `${CAREER_SELECT}, sum(singles) + sum(doubles) + sum(triples) + sum(homers) as "Hits", sum(at_bats) as "At Bats", printf("%.3f",${battingAvg}) as "Average" from hitting_1 ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(at_bats) >= 60 order by ${battingAvg} desc`),
+        createObject("Career Slugging%. (60+ AB)",
+         `${CAREER_SELECT}, ${sluggingBases} as "Bases", sum(at_bats) as "At Bats", printf("%.3f",${sluggingPct}) as "Slugging%" from hitting_1 ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(at_bats) >= 60 order by ${sluggingPct} desc`),
         careerSumQuery("Career Stolen Bases", "stolen_bases", "Stolen Bases", "hitting_2"),
+        careerSumQuery("Career Wins", "wins", "Wins", "pitching_1"),
         careerSumQuery("Career Strikeouts", "strike_outs", "Strike Outs", "pitching_2"),
         createObject("Career ERA (60+ IP)",
          `${CAREER_SELECT}, printf("%.1f", sum(innings_pitched)) as "Innings", sum(earned_runs) as "Earned Runs", printf("%.2f",${earnedRunAvg}) as "ERA" from pitching_1 ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(innings_pitched) >= 60 order by ${earnedRunAvg} asc`),
@@ -68,6 +96,8 @@
         bestSeasonQuery("Season Total Bases", "total_bases", "Total Bases", "hitting_2"),
         createObject("Season Batting Avg. (35+ AB)",
          `${SEASON_SELECT}, sum(singles) + sum(doubles) + sum(triples) + sum(homers) as "Hits", sum(at_bats) as "At Bats", printf("%.3f",${battingAvg}) as "Average" from hitting_1 ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(at_bats) >= 35 order by ${battingAvg} desc`),
+        createObject("Season Slugging%. (35+ AB)",
+         `${SEASON_SELECT}, ${sluggingBases} as "Bases", sum(at_bats) as "At Bats", printf("%.3f",${sluggingPct}) as "Slugging%" from hitting_1 ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(at_bats) >= 35 order by ${sluggingPct} desc`),
         bestSeasonQuery("Season Stolen Bases", "stolen_bases", "Stolen Bases", "hitting_2"),
         bestSeasonQuery("Season Strikeouts", "strike_outs", "Strike Outs", "pitching_2"),
         createObject("Season ERA (35+ IP)",

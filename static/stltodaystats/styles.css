@@ -45,15 +45,15 @@ table#results tr:nth-child(odd) { background: #111; }
 
 table.gaps {
     width: 80%;
-    border:solid 1px #999;
+    border-collapse: collapse;
 }
 
-table.gaps tr {
+table.gaps tr td {
     border:solid 1px #666;
 }
 
 
 ul.schema {
-    list-style: none
+    list-style: none;
 }
 
