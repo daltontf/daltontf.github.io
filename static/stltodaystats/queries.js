@@ -12,7 +12,7 @@
             "sql": sql
         }
     }
-    
+
     function bestSeasonQueryExtraColumns(description, columnHeaders, table) {
         let statColumn = columnHeaders[columnHeaders.length - 1].column;
         let columnString = columnHeaders.map(it => {
@@ -41,6 +41,17 @@
             `${CAREER_SELECT}, sum(${stat}) as "${header}" from ${table} ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(${stat}) > 0 order by sum(${stat}) desc`)
     }
 
+    function careerGoalsAgainstAvg(minutesInGame, minMinutes) {
+        let goalsAgainstAvg = `cast(cast(sum(goals_against) as float) / cast(sum(minutes) as float) as float) * ${minutesInGame}`
+        return createObject(`Career Goals Against Avg. (${minMinutes}+ min.)`,
+            `${CAREER_SELECT}, sum(goals_against) as "Goals Against", sum(minutes) as "Minutes", printf("%.3f", ${goalsAgainstAvg}) AS "Goal Against Avg." from goalie ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(minutes) >= ${minMinutes} order by ${goalsAgainstAvg} asc`);
+    }
+
+    function seasonGoalsAgainstAvg(minutesInGame, minMinutes) {
+        let goalsAgainstAvg = `cast(cast(goals_against as float) / cast(minutes as float) as float) * ${minutesInGame}`
+        return createObject(`Season Goals Against Avg. (${minMinutes}+ min.)`,
+            `${SEASON_SELECT}, sum(goals_against) as "Goals Against", sum(minutes) as "Minutes", printf("%.3f", ${goalsAgainstAvg}) AS "Goal Against Avg." from goalie ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(minutes) >= ${minMinutes} order by ${goalsAgainstAvg} asc`);
+    }
 
     const careerGoalsFromScoring = careerSumQuery("Career Goals", "goals", "Goals", "scoring");
     const careerAssistsFromScoring = careerSumQuery("Career Assists", "assists", "Assists", "scoring");
@@ -70,8 +81,8 @@
             {"column":"assists", "header": "Assists"},
             {"column":"goals * 2 + assists", "header": "Points"}
             ], "scoring");
-    const seasonGoalieSavePct = createObject("Season Goalie Save% (> 600 min.)",
-     `${SEASON_SELECT}, sum(saves) as "Saves",sum(goals_against) as "Goal Against", printf("%.3f", ${savePct}) AS "Save%" from goalie ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(minutes) > 600 order by ${savePct} desc`);
+    const seasonGoalieSavePct = createObject("Season Goalie Save% (600+ min.)",
+     `${SEASON_SELECT}, sum(saves) as "Saves",sum(goals_against) as "Goals Against", printf("%.3f", ${savePct}) AS "Save%" from goalie ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(minutes) >= 600 order by ${savePct} desc`);
 
     //baseball
     const sluggingBases = "sum(singles) + sum(doubles) * 2 + sum(triples) * 3 + sum(homers) * 4" ;
@@ -163,10 +174,12 @@
         careerAssistsFromScoring,
         career2PtGoalPtsFromScoring,
         careerGoalieSavePct,
+        careerGoalsAgainstAvg(80, 1000),
         seasonGoalsFromScoring,
         seasonAssistsFromScoring,
         season2PtGoalPtsFromScoring,
         seasonGoalieSavePct,
+        seasonGoalsAgainstAvg(80, 645)
     ],
     "football": [
         careerSumQuery("Career Passing Yards", "yards", "Yards", "passing"),
@@ -199,10 +212,12 @@
         careerAssistsFromScoring,
         career1PtGoalPtsFromScoring,
         careerGoalieSavePct,
+        careerGoalsAgainstAvg(45, 600),
         seasonGoalsFromScoring,
         season1PtGoalPtsFromScoring,
         seasonAssistsFromScoring,
         seasonGoalieSavePct,
+        seasonGoalsAgainstAvg(45, 379)
     ],
     "lacrosse": [
         careerGoalsFromScoring,
