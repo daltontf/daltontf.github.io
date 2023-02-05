@@ -12,7 +12,6 @@
             "sql": sql
         }
     }
-
     
     function bestSeasonQueryExtraColumns(description, columnHeaders, table) {
         let statColumn = columnHeaders[columnHeaders.length - 1].column;
@@ -42,28 +41,49 @@
             `${CAREER_SELECT}, sum(${stat}) as "${header}" from ${table} ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(${stat}) > 0 order by sum(${stat}) desc`)
     }
 
+
     const careerGoalsFromScoring = careerSumQuery("Career Goals", "goals", "Goals", "scoring");
     const careerAssistsFromScoring = careerSumQuery("Career Assists", "assists", "Assists", "scoring");
-
+    const career1PtGoalPtsFromScoring = careerSumQueryExtraColumns("Career Points", [
+        {"column":"goals", "header": "Goals"},
+        {"column":"assists", "header": "Assists"},
+        {"column":"goals + assists", "header": "Points"}
+        ], "scoring");
+    const career2PtGoalPtsFromScoring = careerSumQueryExtraColumns("Career Points", [
+        {"column":"goals", "header": "Goals"},
+        {"column":"assists", "header": "Assists"},
+        {"column":"goals * 2 + assists", "header": "Points"}
+        ], "scoring");
     const savePct = 'cast(sum(saves) as float) / cast(sum(goals_against) + sum(saves) as float)';
     const careerGoalieSavePct = createObject("Career Goalie Save% (> 600 min.)",
      `${CAREER_SELECT}, sum(saves) as "Saves", sum(goals_against) as "Goal Against", printf("%.3f", ${savePct}) AS "Save%" from goalie ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(minutes) > 600 order by ${savePct} desc`);
       
     const seasonGoalsFromScoring = bestSeasonQuery("Season Goals", "goals", "Goals", "scoring");
     const seasonAssistsFromScoring = bestSeasonQuery("Season Assists", "assists", "Assists", "scoring");
+    const season1PtGoalPtsFromScoring = bestSeasonQueryExtraColumns("Season Points", [
+            {"column":"goals", "header": "Goals"},
+            {"column":"assists", "header": "Assists"},
+            {"column":"goals + assists", "header": "Points"}
+            ], "scoring");
+    const season2PtGoalPtsFromScoring = bestSeasonQueryExtraColumns("Season Points", [
+            {"column":"goals", "header": "Goals"},
+            {"column":"assists", "header": "Assists"},
+            {"column":"goals * 2 + assists", "header": "Points"}
+            ], "scoring");
     const seasonGoalieSavePct = createObject("Season Goalie Save% (> 600 min.)",
      `${SEASON_SELECT}, sum(saves) as "Saves",sum(goals_against) as "Goal Against", printf("%.3f", ${savePct}) AS "Save%" from goalie ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(minutes) > 600 order by ${savePct} desc`);
 
     //baseball
-    const sluggingBases = "sum(singles) + sum(doubles) * 2 + sum(triples) * 3 + sum(homers) * 4" 
+    const sluggingBases = "sum(singles) + sum(doubles) * 2 + sum(triples) * 3 + sum(homers) * 4" ;
     const battingAvg = 'cast(sum(singles) + sum(doubles) + sum(triples) + sum(homers) as float) / cast(sum(at_bats) as float)';
     const sluggingPct = `cast(${sluggingBases} as float) / cast(sum(at_bats) as float)`;
     const earnedRunAvg = '(sum(earned_runs) / sum(innings_pitched) * 7)';
 
     //basketball
-    const threePtPct = 'cast(sum(three_point_shots) as float) / cast(sum(three_point_attempts) as float)';
-    const freeThrowPct = 'cast(sum(free_throws) as float) / cast(sum(free_throw_attempts) as float)';
     const ptsPerGame = 'cast(sum(points) as float) / cast(sum(games_played) as float)';
+    const assistsPerGame = 'cast(sum(assists) as float) / cast(sum(games_played) as float)';
+    const threePtPct = 'cast(sum(three_point_shots) as float) / cast(sum(three_point_attempts) as float) * 100';
+    const freeThrowPct = 'cast(sum(free_throws) as float) / cast(sum(free_throw_attempts) as float) * 100';
     const rbsPerGame = 'cast(sum(rebounds) as float) / cast(sum(games_played) as float)';
 
     //football
@@ -106,42 +126,46 @@
       "basketball": [ 
         careerSumQuery("Career Points", "points", "Points", "offense"),
         createObject("Career Points/Game (30+ games)",
-            `${CAREER_SELECT}, sum(points) as "Points", sum(games_played) as "Games", printf("%.3f", ${ptsPerGame}) AS "Points/Game" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(games_played) >= 30 order by ${ptsPerGame} desc`),
+            `${CAREER_SELECT}, sum(points) as "Points", sum(games_played) as "Games", printf("%.2f", ${ptsPerGame}) AS "Points/Game" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(games_played) >= 30 order by ${ptsPerGame} desc`),
         careerSumQuery("Career Rebounds", "rebounds", "Rebounds", "defense"),
         createObject("Career Rebounds/Game (30+ games)",
-            `${CAREER_SELECT}, sum(rebounds) as "Rebounds", sum(games_played) as "Games", printf("%.3f", ${rbsPerGame}) AS "Rebounds/Game" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(games_played) >= 30 order by ${rbsPerGame} desc`),
+            `${CAREER_SELECT}, sum(rebounds) as "Rebounds", sum(games_played) as "Games", printf("%.2f", ${rbsPerGame}) AS "Rebounds/Game" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(games_played) >= 30 order by ${rbsPerGame} desc`),
         careerSumQuery("Career Assists", "assists", "Assists", "defense"),
+        createObject("Career Assists/Game (30+ games)",
+            `${CAREER_SELECT}, sum(assists) as "Assists", sum(games_played) as "Games", printf("%.2f", ${assistsPerGame}) AS "Assists/Game" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(games_played) >= 30 order by ${assistsPerGame} desc`),
         careerSumQuery("Career 3s", "three_point_shots", "3s", "offense"),
-        //createObject("Career 3 Pt% (>= 25 shots)",
-        // TODO Some schools only had 3 pts made and zero for attempts and later correct. 
-        // Need better solution than throwing out > 1.0. Could end up less <= 1.0, but skewed
-        // `${CAREER_SELECT}, ${threePtPct} as "3 Pt%" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(three_point_attempts) >= 25 and sum(three_point_attempts) >= sum(three_point_shots) order by ${threePtPct} desc`),
+        createObject("Career 3 Pt% (42+ shots)",
+         `${CAREER_SELECT}, sum(three_point_shots) as "3s Made", sum(three_point_attempts) as "Attempts", printf("%.1f",${threePtPct}) as "3 Pt%" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(three_point_attempts) >= 42 and sum(three_point_attempts) >= sum(three_point_shots) order by ${threePtPct} desc`),
         createObject("Career Free Throw% (65+ FTs)",
-         `${CAREER_SELECT}, sum(free_throws) as "Throws Made", sum(free_throw_attempts) as "Attempts", printf("%.3f", ${freeThrowPct}) as "Free Throw%" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(free_throw_attempts) >= 65 order by ${freeThrowPct} desc`),
+         `${CAREER_SELECT}, sum(free_throws) as "Throws Made", sum(free_throw_attempts) as "Attempts", printf("%.1f", ${freeThrowPct}) as "Free Throw%" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(free_throw_attempts) >= 65 order by ${freeThrowPct} desc`),
         careerSumQuery("Career Blocks", "blocks", "Blocks", "defense"),
         careerSumQuery("Career Steals", "steals", "Steals", "defense"),
+
         bestSeasonQuery("Season Points", "points", "Points", "offense"),
         createObject("Season Points/Game (20+ games)",
-         `${SEASON_SELECT}, sum(points) as "Points", sum(games_played) as "Games", printf("%.3f", ${ptsPerGame}) AS "Points/Game" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(games_played) >= 20 order by ${ptsPerGame} desc`),
+         `${SEASON_SELECT}, sum(points) as "Points", sum(games_played) as "Games", printf("%.2f", ${ptsPerGame}) AS "Points/Game" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(games_played) >= 20 order by ${ptsPerGame} desc`),
         bestSeasonQuery("Season Rebounds", "rebounds", "Rebounds", "defense"),
         createObject("Season Rebounds/Game (20+ games)",
-         `${SEASON_SELECT}, sum(rebounds) as "Rebounds", sum(games_played) as "Games", printf("%.3f", ${rbsPerGame}) AS "Rebounds/Game" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(games_played) >= 20 order by ${rbsPerGame} desc`),
+         `${SEASON_SELECT}, sum(rebounds) as "Rebounds", sum(games_played) as "Games", printf("%.2f", ${rbsPerGame}) AS "Rebounds/Game" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(games_played) >= 20 order by ${rbsPerGame} desc`),
         bestSeasonQuery("Season Assists", "assists", "Assists", "defense"),
+        createObject("Season Assists/Game (20+ games)",
+         `${SEASON_SELECT}, sum(assists) as "Assists", sum(games_played) as "Games", printf("%.2f", ${assistsPerGame}) AS "Assists/Game" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(games_played) >= 20 order by ${assistsPerGame} desc`),
         bestSeasonQuery("Season 3's", "three_point_shots", "3's", "offense"),
-        //createObject("Season 3 Pt% (>= 25 shots)",
-        // `${SEASON_SELECT}, ${threePtPct} as "3 Pt%" from offense ${WHERE_LIKE_SCHOOL} and three_point_attempts > 0 ${GROUP_BY_NAME_SCHOOL_SEASON} having sum(three_point_attempts) >= 25 and sum(three_point_attempts) >= sum(three_point_shots) order by ${threePtPct} desc`),
+        createObject("Season 3 Pt% (25+ shots)",
+         `${SEASON_SELECT}, sum(three_point_shots) as "3s Made", sum(three_point_attempts) as "Attempts", printf("%.1f", ${threePtPct}) as "3 Pt%" from offense ${WHERE_LIKE_SCHOOL} and three_point_attempts > 0 ${GROUP_BY_NAME_SCHOOL_SEASON} having sum(three_point_attempts) >= 25 and sum(three_point_attempts) >= sum(three_point_shots) order by ${threePtPct} desc`),
         createObject("Season Free Throw% (42+ FTs)",
-         `${SEASON_SELECT}, sum(free_throws) as "Throws Made", sum(free_throw_attempts) as "Attempts", printf("%.3f", ${freeThrowPct}) as "Free Throw%" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(free_throw_attempts) >= 42 order by ${freeThrowPct} desc`),
-        bestSeasonQuery("Season Rebounds", "rebounds", "Rebounds", "defense"),
+         `${SEASON_SELECT}, sum(free_throws) as "Throws Made", sum(free_throw_attempts) as "Attempts", printf("%.1f", ${freeThrowPct}) as "Free Throw%" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(free_throw_attempts) >= 42 order by ${freeThrowPct} desc`),
         bestSeasonQuery("Season Blocks", "blocks", "Blocks", "defense"),
         bestSeasonQuery("Season Steals", "steals", "Steals", "defense"),
     ],
     "fieldhockey": [
         careerGoalsFromScoring,
         careerAssistsFromScoring,
+        career2PtGoalPtsFromScoring,
         careerGoalieSavePct,
         seasonGoalsFromScoring,
         seasonAssistsFromScoring,
+        season2PtGoalPtsFromScoring,
         seasonGoalieSavePct,
     ],
     "football": [
@@ -173,25 +197,31 @@
     "hockey": [
         careerGoalsFromScoring,
         careerAssistsFromScoring,
+        career1PtGoalPtsFromScoring,
         careerGoalieSavePct,
         seasonGoalsFromScoring,
+        season1PtGoalPtsFromScoring,
         seasonAssistsFromScoring,
         seasonGoalieSavePct,
     ],
     "lacrosse": [
         careerGoalsFromScoring,
         careerAssistsFromScoring,
+        career1PtGoalPtsFromScoring,
         careerGoalieSavePct,
         seasonGoalsFromScoring,
         seasonAssistsFromScoring,
+        season1PtGoalPtsFromScoring,
         seasonGoalieSavePct,
     ],
     "soccer": [
         careerGoalsFromScoring,
         careerAssistsFromScoring,
+        career2PtGoalPtsFromScoring,
         careerGoalieSavePct,
         seasonGoalsFromScoring,
         seasonAssistsFromScoring,
+        season2PtGoalPtsFromScoring,
         seasonGoalieSavePct,
     ],
     "volleyball": [ 
@@ -220,9 +250,11 @@
     "waterpolo": [
         careerGoalsFromScoring,
         careerAssistsFromScoring,
+        career2PtGoalPtsFromScoring,
         careerGoalieSavePct,
         seasonGoalsFromScoring,
         seasonAssistsFromScoring,
+        season2PtGoalPtsFromScoring,
         seasonGoalieSavePct,
     ]
   };
