@@ -224,20 +224,24 @@
         careerAssistsFromScoring,
         career1PtGoalPtsFromScoring,
         careerGoalieSavePct,
+        careerGoalsAgainstAvg(48, 650),
         seasonGoalsFromScoring,
         seasonAssistsFromScoring,
         season1PtGoalPtsFromScoring,
         seasonGoalieSavePct,
+        seasonGoalsAgainstAvg(48, 370)
     ],
     "soccer": [
         careerGoalsFromScoring,
         careerAssistsFromScoring,
         career2PtGoalPtsFromScoring,
         careerGoalieSavePct,
+        careerGoalsAgainstAvg(80, 1000),
         seasonGoalsFromScoring,
         seasonAssistsFromScoring,
         season2PtGoalPtsFromScoring,
         seasonGoalieSavePct,
+        seasonGoalsAgainstAvg(80, 619),
     ],
     "volleyball": [ 
         careerSumQuery("Career Kills", "kills", "Kills", "offense"),
@@ -267,10 +271,12 @@
         careerAssistsFromScoring,
         career2PtGoalPtsFromScoring,
         careerGoalieSavePct,
+        careerGoalsAgainstAvg(28, 325),
         seasonGoalsFromScoring,
         seasonAssistsFromScoring,
         season2PtGoalPtsFromScoring,
         seasonGoalieSavePct,
+        seasonGoalsAgainstAvg(28, 213),
     ]
   };
 })();
