@@ -80,20 +80,26 @@
     const sluggingPct = `cast(${sluggingBases} as float) / cast(sum(at_bats) as float)`;
     const earnedRunAvg = '(sum(earned_runs) / sum(innings_pitched) * 7)';
     const strikeOutToWalks = 'sum(strike_outs) / sum(walks)';
+    const stolenBasePct = 'cast(sum(stolen_bases) as float) / cast(sum(stolen_bases) + sum(caught_stealing) as float)';
 
     //basketball
     const ptsPerGame = 'cast(sum(points) as float) / cast(sum(games_played) as float)';
     const assistsPerGame = 'cast(sum(assists) as float) / cast(sum(games_played) as float)';
+    const stealsPerGame = 'cast(sum(steals) as float) / cast(sum(games_played) as float)';
     const threePtPct = 'cast(sum(three_point_shots) as float) / cast(sum(three_point_attempts) as float) * 100';
     const freeThrowPct = 'cast(sum(free_throws) as float) / cast(sum(free_throw_attempts) as float) * 100';
     const rbsPerGame = 'cast(sum(rebounds) as float) / cast(sum(games_played) as float)';
+    //basketball + volleyball (column names same)
+    const blocksPerGame = 'cast(sum(blocks) as float) / cast(sum(games_played) as float)';
 
     //football
     const yardsPerCarry = 'cast(sum(yards) as float) / cast(sum(carries) as float)';
+    const yardsPerCatch = 'cast(sum(yards) as float) / cast(sum(catches) as float)';
 
     //volleyball
     const serveRcvPct = 'cast((sum(serves_received) - sum(serve_receive_errors)) as float) / cast(sum(serves_received) as float)';
     const killsPerGame = 'cast(sum(kills) as float) / cast(sum(games_played) as float)';
+    const acesPerGame = 'cast(sum(aces) as float) / cast(sum(games_played) as float)';
     const assistsPerGameVB = 'cast(sum(assists) as float) / cast(sum(games_played) as float)';
     const digsPerGame = 'cast((sum(dig_attempts) - sum(dig_errors)) as float) / cast(sum(games_played) as float)';
 
@@ -114,7 +120,10 @@
         createObject("Career Slugging%. (60+ AB)",
          `${CAREER_SELECT}, ${sluggingBases} as "Bases", sum(at_bats) as "At Bats", printf("%.3f",${sluggingPct}) as "Slugging%" from hitting_1 ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(at_bats) >= 60 order by ${sluggingPct} desc`),
         careerSumQuery("Career Stolen Bases",[{ "column": "stolen_bases", "header": "Stolen Bases"}], "hitting_2"),
+ //       createObject("Career Stolen Base%. (30+ attempts)", // too many 100%?
+ //        `${CAREER_SELECT}, sum(stolen_bases) as "Stolen Base", sum(caught_stealing) as "Caught Stealing", printf("%.3f",${stolenBasePct}) as "Stolen Base%" from hitting_2 ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(stolen_bases + caught_stealing) >= 30 order by ${stolenBasePct} desc, sum(stolen_bases) desc`),
         careerSumQuery("Career Wins",[{ "column": "wins", "header": "Wins"}], "pitching_1"),
+//        careerSumQuery("Career Saves",[{ "column": "saves", "header": "Saves"}], "pitching_1"),
         careerSumQuery("Career Strikeouts",[{ "column": "strike_outs", "header": "Strike Outs"}], "pitching_2"),
 //        createObject("Career Strikeout to Walks Ratio (25+ IP)", TODO inning_pitched in pitching_1 would require JOIN
 //         `${CAREER_SELECT}, sum(strike_outs) as "Strikeouts", sum(walks) as "Walks", printf("%.2f",${strikeOutToWalks}) as "Ratio" from pitching_2 ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(innings_pitched) >= 25 order by ${strikeOutToWalks} asc`),
@@ -129,6 +138,8 @@
         createObject("Season Slugging%. (35+ AB)",
          `${SEASON_SELECT}, ${sluggingBases} as "Bases", sum(at_bats) as "At Bats", printf("%.3f",${sluggingPct}) as "Slugging%" from hitting_1 ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(at_bats) >= 35 order by ${sluggingPct} desc`),
         bestSeasonQuery("Season Stolen Bases",[{ "column": "stolen_bases", "header": "Stolen Bases"}], "hitting_2"),
+        bestSeasonQuery("Season Wins",[{ "column": "wins", "header": "Wins"}], "pitching_1"),
+//        bestSeasonQuery("Season Saves",[{ "column": "saves", "header": "Saves"}], "pitching_1"), Saves are not that commonht
         bestSeasonQuery("Season Strikeouts",[{ "column": "strike_outs", "header": "Strike Outs"}], "pitching_2"),
 //        createObject("Season Strikeout to Walks Ratio (15+ IP)",
 //         `${SEASON_SELECT}, sum(strike_outs) as "Strikeouts", sum(walks) as "Walks", printf("%.2f",${strikeOutToWalks}) as "Ratio" from pitching_2 ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(innings_pitched) >= 15 order by ${strikeOutToWalks} asc`),
@@ -147,12 +158,17 @@
         createObject("Career Assists/Game (30+ games)",
             `${CAREER_SELECT}, sum(assists) as "Assists", sum(games_played) as "Games", printf("%.2f", ${assistsPerGame}) AS "Assists/Game" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(games_played) >= 30 order by ${assistsPerGame} desc`),
         careerSumQuery("Career 3s",[{ "column": "three_point_shots", "header": "3s"}], "offense"),
-        createObject("Career 3 Pt% (42+ shots)",
-         `${CAREER_SELECT}, sum(three_point_shots) as "3s Made", sum(three_point_attempts) as "Attempts", printf("%.1f",${threePtPct}) as "3 Pt%" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(three_point_attempts) >= 42 and sum(three_point_attempts) >= sum(three_point_shots) order by ${threePtPct} desc`),
+//        createObject("Career 3 Pt% (42+ shots)",
+//          'with player(name, school, season, three_point_shots, three_point_attempts) as (select name, school, season, three_point_shots, three_point_attempts from offense where three_point_attempts > 0 and three_point_attempts >= three_point_shots)' +
+//         `${CAREER_SELECT}, sum(three_point_shots) as "3s Made", sum(three_point_attempts) as "Attempts", printf("%.1f",${threePtPct}) as "3 Pt%" from player ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(three_point_attempts) >= 42 and sum(three_point_attempts) >= sum(three_point_shots) order by ${threePtPct} desc`),
         createObject("Career Free Throw% (65+ FTs)",
          `${CAREER_SELECT}, sum(free_throws) as "Throws Made", sum(free_throw_attempts) as "Attempts", printf("%.1f", ${freeThrowPct}) as "Free Throw%" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(free_throw_attempts) >= 65 order by ${freeThrowPct} desc`),
         careerSumQuery("Career Blocks",[{ "column":  "blocks", "header": "Blocks"}], "defense"),
+        createObject("Career Blocks/Game (30+ games)",
+            `${CAREER_SELECT}, sum(blocks) as "Blocks", sum(games_played) as "Games", printf("%.2f", ${blocksPerGame}) AS "Blocks/Game" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(games_played) >= 30 order by ${blocksPerGame} desc`),
         careerSumQuery("Career Steals",[{ "column":  "steals", "header": "Steals"}], "defense"),
+        createObject("Career Steals/Game (30+ games)",
+            `${CAREER_SELECT}, sum(steals) as "Steals", sum(games_played) as "Games", printf("%.2f", ${stealsPerGame}) AS "Steals/Game" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(games_played) >= 30 order by ${stealsPerGame} desc`),
 
         bestSeasonQuery("Season Points",[{ "column": "points", "header": "Points"}], "offense"),
         createObject("Season Points/Game (20+ games)",
@@ -164,12 +180,19 @@
         createObject("Season Assists/Game (20+ games)",
          `${SEASON_SELECT}, sum(assists) as "Assists", sum(games_played) as "Games", printf("%.2f", ${assistsPerGame}) AS "Assists/Game" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(games_played) >= 20 order by ${assistsPerGame} desc`),
         bestSeasonQuery("Season 3's",[{ "column": "three_point_shots", "header": "3's"}], "offense"),
-        createObject("Season 3 Pt% (25+ shots)",
-         `${SEASON_SELECT}, sum(three_point_shots) as "3s Made", sum(three_point_attempts) as "Attempts", printf("%.1f", ${threePtPct}) as "3 Pt%" from offense ${WHERE_LIKE_SCHOOL} and three_point_attempts > 0 ${GROUP_BY_NAME_SCHOOL_SEASON} having sum(three_point_attempts) >= 25 and sum(three_point_attempts) >= sum(three_point_shots) order by ${threePtPct} desc`),
+//        createObject("Season 3 Pt% (25+ shots)",
+//          'with player(name, school, season, three_point_shots, three_point_attempts) as (select name, school, season, three_point_shots, three_point_attempts from offense where three_point_attempts > 0 and three_point_attempts >= three_point_shots)' +
+//         `${SEASON_SELECT}, sum(three_point_shots) as "3s Made", sum(three_point_attempts) as "Attempts", printf("%.1f", ${threePtPct}) as "3 Pt%" from player ${WHERE_LIKE_SCHOOL} and three_point_attempts > 0 ${GROUP_BY_NAME_SCHOOL_SEASON} having sum(three_point_attempts) >= 25 and sum(three_point_attempts) >= sum(three_point_shots) order by ${threePtPct} desc`),
         createObject("Season Free Throw% (42+ FTs)",
          `${SEASON_SELECT}, sum(free_throws) as "Throws Made", sum(free_throw_attempts) as "Attempts", printf("%.1f", ${freeThrowPct}) as "Free Throw%" from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(free_throw_attempts) >= 42 order by ${freeThrowPct} desc`),
         bestSeasonQuery("Season Blocks",[{ "column": "blocks", "header": "Blocks"}], "defense"),
+        createObject("Season Blocks/Game (20+ games)",
+         `${SEASON_SELECT}, sum(blocks) as "Blocks", sum(games_played) as "Games", printf("%.2f", ${blocksPerGame}) AS "Blocks/Game" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(games_played) >= 20 order by ${blocksPerGame} desc`),
+
         bestSeasonQuery("Season Steals",[{ "column": "steals", "header": "Steals"}], "defense"),
+        createObject("Season Steals/Game (20+ games)",
+         `${SEASON_SELECT}, sum(steals) as "Steals", sum(games_played) as "Games", printf("%.2f", ${stealsPerGame}) AS "Steals/Game" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(games_played) >= 20 order by ${stealsPerGame} desc`),
+
     ],
     "fieldhockey": [
         careerGoalsFromScoring,
@@ -189,6 +212,8 @@
         careerSumQuery("Career Rushing Yards",[{ "column": "yards", "header": "Yards"}], "rushing"),
         careerSumQuery("Career Rushing TDs",[{ "column": "touchdowns", "header": "TDs"}], "rushing"),
         careerSumQuery("Career Receiving Yards",[{ "column": "yards", "header": "Yards"}], "receiving"),
+        createObject("Career Yards/Catch (15+ Catches)",
+            `${CAREER_SELECT}, sum(catches) as "Catches", sum(yards) as "Yards", printf("%.3f",${yardsPerCatch}) as "Yards/Catch" from receiving ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(catches) >= 15 order by ${yardsPerCatch} desc`),
         careerSumQuery("Career Receiving TDs",[{ "column": "touchdowns", "header": "TDs"}], "receiving"),
         createObject("Career Yards/Carry (45+ Carries)",
             `${CAREER_SELECT}, sum(carries) as "Carries", sum(yards) as "Yards", printf("%.3f",${yardsPerCarry}) as "Yards/Carry" from rushing ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(carries) >= 45 order by ${yardsPerCarry} desc`),
@@ -197,6 +222,8 @@
         careerSumQuery("Career Fumble Recs.",[{ "column": "fumble_recoveries", "header": "Fumble Recs."}], "defense"),
         careerSumQuery("Career Ints.",[{ "column": "interceptions", "header": "Ints."}], "defense"),
         bestSeasonQuery("Season Passing Yards",[{ "column": "yards", "header": "Yards"}], "passing"),
+        createObject("Season Yards/Catch (15+ Catches)",
+            `${SEASON_SELECT}, sum(catches) as "Catches", sum(yards) as "Yards", printf("%.3f",${yardsPerCatch}) as "Yards/Catch" from receiving ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(catches) >= 15 order by ${yardsPerCatch} desc`),
         bestSeasonQuery("Season Passing TDs",[{ "column": "touchdowns", "header": "TDs"}], "passing"),
         bestSeasonQuery("Season Rushing Yards",[{ "column": "yards", "header": "Yards"}], "rushing"),
         createObject("Season Yards/Carry (30+ Carries)",
@@ -266,16 +293,20 @@
             { "column": "games_played", "header": "Sets Played" },
             { "column": "solo_blocks", "header": "Solo Blocks" }
             ], "blocking"),
+        createObject("Career Blocks/Set (80+ set)",
+            `${CAREER_SELECT}, sum(blocks) as "Blocks", sum(games_played) as "Sets", printf("%.2f", ${blocksPerGame}) AS "Blocks/Game" from blocking ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(games_played) >= 80 order by ${blocksPerGame} desc`),
+        careerSumQuery("Career Aces", [
+                    { "column": "games_played", "header": "Sets Played" },
+                    { "column": "aces", "header": "Aces" }
+                    ], "serving"),
+                createObject("Career Aces/Set (80+ sets)",
+                    `${CAREER_SELECT}, sum(aces) as "Aces", sum(games_played) as "Sets", printf("%.3f", ${acesPerGame}) AS "Aces/Set" from serving ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(games_played) >= 80 order by ${acesPerGame} desc`),
         careerSumQuery("Career Digs", [
             { "column": "games_played", "header": "Sets Played" },
             { "column": "dig_attempts - dig_errors", "header": "Digs" }
             ], "defense"),
         createObject("Career Digs/Set (80+ sets)",
             `${CAREER_SELECT}, sum(dig_attempts) - sum(dig_errors) as "Digs", sum(games_played) as "Sets", printf("%.3f", ${digsPerGame}) AS "Digs/Set" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(games_played) >= 80 order by ${digsPerGame} desc`),
-        careerSumQuery("Career Aces", [
-            { "column": "games_played", "header": "Sets Played" },
-            { "column": "aces", "header": "Aces" }
-            ], "serving"),
         createObject("Career Receive% (160+ serves)",
             `${CAREER_SELECT}, sum(serves_received) as "Received", sum(serve_receive_errors) as "Errors", printf("%.3f", ${serveRcvPct}) AS "Receive%" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL} having sum(serves_received) >= 160 order by ${serveRcvPct} desc`),
         bestSeasonQuery("Season Kills", [
@@ -294,20 +325,24 @@
             { "column": "games_played", "header": "Sets Played" },
             { "column": "blocks", "header": "Blocks" }
             ], "blocking"),
+        createObject("Season Blocks/Set (55+ set)",
+            `${SEASON_SELECT}, sum(blocks) as "Blocks", sum(games_played) as "Sets", printf("%.2f", ${blocksPerGame}) AS "Blocks/Game" from blocking ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(games_played) >= 55 order by ${blocksPerGame} desc`),
         bestSeasonQuery("Season Solo Blocks",[
             { "column": "games_played", "header": "Sets Played" },
             { "column": "solo_blocks", "header": "Solo Blocks" }
             ], "blocking"),
+        bestSeasonQuery("Season Aces", [
+                    { "column": "games_played", "header": "Sets Played" },
+                    { "column": "aces", "header": "Aces" }
+                    ], "serving"),
+        createObject("Season Aces/Set (55+ sets)",
+            `${SEASON_SELECT}, sum(aces) as "Aces", sum(games_played) as "Sets", printf("%.3f", ${acesPerGame}) AS "Aces/Set" from serving ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(games_played) >= 55 order by ${acesPerGame} desc`),
         bestSeasonQuery("Season Digs",[
             { "column": "games_played", "header": "Sets Played" },
             { "column": "dig_attempts - dig_errors", "header": "Digs" }
             ], "defense"),
         createObject("Season Digs/Set (55+ sets)",
             `${SEASON_SELECT}, sum(dig_attempts) - sum(dig_errors) as "Digs", sum(games_played) as "Sets", printf("%.3f", ${digsPerGame}) AS "Digs/Set" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(games_played) >= 55 order by ${digsPerGame} desc`),
-        bestSeasonQuery("Season Aces", [
-            { "column": "games_played", "header": "Sets Played" },
-            { "column": "aces", "header": "Aces" }
-            ], "serving"),
         createObject("Season Receive% (113+ serves)",
             `${SEASON_SELECT}, sum(serves_received) as "Received", sum(serve_receive_errors) as "Errors", printf("%.3f", ${serveRcvPct}) AS "Receive%" from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON} having sum(serves_received) >= 113 order by ${serveRcvPct} desc`),
         
