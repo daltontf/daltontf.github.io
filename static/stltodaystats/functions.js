@@ -131,6 +131,7 @@
 
   function setQuery(value) {
     document.getElementById("query").value = value;
+    code_update(value);
   }
 
   function clearResults() {
@@ -197,5 +198,5 @@
 
   function showOrHideQuery() {
     let showQuery = document.getElementById("showQuery").checked;
-    document.getElementById("query").style.display = showQuery ? "initial" : "none";
+    document.getElementById("query-container").style.display = showQuery ? "block" : "none";
   }

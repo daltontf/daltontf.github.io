@@ -7,6 +7,12 @@
 </head>
 <script src='./sql-wasm.js'></script>
 <script src='functions.js'></script>
+<script src="prism.js"></script>
+<script src="syntax.js"></script>
+
+<link rel="stylesheet" href="syntax.css">
+<link rel="stylesheet" href="prism.css">
+
 <body onload="init('./queries.js')">
   <h1>STLtoday High School Sports StatsDB<a href="about.html">About</a></h1>
 
@@ -39,7 +45,10 @@
     Show Query: <input id="showQuery" type="checkbox"/>
   </p>
   <p>
-    <textarea id="query" rows="10" cols="80" style="display:none" spellcheck="false"></textarea>
+    <div id="query-container" style="display:none" >
+      <textarea id="query" spellcheck="false" oninput="code_update(this.value); code_sync_scroll(this);" onscroll="code_sync_scroll(this);" onkeydown="code_check_tab(this, event);"></textarea>
+      <pre id="highlighting" aria-hidden="true"><code class="language-sql match-braces" id="highlighting-content"></code>      </pre>
+    </div>
   </p>
   <p>
     <button id="execute">Execute</button>

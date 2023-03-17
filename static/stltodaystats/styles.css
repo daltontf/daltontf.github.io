@@ -29,13 +29,6 @@ li.footnote {
     font-size: 75%;
 }
 
-textarea {
-   font-family: 'Courier New', Courier, monospace;
-   font-size: 14px;
-   color: #DD0;
-   background-color: #111;
-}
-
 table#results {
     width: 100%;
 }
@@ -49,6 +42,15 @@ table.gaps {
 }
 
 table.gaps tr td {
+    border:solid 1px #666;
+}
+
+table.lastmods {
+    width: 50%;
+    border-collapse: collapse;
+}
+
+table.lastmods tr td {
     border:solid 1px #666;
 }
 
