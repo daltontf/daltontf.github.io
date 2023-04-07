@@ -28,7 +28,7 @@
             return `\n sum(${it.column}) as "${it.header}"`
         }).join(',');
         return createObject(description,
-            `${CAREER_SELECT},${columnString} from ${table} ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL}\n having sum(${statColumn}) > 0\n order by sum(${statColumn}) desc`)
+            `${CAREER_SELECT},${columnString}\n from ${table} ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL}\n having sum(${statColumn}) > 0\n order by sum(${statColumn}) desc`)
     }
 
     function careerGoalsAgainstAvg(minutesInGame, minMinutes) {
@@ -159,7 +159,7 @@
             `${CAREER_SELECT},\n sum(assists) as "Assists",\n sum(games_played) as "Games",\n printf("%.2f", ${assistsPerGame}) AS "Assists/Game"\n from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL}\n having sum(games_played) >= 30\n order by ${assistsPerGame} desc`),
         careerSumQuery("Career 3s",[{ "column": "three_point_shots", "header": "3s"}], "offense"),
 //        createObject("Career 3 Pt% (42+ shots)",
-//          'with player(name, school, season, three_point_shots, three_point_attempts) as (select name, school, season, three_point_shots, three_point_attempts from offense where three_point_attempts > 0 and three_point_attempts >= three_point_shots)' +
+//          'with player(name, school, season, three_point_shots, three_point_attempts) as (select name, school, season, three_point_shots, three_point_attempts\n from offense where three_point_attempts > 0 and three_point_attempts >= three_point_shots)' +
 //         `${CAREER_SELECT},\n sum(three_point_shots) as "3s Made",\n sum(three_point_attempts) as "Attempts",\n printf("%.1f",${threePtPct}) as "3 Pt%"\n from player ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL}\n having sum(three_point_attempts) >= 42 and sum(three_point_attempts) >= sum(three_point_shots)\n order by ${threePtPct} desc`),
         createObject("Career Free Throw% (65+ FTs)",
          `${CAREER_SELECT},\n sum(free_throws) as "Throws Made",\n sum(free_throw_attempts) as "Attempts",\n printf("%.1f", ${freeThrowPct}) as "Free Throw%"\n from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL}\n having sum(free_throw_attempts) >= 65\n order by ${freeThrowPct} desc`),
@@ -181,7 +181,7 @@
          `${SEASON_SELECT},\n sum(assists) as "Assists",\n sum(games_played) as "Games",\n printf("%.2f", ${assistsPerGame}) AS "Assists/Game"\n from defense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON}\n having sum(games_played) >= 20\n order by ${assistsPerGame} desc`),
         bestSeasonQuery("Season 3's",[{ "column": "three_point_shots", "header": "3's"}], "offense"),
 //        createObject("Season 3 Pt% (25+ shots)",
-//          'with player(name, school, season, three_point_shots, three_point_attempts) as (select name, school, season, three_point_shots, three_point_attempts from offense where three_point_attempts > 0 and three_point_attempts >= three_point_shots)' +
+//          'with player(name, school, season, three_point_shots, three_point_attempts) as (select name, school, season, three_point_shots, three_point_attempts\n from offense where three_point_attempts > 0 and three_point_attempts >= three_point_shots)' +
 //         `${SEASON_SELECT},\n sum(three_point_shots) as "3s Made",\n sum(three_point_attempts) as "Attempts",\n printf("%.1f", ${threePtPct}) as "3 Pt%"\n from player ${WHERE_LIKE_SCHOOL} and three_point_attempts > 0 ${GROUP_BY_NAME_SCHOOL_SEASON}\n having sum(three_point_attempts) >= 25 and sum(three_point_attempts) >= sum(three_point_shots)\n order by ${threePtPct} desc`),
         createObject("Season Free Throw% (42+ FTs)",
          `${SEASON_SELECT},\n sum(free_throws) as "Throws Made",\n sum(free_throw_attempts) as "Attempts",\n printf("%.1f", ${freeThrowPct}) as "Free Throw%"\n from offense ${WHERE_LIKE_SCHOOL}${GROUP_BY_NAME_SCHOOL_SEASON}\n having sum(free_throw_attempts) >= 42\n order by ${freeThrowPct} desc`),
