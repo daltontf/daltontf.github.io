@@ -2,6 +2,10 @@
 {% block main %}
 {% if term.pages %}
     <h1>{{ term.name }}</h1>
+    {% set url = get_url(path="/" ~ term.name | lower) %}
+    {% set data = load_data(url=url, required=false) %}
+    <!-- {{ url }} -->
+    <!-- {% if data %}{{ data | safe }}{% else %}No data found{% endif %} -->
     {% for page in term.pages %}
         <a href="{{page.path}}">{{ page.title }}</a><br/>
     {% endfor %}

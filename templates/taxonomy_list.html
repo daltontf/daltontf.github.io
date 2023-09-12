@@ -2,13 +2,7 @@
 {% block main %}
 {% if terms %}
     {% for term in terms %}
-        <!-- <a href="{{ term.path }}">{{ term.name }} [{{ term.pages | length }}] </a><br/> -->
-        {% if term.pages %}
-    <h1>{{ term.name }}</h1>
-    {% for page in term.pages %}
-        <a href="{{page.path}}">{{ page.title }}</a><br/>
-    {% endfor %}
-{% endif %}
+        <a href="{{ term.path }}">{{ term.name }} [{{ term.pages | length }}] </a><br/> 
     {% endfor %}
 {% endif %}
 {% endblock main %}
