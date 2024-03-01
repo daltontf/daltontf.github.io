@@ -89,14 +89,15 @@
   }
 
   async function sportSelected(event) {
+    var select = document.getElementById("selectSchool");
+    let oldSchool = select.selectedOptions[0];
+    select.innerHTML = "";
+
     const selectedSport = document.getElementById("selectSport").selectedOptions[0].value;
     const dataPromise = fetch("./" + selectedSport + ".db").then(res => res.arrayBuffer());
     const buf = await dataPromise;
     DB = new SQL.Database(new Uint8Array(buf));
 
-    var select = document.getElementById("selectSchool");
-    let oldSchool = select.selectedOptions[0];
-    select.innerHTML = "";
     select.options.add(new Option("ALL", ""));
 
     const stmt = DB.prepare("select distinct school from " + SPORT_SCHOOL_TABLES[selectedSport] + " order by school asc");
