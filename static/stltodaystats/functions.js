@@ -93,6 +93,9 @@
     let oldSchool = select.selectedOptions[0];
     select.innerHTML = "";
 
+    const selectQuery = document.getElementById("selectQuery");
+    selectQuery.innerHTML = "";
+
     const selectedSport = document.getElementById("selectSport").selectedOptions[0].value;
     const dataPromise = fetch("./" + selectedSport + ".db").then(res => res.arrayBuffer());
     const buf = await dataPromise;
