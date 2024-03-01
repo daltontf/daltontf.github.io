@@ -25,6 +25,10 @@ p {
     line-height: 1.5em;
 }
 
+select {
+    background-color: white;
+}
+
 li.footnote {
     font-size: 75%;
 }
