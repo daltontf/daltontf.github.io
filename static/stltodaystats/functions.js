@@ -93,10 +93,13 @@
     let oldSchool = select.selectedOptions[0];
     select.innerHTML = "";
 
-    const selectQuery = document.getElementById("selectQuery");
-    selectQuery.innerHTML = "";
-
     const selectedSport = document.getElementById("selectSport").selectedOptions[0].value;
+    if (SPORT_QUERY_SET[selectedSport] != SPORT_QUERY_SET[lastSelectedSport]) {
+        const selectQuery = document.getElementById("selectQuery");
+        selectQuery.innerHTML = "";
+    }
+
+
     const dataPromise = fetch("./" + selectedSport + ".db").then(res => res.arrayBuffer());
     const buf = await dataPromise;
     DB = new SQL.Database(new Uint8Array(buf));
