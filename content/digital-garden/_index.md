@@ -1,6 +1,6 @@
 +++
 title = "\"Digital Garden\""
-weight = 0
+weight = 1
 +++
 
 ### Not A Blog?
