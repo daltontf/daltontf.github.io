@@ -1,6 +1,6 @@
 +++
 title = "About"
-weight = 0
+weight = 100
 +++
 
 ### Who Am I
