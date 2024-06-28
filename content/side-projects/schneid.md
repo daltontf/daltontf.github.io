@@ -11,12 +11,14 @@ The methodology I use to “score” a drought is that teams  get 1 / (number of
 
 Schneid points for more market driven so they are aggregated across six leagues, NFL, MLB, NBA, NHL, MLS and CFL (for Canadian markets)
 
- [https://docs.google.com/spreadsheets/d/e/2PACX-1vT-RPz6SEj9_6LJZIuhoT7eYK_X8yx5FwQltqKacAYJ9TY-qbm_u-GyHI1ngKstRfArV2yO8baK0mHK/pubhtml](https://docs.google.com/spreadsheets/d/e/2PACX-1vT-RPz6SEj9_6LJZIuhoT7eYK_X8yx5FwQltqKacAYJ9TY-qbm_u-GyHI1ngKstRfArV2yO8baK0mHK/pubhtml)
+ [https://docs.google.com/spreadsheets/d/1sYYKMUE6rAHdPfJfUHmymT_HZCi3_vxzwtPC4uGckyU/edit?usp=sharing](https://docs.google.com/spreadsheets/d/1sYYKMUE6rAHdPfJfUHmymT_HZCi3_vxzwtPC4uGckyU/edit?usp=sharing)
 
 
 Things to be aware of:
 
-The starting points of schneids are by when I thought the league reached a certain threshold of significance. Any active droughts at that are tracked to the beginning. The start year is just the time where any preceded drought are not calculated.
+- The year used is the year when the championship series/game takes place except the NFL where it is the year when the season began.
+
+- The starting points of schneids are by when I thought the league reached a certain threshold of significance. Any active droughts at that are tracked to the beginning. The start year is just the time where any preceded drought are not calculated.
 
 
 |League|Start|Comments|
