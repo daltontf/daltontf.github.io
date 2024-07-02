@@ -24,8 +24,8 @@ Things to be aware of:
 |:-|:-|:-|
 |NFL|1966|The Super Bowl era since there is a singular champion at this point. Prior to this the AFL is treated as a different league like the ABA or WHA. Any droughts from the NFL are carried over.|
 |MLB|1903|Founding of MLB and first World Series. Prior to this the NL and AL are both treated as “other” leagues.|
-|NBA|1967|The expansion from 6 to 12 teams.|
-|NHL|1949|BAA-NBL Merger to form NBA|
+|NBA|1949|BAA-NBL Merger to form NBA.|
+|NHL|1967|The expansion from 6 to 12 teams.|
 |MLS|1996|League founded.|
 
 3. When a championship is not played due to strike, layout or some other reason, the team is not counted that year. Similarly is the middle of the current year, only teams that have complete their season are tallied, so the numbers for the current year can be "wack".
