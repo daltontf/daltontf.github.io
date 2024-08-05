@@ -1,0 +1,12 @@
+{
+  "name": "wasm-minesweeper",
+  "version": "0.1.0",
+  "files": [
+    "wasm_minesweeper_bg.wasm",
+    "wasm_minesweeper.js",
+    "wasm_minesweeper.d.ts"
+  ],
+  "module": "wasm_minesweeper.js",
+  "types": "wasm_minesweeper.d.ts",
+  "sideEffects": false
+}
