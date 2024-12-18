@@ -87,6 +87,13 @@ market2.appendChild(createMarketOption(abr))
 }
 market1.selectedIndex = -1
 market2.selectedIndex = -1
+if (window.location.hash) {
+    target = window.location.hash.substring(1)    
+    document.getElementById(target).style.display = "block" 
+    markets = target.split("v")   
+    market1.value = markets[0];
+    market2.value = markets[1];
+}
 }
 
 function marketSelected(selectedSelect) {
