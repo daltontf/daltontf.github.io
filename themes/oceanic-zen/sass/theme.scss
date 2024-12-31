@@ -61,8 +61,8 @@ nav {
 }
 
 ul {
-    list-style: none inside none;
-    list-style-type: "·";
+    list-style: none;
+    list-style-type: "* ";
     padding: 0;
 }
 
@@ -206,3 +206,7 @@ img {
     display: inline-block;
     animation: cursor-blink 1.5s steps(1) infinite;
   } 
+
+  div.footnote-definition p {
+    display: inline
+  }
