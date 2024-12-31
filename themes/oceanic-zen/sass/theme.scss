@@ -207,6 +207,25 @@ img {
     animation: cursor-blink 1.5s steps(1) infinite;
   } 
 
+  table {
+    border: 1px solid;
+    border-collapse: collapse;
+    border-color: $light_green;
+  }
+
+  th {
+    border: 1px solid;
+    border-collapse: collapse;
+    border-color: $light_green;
+    padding: 5px 10px;
+  }
+
+  td {
+    border: 1px solid;
+    border-collapse: collapse;
+    border-color: $light_green;
+  }
+
   div.footnote-definition p {
     display: inline
   }

@@ -20,4 +20,4 @@ weight = 100
 
 The styling of this site is an homage to my first computers. The TRS-80 Color Computer [^1]. 
 
-[^1] Tandy should not have put the TRS-80 moniker on something that did not use the Z-80 processor.
+[^1]: Tandy should not have put the TRS-80 moniker on something that did not use the Z-80 processor.
