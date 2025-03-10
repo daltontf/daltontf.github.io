@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        
+
+        <title>A Place For My Online Stuff</title>
+
+        
+            <link rel="stylesheet" href="https://daltontf.github.io/theme.css">
+        
+        
+    </head>
+    <body>
+        <div class="content">
+        
+        
+            <header>
+                <div class="header-left">
+                    <a href="https:&#x2F;&#x2F;daltontf.github.io&#x2F;" class="logo">A Place For My Online Stuff</a><div class="cursor"> </div>
+                </div>
+                <div class="header-right">
+                    <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+                      <ul>
+                        
+                        <li class="nav">
+                            <a itemprop="url" href="https://github.com/daltontf">
+                                <img class="icon" src="https:&#x2F;&#x2F;daltontf.github.io&#x2F;/icons/github.svg" alt="Github">
+                            </a>
+                        </li>
+                        
+                      </ul>
+                    </nav>
+                </div>
+            </header>
+        
+        
+        <main>            
+            
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <div itemprop="headline">
+        <h1>The (Adjusted) Schneid</h1>
+        <div class="border"></div>
+    </div>
+    <div itemprop="articleBody">
+        <p>Being a sports fan, I’ve consumed a lot of sports commentary. One concept I stumbled on is the “Sports Misery Index”. Which is the relative “pain” a sports fan experiences rooting for a team or a set of teams in a given market. I thought to myself, wouldn’t it be interesting if we can come up with a mathematical formula to come up with such a number. All this is of course would be done tongue in cheek. Such a thing would be very subjective, weighing poor performance versus heartbreak, etc.</p>
+<p>One datapoint for such an index would be a measure of how long has it been since a team won the championship in its league. No two championship droughts are the same given that leagues can vary in size. The NHL had only six teams for a long time until expanding in 1967. </p>
+<p>The methodology I use to “score” a drought is that teams accumulate 1 / (number of teams in the league) “schneid points” for every year they fail to win a championship.</p>
+<p>Schneid points for more market driven so they are aggregated across six leagues, NFL, MLB, NBA, NHL, MLS and CFL (for Canadian markets).</p>
+<p><a href="https://docs.google.com/spreadsheets/d/1sYYKMUE6rAHdPfJfUHmymT_HZCi3_vxzwtPC4uGckyU/edit?usp=sharing">https://docs.google.com/spreadsheets/d/1sYYKMUE6rAHdPfJfUHmymT_HZCi3_vxzwtPC4uGckyU/edit?usp=sharing</a></p>
+<p>Things to be aware of:</p>
+<ol>
+<li>
+<p>The year used is the year when the championship series/game takes place except the NFL where it is the year when the season began.</p>
+</li>
+<li>
+<p>The starting points of schneids are when I thought the league reached a certain threshold of significance. Any active droughts at that point are tracked to the beginning. The start year is just the time where any preceded drought are not calculated.</p>
+</li>
+</ol>
+<table><thead><tr><th style="text-align: left">League</th><th style="text-align: left">Start</th><th style="text-align: left">Comments</th></tr></thead><tbody>
+<tr><td style="text-align: left">NFL</td><td style="text-align: left">1966</td><td style="text-align: left">The Super Bowl era since there is a singular champion at this point. Prior to this the AFL is treated as a different league like the ABA or WHA. Any droughts from the NFL are carried over.</td></tr>
+<tr><td style="text-align: left">MLB</td><td style="text-align: left">1903</td><td style="text-align: left">Founding of MLB and first World Series. Prior to this the NL and AL are both treated as “other” leagues.</td></tr>
+<tr><td style="text-align: left">NBA</td><td style="text-align: left">1949</td><td style="text-align: left">BAA-NBL Merger to form NBA.</td></tr>
+<tr><td style="text-align: left">NHL</td><td style="text-align: left">1967</td><td style="text-align: left">The expansion from 6 to 12 teams.</td></tr>
+<tr><td style="text-align: left">MLS</td><td style="text-align: left">1996</td><td style="text-align: left">League founded.</td></tr>
+</tbody></table>
+<ol start="3">
+<li>
+<p>When a championship is not played due to strike, layout or some other reason, the team is not counted that year. Similarly is the middle of the current year, only teams that have complete their season are tallied, so the numbers for the current year can be &quot;wack&quot;.</p>
+</li>
+<li>
+<p>Markets with multiple teams in the same league have likely less meaningful aggregates since it would assume that fans are equally invested in both teams.</p>
+</li>
+<li>
+<p>The “Carolina” market is treated as one large market even though the NHL Hurricanes play in Raleigh. Teams like the Brooklyn Nets are currently treated like they've been &quot;Brooklyn&quot; all along since Brooklyn is &quot;sub-market&quot; of New York. The Anaheim MLB team is treated the similarly. Also, the New York NFL teams are &quot;New York&quot; teams even though they play in New Jersey. </p>
+</li>
+<li>
+<p>When a market gets a new team via expansion it is the same as a team winning a championship, so market aggregate can go down due to an expansion team or relocation.</p>
+</li>
+<li>
+<p>When a team leaves a market the “schneid” for that team goes away unless another team ends up in that market. Should the leftover “schneid” decay? At what rate? Might be too subjective to implement.</p>
+</li>
+<li>
+<p>Organizational schneids are yet to be tracked. Otherwise, the NFL Cardinals would have an epic one going, but since they moved twice and spread the misery around.</p>
+</li>
+</ol>
+
+    </div>
+</article>
+
+        </main>
+        
+        <footer>
+            
+            <div class="border"></div>
+            <div class="footer">
+                <small class="footer-left">
+                    Copyright &copy; Tim Dalton
+                </small>
+                <small class="footer-right">
+                    Powered by <a href="https://www.getzola.org">Zola</a> | Theme <a href="https://github.com/barlog-m/oceanic-zen">Oceanic Zen (modified)</a>
+                </small>
+            </div>
+        
+        </footer>
+    
+        </div>
+    </body>
+</html>
