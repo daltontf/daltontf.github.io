@@ -12,7 +12,7 @@ last-update-date=["2024-08-03"]
 
 While working on a recent Java project where we had the concept of a `String id` and a `String token` for accessing persisted data indexed by that id and while requiring the caller provide a match for the token. 
 
-Both fields being `String` made me wish the type system could help me not get the two crossed as method parameters. I thought about Rust's "new type" that provide a form of that type safety at zero cost at runtime. (https://doc.rust-lang.org/rust-by-example/generics/new_types.html):
+Both fields being `String` made me wish the type system could help me not get the two crossed as method parameters. I thought about Rust's "new type" that provide a form of that type safety at zero cost at runtime. [https://doc.rust-lang.org/rust-by-example/generics/new_types.html]:
 
     struct Years(i64);
 
@@ -64,22 +64,29 @@ The addition of default methods to Java interfaces is basis of implementing this
 
 The idea circulating in my head would look involve a new keyword. Let's just call it `extension`. It will be a lot like an `interface` but will support a parameter indicating the implementing type:
 
-    extension Years(Long) {
+    extension Years to Long {
         public Days toDays() { 
             return this * 365 // what about leap years? ;)
         }
     }
 
-    extension Days(Long) {
+    extension Days to Long {
         /// truncates partial years
 	    public Years toYears() { 
 		    return this / 365;
         }
     }
 
-The `(Long)` parameters indicate the type implementing classes are restricted to. It could be `(Long this)` to be more explicit.
+The `to Long` indicates the type implementing classes are restricted to. The `to` can be replaced by a parens, square brackets or whatever if deemed better. Use of `for` seem intuitive but should it be used in a different contexts in loops?
 
-The `toYears()` method will be compile a method, `static Days.toYears(Long)`. The rest of the Rust code above in Java would look like:
+    extension Days : Long 
+    extension Days for Long 
+    extension Days(Long)
+    extension Days[Long]
+
+The `toYears()` method will be compile a method, `static Days.toYears(Long)`. 
+
+The rest of the Rust code above in Java would look like:
 
     boolean isAdult(Years age) {
         return age > 18L;	
@@ -94,9 +101,9 @@ The `toYears()` method will be compile a method, `static Days.toYears(Long)`. Th
     }
 
 
-The `Years age = 25L;` line indicates that age is a long that “implements” Years with toDays being a default method. 
+The `Years age = 25L;` line indicates that age is a long that “implements” `Years` with `toDays` being a default method. 
 
-The commented out line would fail at compile time since the method requires a Year implementation.
+The commented out line would fail at compile time since the method requires a `Year` implementation.
 
 ### 'Noodling' through other implications of this
 
@@ -106,7 +113,7 @@ Passing passing a `long` to `isAdult(Years age)` should require a cast to `Years
 
     boolean x = isAdult((Years) 20L);
 
-If the class above also had method:
+Java snippet above also had method:
 
     boolean isAdult(Days age) {
         return age.toYears() > 18L;	
@@ -128,8 +135,8 @@ If there is a method:
 
 Both `Years` and `Days` can be passed in. Inside the method the extension functionality is lost. They are just `long`.
 
-    stringMethod(age); 
-    stringMethod(ageDays);
+    longMethod(age); 
+    longMethod(ageDays);
 
 Both of these method calls are valid.
 
@@ -139,7 +146,7 @@ Both of these method calls are valid.
 
 Suppose there is a `Token` extension for a `String` for compile type type safety:
 
-    extension Token(String) { ... }
+    extension Token to String { ... }
 
 The compiler should take into account that method on an extension is being invoked and secondarily look for the method on the underlying type
 
@@ -150,7 +157,6 @@ The compiler should take into account that method on an extension is being invok
 ##### Overriding Methods of the Underlying Type
 
 
-
 Both `toUpperCase` invocations are valid and invoke at runtime of the `String.toUpperCase` method.
 
 ---
@@ -159,11 +165,11 @@ Both `toUpperCase` invocations are valid and invoke at runtime of the `String.to
 
 For a first implementation only multiple extensions would require inheritance: 
 
-    extension Foo(String) {
+    extension Foo to String {
         …
     }
 
-    extension FooBar(String) extends Foo{ 
+    extension FooBar to String extends Foo{ 
         …
     }
 
@@ -176,14 +182,14 @@ For a first implementation only multiple extensions would require inheritance:
 	    boolean isAdult();
     }
 
-    extension Year(Long) implements TestForAdulthood {
+    extension Year to Long implements TestForAdulthood {
         @Override
         boolean isAdult() {
 	        return this / 18;
         }    
     }
 
-    extension Days(Long) implements TestForAdulthood { 
+    extension Days to Long implements TestForAdulthood { 
         @Override
         boolean isAdult() {
 	        return this.toYears().isAdult();
