@@ -20,22 +20,25 @@ Notes:
 - This is a side-project and so there are limits due to the simplicity of the approach to associating teams with markets. What market a team represents is based on the name. Some markets are "sub-markets" and team names may have the name of the larger market:
 
   - The Golden State Warriors are considered to be a San Francisco team despite playing in Oakland for a while. 
+  - Same with New York teams that play in New Jersey. A team is considered a New Jersey team if it is the name.
   - The Angels of the MLB have been based in Anaheim since 1966, but have only incorporated "Anaheim" in the the name from 1997 to 2015. 
   
   Update: Since the Angels have been in Anaheim their entire existence including when they were the "Los Angeles Angels", it is now excluded from being a "Los Angeles" team and is associated with Anaheim.
 
 - What leagues are included don't follow a specific criteria. 
-If a league had enough markets that are now "major" markets and there was results to be found, it was considered for inclusion. Attendance and whether the league is "national" in nature (spanning time zones) also makes a league more "major" than others.
+If a league had enough markets that are now "major" markets and there was results to be found, it was considered for inclusion. attendance and whether the league is "national" in nature (spanning time zones) also makes a league closer to "major" than others.
 
-  - Initially only five sports (football, baseball, basketball, hockey and soccer) plus "derivatives" (i.e. arena football or indoor soccer) are included. Recently sports like lacrosse, rugby and volleyball have been added.
+
+
+- Initially only five sports (football, baseball, basketball, hockey and soccer) plus "derivatives" (i.e. arena football or indoor soccer) are included. Recently sports like lacrosse, rugby and volleyball have been added.
 
 
 
 Known Data Gaps:
    - Currently, the "Original Six" era of the NHL has yet to be added. One can make a case that the league wasn't "national" enough, but it will eventually get added.
-   - The International Hockey League had some large markets particularly in the '90s. I couldn't find "scrape-able" data before 1995.
-   - I only have Negro Leagues data from 1939-1948
-
+   - The International Hockey League had some large markets particularly in the '90s. I couldn't find "scrape-able" data before 1995. The IHL didn't feature significant major markets until several years before.
+   - I only have Negro Leagues data from 1939-1948.
+   - Since the second incarnation of the USFL prior to merger with the XFL to form the UFL used a hub-model and most teams never actually played in the markets, they've are omitted.
 
 
   
