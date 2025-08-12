@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        
+
+        <title>A Place For My Online Stuff</title>
+
+        
+            <link rel="stylesheet" href="https://daltontf.github.io/theme.css">
+        
+        
+    </head>
+    <body>
+        <div class="content">
+        
+        
+            <header>
+                <div class="header-left">
+                    <a href="https:&#x2F;&#x2F;daltontf.github.io&#x2F;" class="logo">A Place For My Online Stuff</a><div class="cursor"> </div>
+                </div>
+                <div class="header-right">
+                    <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+                      <ul>
+                        
+                        <li class="nav">
+                            <a itemprop="url" href="https://github.com/daltontf">
+                                <img class="icon" src="https:&#x2F;&#x2F;daltontf.github.io&#x2F;/icons/github.svg" alt="Github">
+                            </a>
+                        </li>
+                        
+                      </ul>
+                    </nav>
+                </div>
+            </header>
+        
+        
+        <main>            
+            
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <div itemprop="headline">
+        <h1>Market Aggregate Head to Head Totals</h1>
+        <div class="border"></div>
+    </div>
+    <div itemprop="articleBody">
+        <p>The idea started in 2023 when I was watching St. Louis CITY SC play its first MLS match vs the Portland Timbers. I was wondering to myself if this was the first time that a professional sports team from St. Louis had ever faced a team from Portland. Portland only has an NBA team and St. Louis hasn't had an NBA team since 1968.Maybe teams played previously in what is a now defunct league?<sup class="footnote-reference"><a href="#1">1</a></sup> </p>
+<p>I had become familiar with the ESPN API when writing my &quot;roScore&quot; Roku App&quot; <a href="https://github.com/daltontf/roScore">https://github.com/daltontf/roScore</a> and developed scripts to storing such data in MySQL database. Over time I had to find other sources of older and more obscure results like <a href="https://retrosheet.org/">https://retrosheet.org/</a>, <a href="https://www.hockeydb.com">https://www.hockeydb.com</a> and sometimes just copying out of Wikipedia. </p>
+<p>Here is the link to the page:</p>
+<p><a href="https://daltontf.github.io/market_head2head.html">https://daltontf.github.io/market_head2head.html</a></p>
+<p>One can include anchors in the URL to directly display two markets:</p>
+<p><a href="https://daltontf.github.io/market_head2head.html#KCvSTL">https://daltontf.github.io/market_head2head.html#KCvSTL</a></p>
+<p>Notes:</p>
+<ul>
+<li>
+<p>This is a side-project and so there are limits due to the simplicity of the approach to associating teams with markets. What market a team represents is based on the name. Some markets are &quot;sub-markets&quot; and team names may have the name of the larger market:</p>
+<ul>
+<li>The Golden State Warriors are considered to be a San Francisco team despite playing in Oakland for a while. </li>
+<li>Same with New York teams that play in New Jersey. A team is considered a New Jersey team if it is the name.</li>
+<li>The Angels of the MLB have been based in Anaheim since 1966, but have only incorporated &quot;Anaheim&quot; in the the name from 1997 to 2015. </li>
+</ul>
+<p>Update: Since the Angels have been in Anaheim their entire existence including when they were the &quot;Los Angeles Angels&quot;, it is now excluded from being a &quot;Los Angeles&quot; team and is associated with Anaheim.</p>
+</li>
+<li>
+<p>What leagues are included don't follow a specific criteria. 
+If a league had enough markets that are now &quot;major&quot; markets and there was results to be found, it was considered for inclusion. attendance and whether the league is &quot;national&quot; in nature (spanning time zones) also makes a league closer to &quot;major&quot; than others.</p>
+</li>
+<li>
+<p>Initially only five sports (football, baseball, basketball, hockey and soccer) plus &quot;derivatives&quot; (i.e. arena football or indoor soccer) are included. Recently sports like lacrosse, rugby and volleyball have been added.</p>
+</li>
+</ul>
+<p>Known Data Gaps:</p>
+<ul>
+<li>Currently, the &quot;Original Six&quot; era of the NHL has yet to be added. One can make a case that the league wasn't &quot;national&quot; enough, but it will eventually get added.</li>
+<li>The International Hockey League had some large markets particularly in the '90s. I couldn't find &quot;scrape-able&quot; data before 1995. The IHL didn't feature significant major markets until several years before.</li>
+<li>I only have Negro Leagues data from 1939-1948.</li>
+<li>Since the second incarnation of the USFL prior to merger with the XFL to form the UFL used a hub-model and most teams never actually played in the markets, they've are omitted.</li>
+</ul>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Turns out that the St. Louis Stars of the North American Soccer League had played against earlier incarnation of the Timbers.</p>
+</div>
+
+    </div>
+</article>
+
+        </main>
+        
+        <footer>
+            
+            <div class="border"></div>
+            <div class="footer">
+                <small class="footer-left">
+                    Copyright &copy; Tim Dalton
+                </small>
+                <small class="footer-right">
+                    Powered by <a href="https://www.getzola.org">Zola</a> | Theme <a href="https://github.com/barlog-m/oceanic-zen">Oceanic Zen (modified)</a>
+                </small>
+            </div>
+        
+        </footer>
+    
+        </div>
+    </body>
+</html>
