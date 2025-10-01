@@ -97,7 +97,7 @@ market1.selectedIndex = -1
 market2.selectedIndex = -1
 if (window.location.hash) {
 target = window.location.hash.substring(1)
-document.getElementById(target).style.display = \"block\"
+document.getElementById(target).style.display = "block"
 markets = target.split("v")
 market1.value = markets[0];
 market2.value = markets[1];
@@ -111,17 +111,17 @@ let otherSelect = selectedSelect == market1 ? market2 : market1
 if (selectedSelect.selectedIndex > -1) {
 if (otherSelect.selectedIndex > -1) {
 if (selectedSelect.value < otherSelect.value) {
-target = selectedSelect.value + \"v\" + otherSelect.value
+target = selectedSelect.value + "v" + otherSelect.value
 } else {
-target = otherSelect.value + \"v\" + selectedSelect.value
+target = otherSelect.value +"v" + selectedSelect.value
 }
 window.location.hash = target
 let divs = document.getElementsByTagName("DIV")
 for (i = 0; i < divs.length; i++) {
-divs[i].style.display = \"none\"
+divs[i].style.display = "none"
 }
 hideAll()
-document.getElementById(target).style.display = \"block\"
+document.getElementById(target).style.display = "block"
 }
 }
 }
@@ -129,7 +129,7 @@ document.getElementById(target).style.display = \"block\"
 function hideAll() {
 let divs = document.getElementsByTagName("DIV")
 for (i = 0; i < divs.length; i++) {
-divs[i].style.display = \"none\"
+divs[i].style.display = "none"
 }
 }
 
