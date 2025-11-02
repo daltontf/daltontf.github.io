@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        
+
+        <title>A Place For My Online Stuff</title>
+
+        
+            <link rel="stylesheet" href="https://daltontf.github.io/theme.css">
+        
+        
+    </head>
+    <body>
+        <div class="content">
+        
+        
+            <header>
+                <div class="header-left">
+                    <a href="https:&#x2F;&#x2F;daltontf.github.io&#x2F;" class="logo">A Place For My Online Stuff</a><div class="cursor"> </div>
+                </div>
+                <div class="header-right">
+                    <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+                      <ul>
+                        
+                        <li class="nav">
+                            <a itemprop="url" href="https://github.com/daltontf">
+                                <img class="icon" src="https:&#x2F;&#x2F;daltontf.github.io&#x2F;/icons/github.svg" alt="Github">
+                            </a>
+                        </li>
+                        
+                      </ul>
+                    </nav>
+                </div>
+            </header>
+        
+        
+        <main>            
+            
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <div itemprop="headline">
+        <h1>Proposed Java Syntax for Extension Methods and Type Safety</h1>
+        <div class="border"></div>
+    </div>
+    <div itemprop="articleBody">
+        <h3 id="the-initial-idea">The Initial Idea</h3>
+<p>While working on a recent Java project where we had the concept of a <code>String id</code> and a <code>String token</code> for accessing persisted data indexed by that id and while requiring the caller provide a match for the token. </p>
+<p>Both fields being <code>String</code> made me wish the type system could help me not get the two crossed as method parameters. I thought about Rust's &quot;new type&quot; that provide a form of that type safety at zero cost at runtime. [https://doc.rust-lang.org/rust-by-example/generics/new_types.html]:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>struct Years(i64);
+</span><span>
+</span><span>struct Days(i64);
+</span><span>
+</span><span>impl Years {
+</span><span>    pub fn to_days(&amp;self) -&gt; Days {
+</span><span>	    Days(self.0 * 365)
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span>impl Days {
+</span><span>    /// truncates partial years
+</span><span>    pub fn to_years(&amp;self) -&gt; Years {
+</span><span>	    Years(self.0 / 365)
+</span><span>	}
+</span><span>}
+</span><span>
+</span><span>fn is_adult(age: &amp;Years) -&gt; bool {
+</span><span>    age.0 &gt;= 18
+</span><span>}
+</span><span>
+</span><span>fn main() {
+</span><span>    let age = Years(25);
+</span><span>    let age_days = age.to_days();
+</span><span>    println!(&quot;Is an adult? {}&quot;, is_adult(&amp;age));
+</span><span>    println!(&quot;Is an adult? {}&quot;, is_adult(&amp;age_days.to_years()));
+</span><span>    // println!(&quot;Is an adult? {}&quot;, is_adult(&amp;age_days));
+</span><span>}
+</span></code></pre>
+<p>Though is &quot;zero cost&quot; at runtime, however there is some syntactic overhead to reference contained value of the <code>struct</code> as a single element tuple.</p>
+<hr />
+<h5 id="something-like-this-but-java">Something Like This, But Java</h5>
+<p>The idea that popped in my head for the type safety also provides a way of supporting extension methods to existing class without inheritance. </p>
+<p>The addition of default methods to Java interfaces is basis of implementing this concept. However, three other things would need to be added. </p>
+<ol>
+<li>
+<p>A way to restrict the type that can implement an interface. Kind of like Scala can with Traits:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span> trait MyTrait {
+</span><span>     this: RestrictedToType =&gt; ...
+</span></code></pre>
+</li>
+<li>
+<p>Force the interface to only have default methods. This is for existing classes as a way to extend them.</p>
+</li>
+<li>
+<p>Have the compiler treat an object with the interface type as an instance of that type OR the &quot;restricted to&quot; type.</p>
+</li>
+</ol>
+<p>The idea circulating in my head would look involve a new keyword. Let's just call it <code>extension</code>. It will be a lot like an <code>interface</code> but will support a parameter indicating the implementing type:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>extension Years to Long {
+</span><span>    public Days toDays() { 
+</span><span>        return this * 365 // what about leap years? ;)
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span>extension Days to Long {
+</span><span>    /// truncates partial years
+</span><span>    public Years toYears() { 
+</span><span>	    return this / 365;
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>The <code>to Long</code> indicates the type implementing classes are restricted to. The <code>to</code> can be replaced by a parens, square brackets or whatever if deemed better. Use of <code>for</code> seem intuitive but should it be used in a different contexts in loops?</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>extension Days : Long 
+</span><span>extension Days for Long 
+</span><span>extension Days(Long)
+</span><span>extension Days[Long]
+</span></code></pre>
+<p>The <code>toYears()</code> method will be compile a method, <code>static Days.toYears(Long)</code>. </p>
+<p>The rest of the Rust code above in Java would look like:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>boolean isAdult(Years age) {
+</span><span>    return age &gt; 18L;	
+</span><span>}
+</span><span>
+</span><span>void main() {
+</span><span>    Years age = 25L; 
+</span><span>    Days ageDays = age.toDays();
+</span><span>    System.out.printf(&quot;Is an adult? %d&quot;, isAdult(age));
+</span><span>    System.out.printf(&quot;Is an adult? %d&quot;, isAdult(ageDays.toYears()));
+</span><span>    // System.out.printf(&quot;Is an adult? %d&quot;, isAdult(ageDays)); 
+</span><span>}
+</span></code></pre>
+<p>The <code>Years age = 25L;</code> line indicates that age is a long that “implements” <code>Years</code> with <code>toDays</code> being a default method. </p>
+<p>The commented out line would fail at compile time since the method requires a <code>Year</code> implementation.</p>
+<h3 id="noodling-through-other-implications-of-this">'Noodling' through other implications of this</h3>
+<h5 id="passing-to-methods">Passing to Methods</h5>
+<p>Passing passing a <code>long</code> to <code>isAdult(Years age)</code> should require a cast to <code>Years</code>:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>boolean x = isAdult((Years) 20L);
+</span></code></pre>
+<p>Java snippet above also had method:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>boolean isAdult(Days age) {
+</span><span>    return age.toYears() &gt; 18L;	
+</span><span>}    
+</span></code></pre>
+<p>And this method below (even if this is what this enhancement is trying to help with):</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>boolean isAdult(long age) {
+</span><span>    // code that makes assumptions about what &#39;age&#39; represents...	
+</span><span>}
+</span></code></pre>
+<p>The three <code>isAdult</code> methods should be able co-exist since the methods take three different types <code>long</code>, <code>Years</code> and <code>Days</code>.</p>
+<hr />
+<p>If there is a method:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>public longMethod(long age) { … }
+</span></code></pre>
+<p>Both <code>Years</code> and <code>Days</code> can be passed in. Inside the method the extension functionality is lost. They are just <code>long</code>.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>longMethod(age); 
+</span><span>longMethod(ageDays);
+</span></code></pre>
+<p>Both of these method calls are valid.</p>
+<hr />
+<h5 id="calling-methods-on-the-underlying-type">Calling Methods on the Underlying Type</h5>
+<p>Suppose there is a <code>Token</code> extension for a <code>String</code> for compile type type safety:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>extension Token to String { ... }
+</span></code></pre>
+<p>The compiler should take into account that method on an extension is being invoked and secondarily look for the method on the underlying type</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>Token token = &quot;foobar&quot;;
+</span><span>String upShiftedString = token.toUpperCase();
+</span><span>Token upShiftedToken = token.toUpperCase();
+</span></code></pre>
+<h5 id="overriding-methods-of-the-underlying-type">Overriding Methods of the Underlying Type</h5>
+<p>Both <code>toUpperCase</code> invocations are valid and invoke at runtime of the <code>String.toUpperCase</code> method.</p>
+<hr />
+<h5 id="supporting-multiple-extensions">Supporting Multiple 'Extensions'</h5>
+<p>For a first implementation only multiple extensions would require inheritance: </p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>extension Foo to String {
+</span><span>    …
+</span><span>}
+</span><span>
+</span><span>extension FooBar to String extends Foo{ 
+</span><span>    …
+</span><span>}
+</span><span>
+</span><span>FooBar fooBar = “foobar”;
+</span></code></pre>
+<hr />
+<h5 id="extensions-can-implement-interfaces">Extensions can implement interfaces</h5>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>interface TestForAdulthood {
+</span><span>    boolean isAdult();
+</span><span>}
+</span><span>
+</span><span>extension Year to Long implements TestForAdulthood {
+</span><span>    @Override
+</span><span>    boolean isAdult() {
+</span><span>        return this / 18;
+</span><span>    }    
+</span><span>}
+</span><span>
+</span><span>extension Days to Long implements TestForAdulthood { 
+</span><span>    @Override
+</span><span>    boolean isAdult() {
+</span><span>        return this.toYears().isAdult();
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>At runtime, extensions are just interfaces with nothing but default methods. Which brings up the subject of reflection. </p>
+<p>Should the &quot;restricted to&quot; type of the interface be like a generic type and not be available for introspection? For a proof a concept, reflection is not a necessity. </p>
+
+    </div>
+</article>
+
+        </main>
+        
+        <footer>
+            
+            <div class="border"></div>
+            <div class="footer">
+                <small class="footer-left">
+                    Copyright &copy; Tim Dalton
+                </small>
+                <small class="footer-right">
+                    Powered by <a href="https://www.getzola.org">Zola</a> | Theme <a href="https://github.com/barlog-m/oceanic-zen">Oceanic Zen (modified)</a>
+                </small>
+            </div>
+        
+        </footer>
+    
+        </div>
+    </body>
+</html>
