@@ -18,7 +18,7 @@ Things to be aware of:
 
 1. The year used is the year when the championship series/game takes place except the NFL where it is the year when the season began.
 
-1. The starting points of schneids are when I thought the league reached a certain threshold of significance. Any active droughts at that point are tracked to the beginning. The start year is just the time where any preceded drought are not calculated.
+1. The starting points of schneids are when I thought the league reached a certain threshold of significance. Any active droughts at that point are tracked to the beginning. The start year is just the time where any preceding drought is not calculated.
 
 |League|Start|Comments|
 |:-|:-|:-|
@@ -28,11 +28,11 @@ Things to be aware of:
 |NHL|1967|The expansion from 6 to 12 teams.|
 |MLS|1996|League founded.|
 
-3. When a championship is not played due to strike, layout or some other reason, the team is not counted that year. Similarly is the middle of the current year, only teams that have complete their season are tallied, so the numbers for the current year can be "wack".
+1. When a championship is not played due to strike, layout or some other reason, the team is not counted that year. 
 
 1. Markets with multiple teams in the same league have likely less meaningful aggregates since it would assume that fans are equally invested in both teams.
 
-1. The “Carolina” market is treated as one large market even though the NHL Hurricanes play in Raleigh. Teams like the Brooklyn Nets are currently treated like they've been "Brooklyn" all along since Brooklyn is "sub-market" of New York. The Anaheim MLB team is treated the similarly. Also, the New York NFL teams are "New York" teams even though they play in New Jersey. 
+1. The “Carolina” market is treated as one large market even though the NHL Hurricanes play in Raleigh and others in Charlotte. Teams like the Brooklyn Nets are currently treated like they've been "Brooklyn" all along since Brooklyn is "sub-market" of New York. The Anaheim MLB team is treated the similarly. Also, the New York NFL teams are "New York" teams even though they play in New Jersey. 
 
 1. When a market gets a new team via expansion it is the same as a team winning a championship, so market aggregate can go down due to an expansion team or relocation.
 
