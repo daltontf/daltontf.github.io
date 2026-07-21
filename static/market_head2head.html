@@ -1,157 +1,157 @@
 <html><head>
 <style>
 select, button {
-font-size: 32;
+    font-size: 32;
 }
 body {
-background-color: #000;
-color: #DDD
+    background-color: #000;
+    color: #DDD
 }
 caption {
-font-weight: bold;
-text-align: left;
-padding: 5px;
+   font-weight: bold; 
+   text-align: left;
+   padding: 5px;
 }
 table, th, tr, td {
-border: 1px solid;
-border-collapse: collapse;
-padding: 5px;
+    border: 1px solid;
+    border-collapse: collapse;
+    padding: 5px;
 }
 </style>
 <script lang="javascript">
 var markets = {
-ANA : ["Anaheim"],
-ATL : ["Atlanta"],
-AUS : ["Austin"],
-BAL : ["Baltimore"],
-BIR : ["Birmingham"],
-BOS : ["Boston"],
-BUF : ["Buffalo"],
-CAL : ["Calgary"],
-CHI : ["Chicago"],
-CIN : ["Cincinnati"],
-CLE : ["Cleveland"],
-CLT : ["Charlotte"],
-COL : ["Columbus"],
-DAL : ["Dallas"],
-DEN : ["Denver"],
-DET : ["Detroit"],
-EDM : ["Edmonton"],
-HFD : ["Hartford/Connecticut"],
-HOU : ["Houston"],
-IND : ["Indianapolis"],
-JAX : ["Jacksonville"],
-KC : ["Kansas City"],
-LA : ["Los Angeles"],
-LV : ["Las Vegas"],
-LOU : ["Louisville"],
-MEM : ["Memphis"],
-MIA : ["Miami"],
-MIN : ["Minneapolis-St.Paul"],
-MIL : ["Milwaukee"],
-MON : ["Montreal"],
-NSH : ["Nashville"],
-NO : ["New Orleans"],
-NJ : ["New Jersey"],
-NY : ["New York"],
-OAK : ["Oakland"],
-OKC : ["Oklahoma City"],
-OMA : ["Omaha"],
-ORL : ["Orlando"],
-OTT : ["Ottawa"],
-PHI : ["Philadelphia"],
-PHX : ["Phoenix"],
-PIT : ["Pittsburgh"],
-POR : ["Portland"],
-RAL : ["Raleigh"],
-SAC : ["Sacramento"],
-SLC : ["Salt Lake City"],
-SA : ["San Antonio"],
-SD : ["San Diego"],
-SF : ["San Francisco"],
-SJ : ["San Jose"],
-SEA : ["Seattle"],
-STL : ["St. Louis"],
-TB : ["Tampa"],
-TOR : ["Toronto"],
-VAN : ["Vancouver"],
-WAS : ["Washington DC"],
-WIN : ["Winnipeg"]
+    "ANA": ["Anaheim"],
+    "ATL": ["Atlanta"],
+    "AUS": ["Austin"],
+    "BAL": ["Baltimore"],
+    "BIR": ["Birmingham"],
+    "BOS": ["Boston"],
+    "BUF": ["Buffalo"],
+    "CAL": ["Calgary"],
+    "CHI": ["Chicago"],
+    "CIN": ["Cincinnati"],
+    "CLE": ["Cleveland"],
+    "CLT": ["Charlotte"],
+    "COL": ["Columbus"],
+    "DAL": ["Dallas"],
+    "DEN": ["Denver"],
+    "DET": ["Detroit"],
+    "EDM": ["Edmonton"],
+    "HFD": ["Hartford/Connecticut"],
+    "HOU": ["Houston"],
+    "IND": ["Indianapolis"],
+    "JAX": ["Jacksonville"],
+    "KC" : ["Kansas City"],
+    "LA" : ["Los Angeles"],
+    "LV" : ["Las Vegas"],
+    "LOU": ["Louisville"],
+    "MEM": ["Memphis"],
+    "MIA": ["Miami"],
+    "MIN": ["Minneapolis-St.Paul"],
+    "MIL": ["Milwaukee"],
+    "MON": ["Montreal"],
+    "NSH": ["Nashville"],
+    "NO" : ["New Orleans"],
+    "NJ" : ["New Jersey"],
+    "NY" : ["New York"],
+    "OAK": ["Oakland"],
+    "OKC": ["Oklahoma City"],
+    "OMA": ["Omaha"],
+    "ORL": ["Orlando"],
+    "OTT": ["Ottawa"],
+    "PHI": ["Philadelphia"],
+    "PHX": ["Phoenix"],
+    "PIT": ["Pittsburgh"],
+    "POR": ["Portland"],
+    "RAL": ["Raleigh"],
+    "SAC": ["Sacramento"],
+    "SLC": ["Salt Lake City"],
+    "SA" : ["San Antonio"],
+    "SD" : ["San Diego"],
+    "SF" : ["San Francisco"],
+    "SJ" : ["San Jose"],
+    "SEA": ["Seattle"],
+    "STL": ["St. Louis"],
+    "TB" : ["Tampa"],
+    "TOR": ["Toronto"],
+    "VAN": ["Vancouver"],
+    "WAS": ["Washington DC"],    
+    "WIN": ["Winnipeg"]
 }
 
 function createMarketOption(abr) {
-option = document.createElement('option');
-option.setAttribute('value', abr);
-option.appendChild(document.createTextNode(markets[abr]));
-return option
+    option = document.createElement("option");
+    option.setAttribute("value", abr);
+    option.appendChild(document.createTextNode(markets[abr]));
+    return option
 }
 
 function init() {
-let market1 = document.getElementById("market1")
-let market2 = document.getElementById("market2")
-for (let abr in markets) {
-market1.appendChild(createMarketOption(abr))
-market2.appendChild(createMarketOption(abr))
-}
-market1.selectedIndex = -1
-market2.selectedIndex = -1
-if (window.location.hash) {
-target = window.location.hash.substring(1)
-document.getElementById(target).style.display = "block"
-markets = target.split("v")
-market1.value = markets[0];
-market2.value = markets[1];
+   let market1 = document.getElementById("market1")
+   let market2 = document.getElementById("market2")
+   for (let abr in markets) {
+     market1.appendChild(createMarketOption(abr))
+     market2.appendChild(createMarketOption(abr))
+   }
+   market1.selectedIndex = -1
+   market2.selectedIndex = -1
+   if (window.location.hash) {
+    target = window.location.hash.substring(1)    
+    document.getElementById(target).style.display = "block" 
+    markets = target.split("v")   
+    market1.value = markets[0];
+    market2.value = markets[1];
 }
 }
 
 function marketSelected(selectedSelect) {
-let market1 = document.getElementById("market1")
-let market2 = document.getElementById("market2")
-let otherSelect = selectedSelect == market1 ? market2 : market1
-if (selectedSelect.selectedIndex > -1) {
-if (otherSelect.selectedIndex > -1) {
-if (selectedSelect.value < otherSelect.value) {
-target = selectedSelect.value + "v" + otherSelect.value
-} else {
-target = otherSelect.value + "v" + selectedSelect.value
-}
-window.location.hash = target
-let divs = document.getElementsByTagName("DIV")
-for (i = 0; i < divs.length; i++) {
-divs[i].style.display = "none"
-}
-hideAll()
-document.getElementById(target).style.display = "block"
-}
-}
+   let market1 = document.getElementById("market1")
+   let market2 = document.getElementById("market2")
+   let otherSelect = selectedSelect == market1 ? market2 : market1
+   if (selectedSelect.selectedIndex > -1) {
+    if (otherSelect.selectedIndex > -1) {
+        if (selectedSelect.value < otherSelect.value) {
+            target = selectedSelect.value + "v" + otherSelect.value
+        } else {
+            target = otherSelect.value + "v" + selectedSelect.value   
+        }   
+        window.location.hash = target
+        let divs = document.getElementsByTagName("DIV")
+        for (i = 0; i < divs.length; i++) {
+          divs[i].style.display = "none" 
+        }
+        hideAll()  
+        document.getElementById(target).style.display = "block"
+    }    
+   }
 }
 
 function hideAll() {
-let divs = document.getElementsByTagName("DIV")
-for (i = 0; i < divs.length; i++) {
-divs[i].style.display = "none"
-}
+  let divs = document.getElementsByTagName("DIV")
+  for (i = 0; i < divs.length; i++) {
+    divs[i].style.display = "none" 
+  }
 }
 
 function reset() {
-let market1 = document.getElementById("market1")
-let market2 = document.getElementById("market2")
-market1.selectedIndex = -1
-market2.selectedIndex = -1
+    let market1 = document.getElementById("market1")
+    let market2 = document.getElementById("market2")
+    market1.selectedIndex = -1
+    market2.selectedIndex = -1
 
-hideAll()
+    hideAll()
 }
 </script>
 </head>
 <body onload="javascript:init()">
 <table id="marketsSelects"></table>
-<tr>
-<td><select id="market1" onchange="marketSelected(this)"></select></td>
-<td><select id="market2" onchange="marketSelected(this)"></select></td>
-<td><button onclick="reset()">Reset</button>
-</tr>
-</table>
-
+    <tr>
+        <td><select id="market1" onchange="marketSelected(this)"></select></td>
+        <td><select id="market2" onchange="marketSelected(this)"></select></td>
+        <td><button onclick="reset()">Reset</button>
+    </tr>
+</table>    
+  
 <div id="ANAvATL" style="display:none">
 <a name="ANAvATL"><p>ANA vs ATL</p></a>
 <table><caption>ANA - ATL by Matchup:</caption>
@@ -293,9 +293,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Baltimore Orioles at Los Angeles Angels</TD>
 <TD>1961-05-02</TD>
-<TD>2025-05-11</TD>
-<TD>63</TD>
-<TD>48</TD>
+<TD>2026-06-24</TD>
+<TD>65</TD>
+<TD>49</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -322,8 +322,8 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>317</TD>
-<TD>381</TD>
+<TD>319</TD>
+<TD>382</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -332,8 +332,8 @@ hideAll()
 <TH>BAL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>317</TD>
-<TD>381</TD>
+<TR><TD>319</TD>
+<TD>382</TD>
 <TD>0</TD>
 </TR>
 </table><hr/></div>
@@ -1263,9 +1263,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Colorado Rockies at Los Angeles Angels</TD>
 <TD>2005-03-05</TD>
-<TD>2026-03-15</TD>
-<TD>23</TD>
-<TD>18</TD>
+<TD>2026-06-04</TD>
+<TD>24</TD>
+<TD>20</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -1337,8 +1337,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>63</TD>
-<TD>46</TD>
+<TD>64</TD>
+<TD>48</TD>
 <TD>5</TD>
 </TR>
 <TR><TD>National Hockey League</TD>
@@ -1357,8 +1357,8 @@ hideAll()
 <TH>DEN Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>124</TD>
-<TD>118</TD>
+<TR><TD>125</TD>
+<TD>120</TD>
 <TD>16</TD>
 </TR>
 </table><hr/></div>
@@ -1635,9 +1635,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Houston Astros at Los Angeles Angels</TD>
 <TD>2007-06-19</TD>
-<TD>2025-09-28</TD>
-<TD>45</TD>
-<TD>68</TD>
+<TD>2026-06-11</TD>
+<TD>47</TD>
+<TD>69</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -1661,8 +1661,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>90</TD>
-<TD>140</TD>
+<TD>92</TD>
+<TD>141</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -1671,8 +1671,8 @@ hideAll()
 <TH>HOU Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>96</TD>
-<TD>143</TD>
+<TR><TD>98</TD>
+<TD>144</TD>
 <TD>0</TD>
 </TR>
 </table><hr/></div>
@@ -1878,9 +1878,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Los Angeles Angels at Los Angeles Dodgers</TD>
 <TD>2005-04-03</TD>
-<TD>2026-03-25</TD>
-<TD>43</TD>
-<TD>51</TD>
+<TD>2026-06-07</TD>
+<TD>44</TD>
+<TD>53</TD>
 <TD>5</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -1939,8 +1939,8 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>123</TD>
-<TD>111</TD>
+<TD>124</TD>
+<TD>113</TD>
 <TD>10</TD>
 </TR>
 <TR><TD>National Hockey League</TD>
@@ -1954,8 +1954,8 @@ hideAll()
 <TH>LA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>222</TD>
-<TD>225</TD>
+<TR><TD>223</TD>
+<TD>227</TD>
 <TD>29</TD>
 </TR>
 </table><hr/></div>
@@ -3364,9 +3364,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Los Angeles Angels at Arizona Diamondbacks</TD>
 <TD>2005-03-09</TD>
-<TD>2026-02-22</TD>
-<TD>21</TD>
-<TD>15</TD>
+<TD>2026-06-17</TD>
+<TD>22</TD>
+<TD>17</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Hockey League</TD>
@@ -3446,8 +3446,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>57</TD>
-<TD>42</TD>
+<TD>58</TD>
+<TD>44</TD>
 <TD>5</TD>
 </TR>
 <TR><TD>National Hockey League</TD>
@@ -3466,8 +3466,8 @@ hideAll()
 <TH>PHX Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>157</TD>
-<TD>131</TD>
+<TR><TD>158</TD>
+<TD>133</TD>
 <TD>16</TD>
 </TR>
 </table><hr/></div>
@@ -4079,9 +4079,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Los Angeles Angels at Seattle Mariners</TD>
 <TD>2005-03-24</TD>
-<TD>2026-03-03</TD>
+<TD>2026-07-01</TD>
 <TD>104</TD>
-<TD>97</TD>
+<TD>99</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -4141,7 +4141,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>437</TD>
-<TD>388</TD>
+<TD>390</TD>
 <TD>3</TD>
 </TR>
 <TR><TD>National Hockey League</TD>
@@ -4156,7 +4156,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>444</TD>
-<TD>399</TD>
+<TD>401</TD>
 <TD>3</TD>
 </TR>
 </table><hr/></div>
@@ -4325,9 +4325,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Tampa Bay Rays at Los Angeles Angels</TD>
 <TD>2008-06-10</TD>
-<TD>2025-08-06</TD>
-<TD>22</TD>
-<TD>40</TD>
+<TD>2026-06-14</TD>
+<TD>24</TD>
+<TD>41</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Hockey League</TD>
@@ -4375,8 +4375,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>113</TD>
-<TD>108</TD>
+<TD>115</TD>
+<TD>109</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Hockey League</TD>
@@ -4390,8 +4390,8 @@ hideAll()
 <TH>TB Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>133</TD>
-<TD>137</TD>
+<TR><TD>135</TD>
+<TD>138</TD>
 <TD>2</TD>
 </TR>
 </table><hr/></div>
@@ -5450,10 +5450,10 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Atlanta Braves at Chicago White Sox</TD>
 <TD>2004-06-12</TD>
-<TD>2024-06-27</TD>
+<TD>2026-06-11</TD>
 <TD>5</TD>
-<TD>10</TD>
-<TD>0</TD>
+<TD>12</TD>
+<TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>Chicago Cubs at Atlanta Braves</TD>
@@ -5570,8 +5570,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Atlanta Dream at Chicago Sky</TD>
 <TD>2008-06-08</TD>
-<TD>2026-04-29</TD>
-<TD>17</TD>
+<TD>2026-06-09</TD>
+<TD>18</TD>
 <TD>20</TD>
 <TD>0</TD>
 </TR>
@@ -5602,8 +5602,8 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>306</TD>
-<TD>293</TD>
-<TD>2</TD>
+<TD>295</TD>
+<TD>3</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
 <TD>121</TD>
@@ -5636,7 +5636,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>33</TD>
+<TD>34</TD>
 <TD>41</TD>
 <TD>0</TD>
 </TR>
@@ -5646,9 +5646,9 @@ hideAll()
 <TH>CHI Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>502</TD>
-<TD>558</TD>
-<TD>27</TD>
+<TR><TD>503</TD>
+<TD>560</TD>
+<TD>28</TD>
 </TR>
 </table><hr/></div>
 <div id="ATLvCIN" style="display:none">
@@ -6930,8 +6930,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Connecticut Sun at Atlanta Dream</TD>
 <TD>2008-08-29</TD>
-<TD>2025-09-08</TD>
-<TD>23</TD>
+<TD>2026-06-02</TD>
+<TD>24</TD>
 <TD>13</TD>
 <TD>0</TD>
 </TR>
@@ -6953,7 +6953,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>37</TD>
+<TD>38</TD>
 <TD>38</TD>
 <TD>0</TD>
 </TR>
@@ -6963,7 +6963,7 @@ hideAll()
 <TH>HFD Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>40</TD>
+<TR><TD>41</TD>
 <TD>43</TD>
 <TD>0</TD>
 </TR>
@@ -7262,16 +7262,16 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Atlanta Dream at Indiana Fever</TD>
 <TD>2008-07-16</TD>
-<TD>2025-09-16</TD>
-<TD>17</TD>
-<TD>25</TD>
+<TD>2026-06-18</TD>
+<TD>18</TD>
+<TD>26</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Indiana Fever at Atlanta Dream</TD>
 <TD>2008-06-13</TD>
-<TD>2025-09-18</TD>
-<TD>24</TD>
+<TD>2026-06-20</TD>
+<TD>25</TD>
 <TD>15</TD>
 <TD>0</TD>
 </TR>
@@ -7313,8 +7313,8 @@ hideAll()
 <TD>3</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>43</TD>
 <TD>41</TD>
-<TD>40</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -7323,8 +7323,8 @@ hideAll()
 <TH>IND Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>182</TD>
-<TD>180</TD>
+<TR><TD>184</TD>
+<TD>181</TD>
 <TD>3</TD>
 </TR>
 </table><hr/></div>
@@ -8444,9 +8444,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Milwaukee Brewers at Atlanta Braves</TD>
 <TD>1998-03-31</TD>
-<TD>2025-08-06</TD>
-<TD>55</TD>
-<TD>39</TD>
+<TD>2026-06-21</TD>
+<TD>57</TD>
+<TD>40</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -8494,8 +8494,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>106</TD>
-<TD>79</TD>
+<TD>108</TD>
+<TD>80</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -8514,8 +8514,8 @@ hideAll()
 <TH>MIL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>259</TD>
-<TD>238</TD>
+<TR><TD>261</TD>
+<TD>239</TD>
 <TD>2</TD>
 </TR>
 </table><hr/></div>
@@ -9220,9 +9220,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Atlanta Braves at New York Mets</TD>
 <TD>1966-04-15</TD>
-<TD>2025-08-14</TD>
-<TD>229</TD>
-<TD>242</TD>
+<TD>2026-06-14</TD>
+<TD>230</TD>
+<TD>244</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -9452,9 +9452,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>New York Liberty at Atlanta Dream</TD>
 <TD>2008-06-11</TD>
-<TD>2025-08-23</TD>
+<TD>2026-06-11</TD>
 <TD>16</TD>
-<TD>21</TD>
+<TD>22</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -9470,8 +9470,8 @@ hideAll()
 <TD>14</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>539</TD>
-<TD>510</TD>
+<TD>540</TD>
+<TD>512</TD>
 <TD>10</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -9506,7 +9506,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>30</TD>
-<TD>43</TD>
+<TD>44</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -9515,8 +9515,8 @@ hideAll()
 <TH>NY Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>819</TD>
-<TD>837</TD>
+<TR><TD>820</TD>
+<TD>840</TD>
 <TD>56</TD>
 </TR>
 </table><hr/></div>
@@ -10464,8 +10464,8 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Pittsburgh Pirates at Atlanta Braves</TD>
 <TD>1966-04-12</TD>
-<TD>2026-03-20</TD>
-<TD>173</TD>
+<TD>2026-06-07</TD>
+<TD>176</TD>
 <TD>133</TD>
 <TD>2</TD>
 </TR>
@@ -10541,7 +10541,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>309</TD>
+<TD>312</TD>
 <TD>302</TD>
 <TD>2</TD>
 </TR>
@@ -10566,7 +10566,7 @@ hideAll()
 <TH>PIT Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>336</TD>
+<TR><TD>339</TD>
 <TD>376</TD>
 <TD>18</TD>
 </TR>
@@ -10953,18 +10953,18 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Atlanta Braves at San Francisco Giants</TD>
 <TD>1966-04-25</TD>
-<TD>2025-06-08</TD>
-<TD>158</TD>
-<TD>195</TD>
+<TD>2026-06-28</TD>
+<TD>159</TD>
+<TD>197</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>San Francisco Giants at Atlanta Braves</TD>
 <TD>1966-06-01</TD>
-<TD>2025-07-23</TD>
+<TD>2026-06-18</TD>
 <TD>189</TD>
-<TD>164</TD>
-<TD>1</TD>
+<TD>167</TD>
+<TD>2</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
 <TD>Atlanta Hawks at Golden State Warriors</TD>
@@ -11017,9 +11017,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Atlanta Dream at Golden State Valkyries</TD>
 <TD>2025-08-18</TD>
-<TD>2025-08-18</TD>
+<TD>2026-06-27</TD>
 <TD>1</TD>
-<TD>0</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
@@ -11043,9 +11043,9 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>347</TD>
-<TD>359</TD>
-<TD>1</TD>
+<TD>348</TD>
+<TD>364</TD>
+<TD>2</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
 <TD>67</TD>
@@ -11059,7 +11059,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>2</TD>
-<TD>1</TD>
+<TD>3</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -11068,9 +11068,9 @@ hideAll()
 <TH>SF Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>450</TD>
-<TD>481</TD>
-<TD>2</TD>
+<TR><TD>451</TD>
+<TD>488</TD>
+<TD>3</TD>
 </TR>
 </table><hr/></div>
 <div id="ATLvSD" style="display:none">
@@ -11103,9 +11103,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Atlanta Braves at San Diego Padres</TD>
 <TD>1969-04-21</TD>
-<TD>2025-03-30</TD>
+<TD>2026-06-25</TD>
 <TD>171</TD>
-<TD>160</TD>
+<TD>163</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -11215,7 +11215,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>360</TD>
-<TD>298</TD>
+<TD>301</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -11245,7 +11245,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>399</TD>
-<TD>320</TD>
+<TD>323</TD>
 <TD>5</TD>
 </TR>
 </table><hr/></div>
@@ -11535,9 +11535,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Atlanta Dream at Seattle Storm</TD>
 <TD>2008-09-13</TD>
-<TD>2025-08-14</TD>
+<TD>2026-06-28</TD>
 <TD>7</TD>
-<TD>18</TD>
+<TD>19</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
@@ -11592,7 +11592,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>21</TD>
-<TD>29</TD>
+<TD>30</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -11602,7 +11602,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>98</TD>
-<TD>120</TD>
+<TD>121</TD>
 <TD>5</TD>
 </TR>
 </table><hr/></div>
@@ -11636,9 +11636,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>St. Louis Cardinals at Atlanta Braves</TD>
 <TD>1966-06-03</TD>
-<TD>2025-04-23</TD>
+<TD>2026-06-30</TD>
 <TD>159</TD>
-<TD>159</TD>
+<TD>160</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -11767,7 +11767,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>298</TD>
-<TD>332</TD>
+<TD>333</TD>
 <TD>6</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -11807,7 +11807,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>352</TD>
-<TD>385</TD>
+<TD>386</TD>
 <TD>18</TD>
 </TR>
 </table><hr/></div>
@@ -11991,9 +11991,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Toronto Blue Jays at Atlanta Braves</TD>
 <TD>1992-10-17</TD>
-<TD>2026-03-05</TD>
-<TD>32</TD>
-<TD>27</TD>
+<TD>2026-06-04</TD>
+<TD>34</TD>
+<TD>28</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -12092,6 +12092,22 @@ hideAll()
 <TD>0</TD>
 <TD>0</TD>
 </TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>Atlanta Dream at Toronto Tempo</TD>
+<TD>2026-06-14</TD>
+<TD>2026-06-14</TD>
+<TD>1</TD>
+<TD>0</TD>
+<TD>0</TD>
+</TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>Toronto Tempo at Atlanta Dream</TD>
+<TD>2026-06-22</TD>
+<TD>2026-06-22</TD>
+<TD>1</TD>
+<TD>0</TD>
+<TD>0</TD>
+</TR>
 </table>
 <table><caption>ATL - TOR by League:</caption>
 <TR><TH>League</TH>
@@ -12105,8 +12121,8 @@ hideAll()
 <TD>8</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>54</TD>
-<TD>57</TD>
+<TD>56</TD>
+<TD>58</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -12129,14 +12145,19 @@ hideAll()
 <TD>0</TD>
 <TD>0</TD>
 </TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>2</TD>
+<TD>0</TD>
+<TD>0</TD>
+</TR>
 </table>
 <table><caption>ATL - TOR Total:</caption>
 <TR><TH>ATL Wins</TH>
 <TH>TOR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>153</TD>
-<TD>170</TD>
+<TR><TD>157</TD>
+<TD>171</TD>
 <TD>20</TD>
 </TR>
 </table><hr/></div>
@@ -12480,8 +12501,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Washington Mystics at Atlanta Dream</TD>
 <TD>2008-07-25</TD>
-<TD>2026-05-03</TD>
-<TD>23</TD>
+<TD>2026-06-06</TD>
+<TD>24</TD>
 <TD>21</TD>
 <TD>1</TD>
 </TR>
@@ -12528,7 +12549,7 @@ hideAll()
 <TD>8</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>42</TD>
+<TD>43</TD>
 <TD>43</TD>
 <TD>1</TD>
 </TR>
@@ -12538,7 +12559,7 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>463</TD>
+<TR><TD>464</TD>
 <TD>430</TD>
 <TD>32</TD>
 </TR>
@@ -15573,9 +15594,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Baltimore Orioles at Boston Red Sox</TD>
 <TD>1901-05-16</TD>
-<TD>2026-03-01</TD>
-<TD>288</TD>
-<TD>356</TD>
+<TD>2026-06-04</TD>
+<TD>290</TD>
+<TD>357</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -15724,8 +15745,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>628</TD>
-<TD>755</TD>
+<TD>630</TD>
+<TD>756</TD>
 <TD>5</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -15759,8 +15780,8 @@ hideAll()
 <TH>BOS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>707</TD>
-<TD>882</TD>
+<TR><TD>709</TD>
+<TD>883</TD>
 <TD>8</TD>
 </TR>
 </table><hr/></div>
@@ -16074,9 +16095,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Chicago White Sox at Baltimore Orioles</TD>
 <TD>1901-06-12</TD>
-<TD>2025-06-01</TD>
+<TD>2026-06-30</TD>
 <TD>234</TD>
-<TD>190</TD>
+<TD>192</TD>
 <TD>4</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -16215,7 +16236,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>508</TD>
-<TD>472</TD>
+<TD>474</TD>
 <TD>11</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -16250,7 +16271,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>601</TD>
-<TD>557</TD>
+<TD>559</TD>
 <TD>13</TD>
 </TR>
 </table><hr/></div>
@@ -18004,17 +18025,17 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Baltimore Orioles at Los Angeles Angels</TD>
 <TD>1961-05-02</TD>
-<TD>2025-05-11</TD>
-<TD>48</TD>
-<TD>63</TD>
+<TD>2026-06-24</TD>
+<TD>49</TD>
+<TD>65</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>Baltimore Orioles at Los Angeles Dodgers</TD>
 <TD>1966-10-05</TD>
-<TD>2024-08-30</TD>
-<TD>13</TD>
-<TD>9</TD>
+<TD>2026-06-21</TD>
+<TD>15</TD>
+<TD>10</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -18126,8 +18147,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>133</TD>
 <TD>136</TD>
+<TD>139</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -18156,8 +18177,8 @@ hideAll()
 <TH>LA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>180</TD>
-<TD>196</TD>
+<TR><TD>183</TD>
+<TD>199</TD>
 <TD>3</TD>
 </TR>
 </table><hr/></div>
@@ -20710,9 +20731,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>San Diego Padres at Baltimore Orioles</TD>
 <TD>2002-06-10</TD>
-<TD>2024-07-28</TD>
-<TD>4</TD>
-<TD>8</TD>
+<TD>2026-06-14</TD>
+<TD>5</TD>
+<TD>10</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -20792,8 +20813,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
+<TD>17</TD>
 <TD>16</TD>
-<TD>14</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -20822,8 +20843,8 @@ hideAll()
 <TH>SD Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>52</TD>
-<TD>31</TD>
+<TR><TD>53</TD>
+<TD>33</TD>
 <TD>1</TD>
 </TR>
 </table><hr/></div>
@@ -20899,9 +20920,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Baltimore Orioles at Seattle Mariners</TD>
 <TD>1977-05-16</TD>
-<TD>2025-06-05</TD>
-<TD>111</TD>
-<TD>117</TD>
+<TD>2026-06-18</TD>
+<TD>112</TD>
+<TD>119</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -20915,9 +20936,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Seattle Mariners at Baltimore Orioles</TD>
 <TD>1977-05-06</TD>
-<TD>2025-08-14</TD>
-<TD>131</TD>
-<TD>91</TD>
+<TD>2026-06-11</TD>
+<TD>133</TD>
+<TD>93</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -20976,8 +20997,8 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>251</TD>
-<TD>211</TD>
+<TD>254</TD>
+<TD>215</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -21001,8 +21022,8 @@ hideAll()
 <TH>SEA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>275</TD>
-<TD>228</TD>
+<TR><TD>278</TD>
+<TD>232</TD>
 <TD>0</TD>
 </TR>
 </table><hr/></div>
@@ -21444,9 +21465,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Baltimore Orioles at Toronto Blue Jays</TD>
 <TD>1977-06-17</TD>
-<TD>2026-03-18</TD>
-<TD>158</TD>
-<TD>238</TD>
+<TD>2026-06-07</TD>
+<TD>159</TD>
+<TD>240</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -21526,8 +21547,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>360</TD>
-<TD>426</TD>
+<TD>361</TD>
+<TD>428</TD>
 <TD>3</TD>
 </TR>
 <TR><TD>National Lacrosse League</TD>
@@ -21551,8 +21572,8 @@ hideAll()
 <TH>TOR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>366</TD>
-<TD>435</TD>
+<TR><TD>367</TD>
+<TD>437</TD>
 <TD>5</TD>
 </TR>
 </table><hr/></div>
@@ -21721,9 +21742,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Washington Nationals at Baltimore Orioles</TD>
 <TD>2005-03-05</TD>
-<TD>2026-03-22</TD>
-<TD>40</TD>
-<TD>25</TD>
+<TD>2026-06-28</TD>
+<TD>41</TD>
+<TD>27</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -21853,8 +21874,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>390</TD>
-<TD>235</TD>
+<TD>391</TD>
+<TD>237</TD>
 <TD>5</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -21883,8 +21904,8 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>443</TD>
-<TD>280</TD>
+<TR><TD>444</TD>
+<TD>282</TD>
 <TD>5</TD>
 </TR>
 </table><hr/></div>
@@ -23402,10 +23423,10 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>Louisville City FC at Birmingham Legion FC</TD>
 <TD>2019-05-12</TD>
-<TD>2025-03-16</TD>
+<TD>2026-06-04</TD>
 <TD>2</TD>
 <TD>3</TD>
-<TD>2</TD>
+<TD>3</TD>
 </TR>
 <TR><TD>United Football League</TD>
 <TD>Birmingham Stallions at Louisville Kings</TD>
@@ -23430,7 +23451,7 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>4</TD>
 <TD>7</TD>
-<TD>3</TD>
+<TD>4</TD>
 </TR>
 <TR><TD>United Football League</TD>
 <TD>1</TD>
@@ -23445,7 +23466,7 @@ hideAll()
 </TR>
 <TR><TD>5</TD>
 <TD>8</TD>
-<TD>3</TD>
+<TD>4</TD>
 </TR>
 </table><hr/></div>
 <div id="BIRvLV" style="display:none">
@@ -23470,9 +23491,9 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>Las Vegas Lights FC at Birmingham Legion FC</TD>
 <TD>2022-05-19</TD>
-<TD>2024-10-13</TD>
+<TD>2026-06-14</TD>
 <TD>0</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>XFL (2001)</TD>
@@ -23492,7 +23513,7 @@ hideAll()
 </TR>
 <TR><TD>USL Championship</TD>
 <TD>0</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>XFL (2001)</TD>
@@ -23507,7 +23528,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>0</TD>
-<TD>2</TD>
+<TD>3</TD>
 <TD>2</TD>
 </TR>
 </table><hr/></div>
@@ -24282,10 +24303,10 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>Birmingham Legion FC at Oakland Roots</TD>
 <TD>2022-10-02</TD>
-<TD>2024-10-27</TD>
+<TD>2026-06-17</TD>
 <TD>1</TD>
 <TD>1</TD>
-<TD>0</TD>
+<TD>1</TD>
 </TR>
 <TR><TD>USL Championship</TD>
 <TD>Oakland Roots at Birmingham Legion FC</TD>
@@ -24310,7 +24331,7 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>1</TD>
 <TD>3</TD>
-<TD>0</TD>
+<TD>1</TD>
 </TR>
 </table>
 <table><caption>BIR - OAK Total:</caption>
@@ -24320,7 +24341,7 @@ hideAll()
 </TR>
 <TR><TD>4</TD>
 <TD>3</TD>
-<TD>0</TD>
+<TD>1</TD>
 </TR>
 </table><hr/></div>
 <div id="BIRvOKC" style="display:none">
@@ -26150,17 +26171,17 @@ hideAll()
 <TR><TD>Major League Rugby</TD>
 <TD>Chicago Hounds vs New England Free Jacks</TD>
 <TD>2024-03-24</TD>
-<TD>2026-04-19</TD>
+<TD>2026-06-07</TD>
 <TD>1</TD>
 <TD>2</TD>
-<TD>0</TD>
+<TD>1</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
 <TD>New England Free Jacks vs Chicago Hounds</TD>
 <TD>2023-04-08</TD>
-<TD>2025-06-21</TD>
+<TD>2026-06-07</TD>
 <TD>3</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>NWSL</TD>
@@ -26384,8 +26405,8 @@ hideAll()
 </TR>
 <TR><TD>Major League Rugby</TD>
 <TD>4</TD>
-<TD>3</TD>
-<TD>0</TD>
+<TD>4</TD>
+<TD>1</TD>
 </TR>
 <TR><TD>NWSL</TD>
 <TD>1</TD>
@@ -26434,8 +26455,8 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>1995</TD>
-<TD>2139</TD>
-<TD>80</TD>
+<TD>2140</TD>
+<TD>81</TD>
 </TR>
 </table><hr/></div>
 <div id="BOSvCIN" style="display:none">
@@ -27142,9 +27163,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Texas Rangers at Boston Red Sox</TD>
 <TD>1972-06-19</TD>
-<TD>2025-05-08</TD>
-<TD>154</TD>
-<TD>97</TD>
+<TD>2026-06-14</TD>
+<TD>156</TD>
+<TD>98</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -27248,8 +27269,8 @@ hideAll()
 <TD>5</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>267</TD>
-<TD>241</TD>
+<TD>269</TD>
+<TD>242</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -27288,8 +27309,8 @@ hideAll()
 <TH>DAL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>369</TD>
-<TD>327</TD>
+<TR><TD>371</TD>
+<TD>328</TD>
 <TD>13</TD>
 </TR>
 </table><hr/></div>
@@ -27331,9 +27352,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Boston Red Sox at Colorado Rockies</TD>
 <TD>2004-06-16</TD>
-<TD>2024-07-24</TD>
-<TD>8</TD>
-<TD>7</TD>
+<TD>2026-06-24</TD>
+<TD>9</TD>
+<TD>9</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -27538,8 +27559,8 @@ hideAll()
 <TD>10</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>22</TD>
-<TD>14</TD>
+<TD>23</TD>
+<TD>16</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>NWSL</TD>
@@ -27593,8 +27614,8 @@ hideAll()
 <TH>DEN Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>159</TD>
-<TD>133</TD>
+<TR><TD>160</TD>
+<TD>135</TD>
 <TD>18</TD>
 </TR>
 </table><hr/></div>
@@ -30591,10 +30612,10 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Boston Red Sox at New York Yankees</TD>
 <TD>1903-06-01</TD>
-<TD>2026-03-18</TD>
-<TD>483</TD>
-<TD>692</TD>
-<TD>8</TD>
+<TD>2026-06-07</TD>
+<TD>484</TD>
+<TD>693</TD>
+<TD>9</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>New York Giants at Boston Braves</TD>
@@ -30631,8 +30652,8 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>New York Yankees at Boston Red Sox</TD>
 <TD>1903-05-07</TD>
-<TD>2026-04-23</TD>
-<TD>577</TD>
+<TD>2026-06-28</TD>
+<TD>581</TD>
 <TD>596</TD>
 <TD>9</TD>
 </TR>
@@ -30941,6 +30962,14 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Premier Lacrosse League</TD>
+<TD>Boston Cannons at New York Atlas</TD>
+<TD>2026-06-19</TD>
+<TD>2026-06-19</TD>
+<TD>0</TD>
+<TD>1</TD>
+<TD>0</TD>
+</TR>
+<TR><TD>Premier Lacrosse League</TD>
 <TD>New York Atlas at Boston Cannons</TD>
 <TD>2025-07-11</TD>
 <TD>2025-07-11</TD>
@@ -31053,9 +31082,9 @@ hideAll()
 <TD>28</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>1708</TD>
-<TD>2114</TD>
-<TD>44</TD>
+<TD>1713</TD>
+<TD>2115</TD>
+<TD>45</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
 <TD>6</TD>
@@ -31099,7 +31128,7 @@ hideAll()
 </TR>
 <TR><TD>Premier Lacrosse League</TD>
 <TD>0</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>U.S. Open Cup</TD>
@@ -31118,9 +31147,9 @@ hideAll()
 <TH>NY Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>2497</TD>
-<TD>2700</TD>
-<TD>138</TD>
+<TR><TD>2502</TD>
+<TD>2702</TD>
+<TD>139</TD>
 </TR>
 </table><hr/></div>
 <div id="BOSvOAK" style="display:none">
@@ -31969,9 +31998,9 @@ hideAll()
 <TR><TD>Premier Lacrosse League</TD>
 <TD>Boston Cannons at Philadelphia Waterdogs</TD>
 <TD>2025-06-13</TD>
-<TD>2025-06-13</TD>
+<TD>2026-06-07</TD>
 <TD>0</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Premier Lacrosse League</TD>
@@ -32076,7 +32105,7 @@ hideAll()
 </TR>
 <TR><TD>Premier Lacrosse League</TD>
 <TD>2</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>U.S. Open Cup</TD>
@@ -32101,7 +32130,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>2010</TD>
-<TD>1704</TD>
+<TD>1705</TD>
 <TD>64</TD>
 </TR>
 </table><hr/></div>
@@ -33450,9 +33479,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Boston Red Sox at Seattle Mariners</TD>
 <TD>1977-05-13</TD>
-<TD>2025-06-18</TD>
-<TD>124</TD>
-<TD>109</TD>
+<TD>2026-06-21</TD>
+<TD>126</TD>
+<TD>110</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -33596,8 +33625,8 @@ hideAll()
 <TD>5</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>267</TD>
-<TD>197</TD>
+<TD>269</TD>
+<TD>198</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -33636,8 +33665,8 @@ hideAll()
 <TH>SEA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>357</TD>
-<TD>283</TD>
+<TR><TD>359</TD>
+<TD>284</TD>
 <TD>9</TD>
 </TR>
 </table><hr/></div>
@@ -33980,9 +34009,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Boston Red Sox at Tampa Bay Rays</TD>
 <TD>2008-04-25</TD>
-<TD>2026-03-20</TD>
+<TD>2026-06-10</TD>
 <TD>87</TD>
-<TD>114</TD>
+<TD>117</TD>
 <TD>4</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -34084,7 +34113,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>322</TD>
-<TD>267</TD>
+<TD>270</TD>
 <TD>10</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -34114,7 +34143,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>416</TD>
-<TD>342</TD>
+<TD>345</TD>
 <TD>26</TD>
 </TR>
 </table><hr/></div>
@@ -34172,9 +34201,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Toronto Blue Jays at Boston Red Sox</TD>
 <TD>1977-07-04</TD>
-<TD>2026-02-22</TD>
+<TD>2026-06-18</TD>
 <TD>203</TD>
-<TD>186</TD>
+<TD>189</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -34364,7 +34393,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>418</TD>
-<TD>363</TD>
+<TD>366</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -34409,7 +34438,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>742</TD>
-<TD>567</TD>
+<TD>570</TD>
 <TD>50</TD>
 </TR>
 </table><hr/></div>
@@ -34678,9 +34707,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Washington Nationals at Boston Red Sox</TD>
 <TD>2006-06-19</TD>
-<TD>2024-05-12</TD>
-<TD>14</TD>
-<TD>6</TD>
+<TD>2026-06-30</TD>
+<TD>15</TD>
+<TD>7</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -34938,8 +34967,8 @@ hideAll()
 <TD>17</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>929</TD>
-<TD>778</TD>
+<TD>930</TD>
+<TD>779</TD>
 <TD>17</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -34993,8 +35022,8 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>1292</TD>
-<TD>1037</TD>
+<TR><TD>1293</TD>
+<TD>1038</TD>
 <TD>66</TD>
 </TR>
 </table><hr/></div>
@@ -43697,9 +43726,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Cleveland Guardians at Chicago White Sox</TD>
 <TD>1901-04-24</TD>
-<TD>2026-03-06</TD>
-<TD>472</TD>
-<TD>412</TD>
+<TD>2026-06-24</TD>
+<TD>474</TD>
+<TD>413</TD>
 <TD>10</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -43866,8 +43895,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>1296</TD>
-<TD>1303</TD>
+<TD>1298</TD>
+<TD>1304</TD>
 <TD>26</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -43911,8 +43940,8 @@ hideAll()
 <TH>CLE Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>1593</TD>
-<TD>1574</TD>
+<TR><TD>1595</TD>
+<TD>1575</TD>
 <TD>46</TD>
 </TR>
 </table><hr/></div>
@@ -44298,9 +44327,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Chicago Sky at Dallas Wings</TD>
 <TD>2016-05-29</TD>
-<TD>2025-06-01</TD>
+<TD>2026-06-21</TD>
 <TD>11</TD>
-<TD>5</TD>
+<TD>6</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
@@ -44365,7 +44394,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>23</TD>
-<TD>11</TD>
+<TD>12</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -44375,7 +44404,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>524</TD>
-<TD>527</TD>
+<TD>528</TD>
 <TD>34</TD>
 </TR>
 </table><hr/></div>
@@ -44457,9 +44486,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Chicago Cubs at Colorado Rockies</TD>
 <TD>1993-04-26</TD>
-<TD>2026-03-14</TD>
-<TD>63</TD>
-<TD>82</TD>
+<TD>2026-06-11</TD>
+<TD>64</TD>
+<TD>84</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -44473,9 +44502,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Colorado Rockies at Chicago Cubs</TD>
 <TD>1993-05-04</TD>
-<TD>2026-02-25</TD>
-<TD>82</TD>
-<TD>64</TD>
+<TD>2026-06-18</TD>
+<TD>84</TD>
+<TD>65</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -44621,8 +44650,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>195</TD>
-<TD>201</TD>
+<TD>198</TD>
+<TD>204</TD>
 <TD>7</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -44656,8 +44685,8 @@ hideAll()
 <TH>DEN Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>359</TD>
-<TD>391</TD>
+<TR><TD>362</TD>
+<TD>394</TD>
 <TD>36</TD>
 </TR>
 </table><hr/></div>
@@ -44755,9 +44784,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Chicago White Sox at Detroit Tigers</TD>
 <TD>1901-05-11</TD>
-<TD>2025-09-07</TD>
+<TD>2026-06-21</TD>
 <TD>515</TD>
-<TD>605</TD>
+<TD>608</TD>
 <TD>5</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -44976,7 +45005,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>1217</TD>
-<TD>1222</TD>
+<TD>1225</TD>
 <TD>17</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -45026,7 +45055,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>1667</TD>
-<TD>1677</TD>
+<TD>1680</TD>
 <TD>67</TD>
 </TR>
 </table><hr/></div>
@@ -45213,16 +45242,16 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Chicago Sky at Connecticut Sun</TD>
 <TD>2006-07-20</TD>
-<TD>2025-08-13</TD>
+<TD>2026-06-22</TD>
 <TD>17</TD>
-<TD>24</TD>
+<TD>25</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Connecticut Sun at Chicago Sky</TD>
 <TD>2006-06-24</TD>
-<TD>2025-09-04</TD>
-<TD>22</TD>
+<TD>2026-06-05</TD>
+<TD>23</TD>
 <TD>22</TD>
 <TD>0</TD>
 </TR>
@@ -45249,8 +45278,8 @@ hideAll()
 <TD>1</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>39</TD>
-<TD>46</TD>
+<TD>40</TD>
+<TD>47</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -45259,8 +45288,8 @@ hideAll()
 <TH>HFD Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>76</TD>
-<TD>77</TD>
+<TR><TD>77</TD>
+<TD>78</TD>
 <TD>7</TD>
 </TR>
 </table><hr/></div>
@@ -45833,9 +45862,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Chicago Sky at Indiana Fever</TD>
 <TD>2006-06-21</TD>
-<TD>2025-09-05</TD>
+<TD>2026-06-11</TD>
 <TD>15</TD>
-<TD>34</TD>
+<TD>35</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
@@ -45916,7 +45945,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>37</TD>
-<TD>60</TD>
+<TD>61</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>World Hockey Association</TD>
@@ -45931,7 +45960,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>324</TD>
-<TD>276</TD>
+<TD>277</TD>
 <TD>17</TD>
 </TR>
 </table><hr/></div>
@@ -46235,9 +46264,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Kansas City Royals at Chicago White Sox</TD>
 <TD>1969-04-16</TD>
-<TD>2026-05-14</TD>
-<TD>256</TD>
-<TD>205</TD>
+<TD>2026-06-28</TD>
+<TD>258</TD>
+<TD>206</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>NWSL</TD>
@@ -46414,8 +46443,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>688</TD>
-<TD>591</TD>
+<TD>690</TD>
+<TD>592</TD>
 <TD>6</TD>
 </TR>
 <TR><TD>NWSL</TD>
@@ -46454,8 +46483,8 @@ hideAll()
 <TH>KC Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>914</TD>
-<TD>820</TD>
+<TR><TD>916</TD>
+<TD>821</TD>
 <TD>32</TD>
 </TR>
 </table><hr/></div>
@@ -46593,9 +46622,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Los Angeles Dodgers at Chicago White Sox</TD>
 <TD>1959-10-01</TD>
-<TD>2026-03-14</TD>
-<TD>17</TD>
-<TD>26</TD>
+<TD>2026-06-14</TD>
+<TD>19</TD>
+<TD>27</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -46837,8 +46866,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>558</TD>
-<TD>659</TD>
+<TD>560</TD>
+<TD>660</TD>
 <TD>13</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -46887,8 +46916,8 @@ hideAll()
 <TH>LA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>847</TD>
-<TD>979</TD>
+<TR><TD>849</TD>
+<TD>980</TD>
 <TD>49</TD>
 </TR>
 </table><hr/></div>
@@ -47118,9 +47147,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Las Vegas Aces at Chicago Sky</TD>
 <TD>2018-06-03</TD>
-<TD>2024-08-25</TD>
+<TD>2026-06-28</TD>
 <TD>3</TD>
-<TD>9</TD>
+<TD>10</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>XFL (2001)</TD>
@@ -47170,7 +47199,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>7</TD>
-<TD>20</TD>
+<TD>21</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>XFL (2001)</TD>
@@ -47185,7 +47214,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>35</TD>
-<TD>49</TD>
+<TD>50</TD>
 <TD>0</TD>
 </TR>
 </table><hr/></div>
@@ -47698,9 +47727,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Chicago Cubs at Milwaukee Brewers</TD>
 <TD>1998-07-09</TD>
-<TD>2026-03-04</TD>
-<TD>123</TD>
-<TD>138</TD>
+<TD>2026-06-28</TD>
+<TD>125</TD>
+<TD>139</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -47809,8 +47838,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>623</TD>
-<TD>642</TD>
+<TD>625</TD>
+<TD>643</TD>
 <TD>7</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -47834,8 +47863,8 @@ hideAll()
 <TH>MIL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>882</TD>
-<TD>919</TD>
+<TR><TD>884</TD>
+<TD>920</TD>
 <TD>15</TD>
 </TR>
 </table><hr/></div>
@@ -47933,9 +47962,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Chicago White Sox at Minnesota Twins</TD>
 <TD>1961-04-30</TD>
-<TD>2025-09-04</TD>
-<TD>215</TD>
-<TD>291</TD>
+<TD>2026-06-03</TD>
+<TD>216</TD>
+<TD>293</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -48171,8 +48200,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>499</TD>
-<TD>565</TD>
+<TD>500</TD>
+<TD>567</TD>
 <TD>3</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -48221,8 +48250,8 @@ hideAll()
 <TH>MIN Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>826</TD>
-<TD>911</TD>
+<TR><TD>827</TD>
+<TD>913</TD>
 <TD>39</TD>
 </TR>
 </table><hr/></div>
@@ -48897,10 +48926,10 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Chicago Cubs at New York Mets</TD>
 <TD>1962-05-15</TD>
-<TD>2025-05-11</TD>
-<TD>185</TD>
+<TD>2026-06-25</TD>
+<TD>189</TD>
 <TD>194</TD>
-<TD>1</TD>
+<TD>2</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>Chicago Cubs at New York Mutuals</TD>
@@ -48937,9 +48966,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Chicago White Sox at New York Yankees</TD>
 <TD>1903-06-16</TD>
-<TD>2025-09-25</TD>
-<TD>373</TD>
-<TD>584</TD>
+<TD>2026-06-18</TD>
+<TD>374</TD>
+<TD>586</TD>
 <TD>5</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -49313,9 +49342,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>New York Liberty at Chicago Sky</TD>
 <TD>2006-07-08</TD>
-<TD>2025-09-12</TD>
+<TD>2026-06-18</TD>
 <TD>22</TD>
-<TD>21</TD>
+<TD>22</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>World Hockey Association</TD>
@@ -49394,9 +49423,9 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>1991</TD>
-<TD>2299</TD>
-<TD>39</TD>
+<TD>1996</TD>
+<TD>2301</TD>
+<TD>40</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
 <TD>0</TD>
@@ -49445,7 +49474,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>44</TD>
-<TD>39</TD>
+<TD>40</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>World Hockey Association</TD>
@@ -49464,9 +49493,9 @@ hideAll()
 <TH>NY Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>2468</TD>
-<TD>2725</TD>
-<TD>150</TD>
+<TR><TD>2473</TD>
+<TD>2728</TD>
+<TD>151</TD>
 </TR>
 </table><hr/></div>
 <div id="CHIvOAK" style="display:none">
@@ -50139,9 +50168,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Chicago White Sox at Philadelphia Phillies</TD>
 <TD>2002-06-18</TD>
-<TD>2024-04-21</TD>
-<TD>5</TD>
-<TD>12</TD>
+<TD>2026-06-07</TD>
+<TD>6</TD>
+<TD>14</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -50417,8 +50446,8 @@ hideAll()
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>1856</TD>
-<TD>1734</TD>
+<TD>1857</TD>
+<TD>1736</TD>
 <TD>23</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -50477,8 +50506,8 @@ hideAll()
 <TH>PHI Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>2109</TD>
-<TD>2042</TD>
+<TR><TD>2110</TD>
+<TD>2044</TD>
 <TD>76</TD>
 </TR>
 </table><hr/></div>
@@ -51102,6 +51131,14 @@ hideAll()
 <TD>0</TD>
 <TD>0</TD>
 </TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>Portland Fire at Chicago Sky</TD>
+<TD>2026-06-25</TD>
+<TD>2026-06-26</TD>
+<TD>2</TD>
+<TD>0</TD>
+<TD>0</TD>
+</TR>
 <TR><TD>World Football League</TD>
 <TD>Chicago Fire at Portland Storm</TD>
 <TD>1974-07-24</TD>
@@ -51138,7 +51175,7 @@ hideAll()
 <TD>1</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>1</TD>
+<TD>3</TD>
 <TD>0</TD>
 <TD>0</TD>
 </TR>
@@ -51153,7 +51190,7 @@ hideAll()
 <TH>POR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>93</TD>
+<TR><TD>95</TD>
 <TD>103</TD>
 <TD>26</TD>
 </TR>
@@ -51472,9 +51509,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Chicago Cubs at San Francisco Giants</TD>
 <TD>1958-04-25</TD>
-<TD>2026-02-22</TD>
-<TD>182</TD>
-<TD>225</TD>
+<TD>2026-06-14</TD>
+<TD>184</TD>
+<TD>226</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -51488,9 +51525,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>San Francisco Giants at Chicago Cubs</TD>
 <TD>1958-05-16</TD>
-<TD>2026-03-08</TD>
-<TD>208</TD>
-<TD>197</TD>
+<TD>2026-06-08</TD>
+<TD>209</TD>
+<TD>199</TD>
 <TD>5</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -51602,8 +51639,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>425</TD>
-<TD>460</TD>
+<TD>428</TD>
+<TD>463</TD>
 <TD>9</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -51632,8 +51669,8 @@ hideAll()
 <TH>SF Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>548</TD>
-<TD>587</TD>
+<TR><TD>551</TD>
+<TD>590</TD>
 <TD>13</TD>
 </TR>
 </table><hr/></div>
@@ -51691,8 +51728,8 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>San Diego Padres at Chicago Cubs</TD>
 <TD>1969-05-12</TD>
-<TD>2026-02-24</TD>
-<TD>171</TD>
+<TD>2026-07-01</TD>
+<TD>173</TD>
 <TD>119</TD>
 <TD>2</TD>
 </TR>
@@ -51850,7 +51887,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>349</TD>
+<TD>351</TD>
 <TD>313</TD>
 <TD>8</TD>
 </TR>
@@ -51890,7 +51927,7 @@ hideAll()
 <TH>SD Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>398</TD>
+<TR><TD>400</TD>
 <TD>368</TD>
 <TD>10</TD>
 </TR>
@@ -53206,10 +53243,10 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Toronto Blue Jays at Chicago Cubs</TD>
 <TD>2005-06-07</TD>
-<TD>2024-08-18</TD>
-<TD>6</TD>
-<TD>3</TD>
-<TD>0</TD>
+<TD>2026-06-21</TD>
+<TD>7</TD>
+<TD>4</TD>
+<TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>Toronto Blue Jays at Chicago White Sox</TD>
@@ -53316,6 +53353,14 @@ hideAll()
 <TD>1</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>Chicago Sky at Toronto Tempo</TD>
+<TD>2026-06-07</TD>
+<TD>2026-06-07</TD>
+<TD>0</TD>
+<TD>1</TD>
+<TD>0</TD>
+</TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Toronto Tempo at Chicago Sky</TD>
 <TD>2026-05-28</TD>
 <TD>2026-05-28</TD>
@@ -53362,9 +53407,9 @@ hideAll()
 <TD>14</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>219</TD>
-<TD>242</TD>
-<TD>2</TD>
+<TD>220</TD>
+<TD>243</TD>
+<TD>3</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
 <TD>0</TD>
@@ -53393,7 +53438,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>0</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>World Hockey Association</TD>
@@ -53407,9 +53452,9 @@ hideAll()
 <TH>TOR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>481</TD>
-<TD>438</TD>
-<TD>63</TD>
+<TR><TD>482</TD>
+<TD>440</TD>
+<TD>64</TD>
 </TR>
 </table><hr/></div>
 <div id="CHIvVAN" style="display:none">
@@ -53704,8 +53749,8 @@ hideAll()
 <TR><TD>Major League Rugby</TD>
 <TD>Chicago Hounds vs Old Glory DC</TD>
 <TD>2024-05-11</TD>
-<TD>2026-05-03</TD>
-<TD>3</TD>
+<TD>2026-06-16</TD>
+<TD>4</TD>
 <TD>1</TD>
 <TD>0</TD>
 </TR>
@@ -53912,9 +53957,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Chicago Sky at Washington Mystics</TD>
 <TD>2006-07-09</TD>
-<TD>2025-07-29</TD>
+<TD>2026-06-02</TD>
 <TD>14</TD>
-<TD>24</TD>
+<TD>25</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
@@ -53953,7 +53998,7 @@ hideAll()
 <TD>14</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
-<TD>4</TD>
+<TD>5</TD>
 <TD>2</TD>
 <TD>1</TD>
 </TR>
@@ -53994,7 +54039,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>38</TD>
-<TD>41</TD>
+<TD>42</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -54003,8 +54048,8 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>1337</TD>
-<TD>1073</TD>
+<TR><TD>1338</TD>
+<TD>1074</TD>
 <TD>83</TD>
 </TR>
 </table><hr/></div>
@@ -55532,9 +55577,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Kansas City Royals at Cincinnati Reds</TD>
 <TD>1997-09-01</TD>
-<TD>2026-02-24</TD>
-<TD>14</TD>
-<TD>24</TD>
+<TD>2026-06-03</TD>
+<TD>15</TD>
+<TD>26</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -55613,8 +55658,8 @@ hideAll()
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>31</TD>
-<TD>46</TD>
+<TD>32</TD>
+<TD>48</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -55633,8 +55678,8 @@ hideAll()
 <TH>KC Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>131</TD>
-<TD>137</TD>
+<TR><TD>132</TD>
+<TD>139</TD>
 <TD>5</TD>
 </TR>
 </table><hr/></div>
@@ -56261,9 +56306,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Cincinnati Reds at Milwaukee Brewers</TD>
 <TD>1998-05-01</TD>
-<TD>2026-03-24</TD>
+<TD>2026-06-30</TD>
 <TD>118</TD>
-<TD>127</TD>
+<TD>129</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -56285,9 +56330,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Milwaukee Brewers at Cincinnati Reds</TD>
 <TD>1997-06-30</TD>
-<TD>2026-03-11</TD>
+<TD>2026-06-24</TD>
 <TD>122</TD>
-<TD>129</TD>
+<TD>132</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -56344,7 +56389,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>372</TD>
-<TD>406</TD>
+<TD>411</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -56364,7 +56409,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>405</TD>
-<TD>437</TD>
+<TD>442</TD>
 <TD>2</TD>
 </TR>
 </table><hr/></div>
@@ -56891,9 +56936,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Cincinnati Reds at New York Yankees</TD>
 <TD>1939-10-04</TD>
-<TD>2024-07-04</TD>
-<TD>20</TD>
-<TD>16</TD>
+<TD>2026-06-21</TD>
+<TD>22</TD>
+<TD>17</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -56907,9 +56952,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>New York Mets at Cincinnati Reds</TD>
 <TD>1962-04-24</TD>
-<TD>2025-09-07</TD>
-<TD>174</TD>
-<TD>139</TD>
+<TD>2026-06-17</TD>
+<TD>176</TD>
+<TD>140</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -57108,8 +57153,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>970</TD>
-<TD>1147</TD>
+<TD>974</TD>
+<TD>1149</TD>
 <TD>17</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -57143,8 +57188,8 @@ hideAll()
 <TH>NY Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>1138</TD>
-<TD>1293</TD>
+<TR><TD>1142</TD>
+<TD>1295</TD>
 <TD>31</TD>
 </TR>
 </table><hr/></div>
@@ -57715,9 +57760,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Arizona Diamondbacks at Cincinnati Reds</TD>
 <TD>1998-06-16</TD>
-<TD>2026-03-08</TD>
-<TD>49</TD>
-<TD>58</TD>
+<TD>2026-06-14</TD>
+<TD>50</TD>
+<TD>60</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -57802,8 +57847,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>105</TD>
-<TD>105</TD>
+<TD>106</TD>
+<TD>107</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -57827,8 +57872,8 @@ hideAll()
 <TH>PHX Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>130</TD>
-<TD>132</TD>
+<TR><TD>131</TD>
+<TD>134</TD>
 <TD>1</TD>
 </TR>
 </table><hr/></div>
@@ -57862,9 +57907,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Cincinnati Reds at Pittsburgh Pirates</TD>
 <TD>1890-04-25</TD>
-<TD>2026-05-03</TD>
-<TD>559</TD>
-<TD>674</TD>
+<TD>2026-06-28</TD>
+<TD>561</TD>
+<TD>675</TD>
 <TD>8</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -57936,8 +57981,8 @@ hideAll()
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>1229</TD>
-<TD>1251</TD>
+<TD>1231</TD>
+<TD>1252</TD>
 <TD>17</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -57961,8 +58006,8 @@ hideAll()
 <TH>PIT Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>1335</TD>
-<TD>1374</TD>
+<TR><TD>1337</TD>
+<TD>1375</TD>
 <TD>21</TD>
 </TR>
 </table><hr/></div>
@@ -58309,9 +58354,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Cincinnati Reds at San Diego Padres</TD>
 <TD>1969-04-25</TD>
-<TD>2026-03-08</TD>
-<TD>167</TD>
-<TD>173</TD>
+<TD>2026-06-10</TD>
+<TD>168</TD>
+<TD>175</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -58383,8 +58428,8 @@ hideAll()
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>354</TD>
-<TD>320</TD>
+<TD>355</TD>
+<TD>322</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -58408,8 +58453,8 @@ hideAll()
 <TH>SD Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>390</TD>
-<TD>352</TD>
+<TR><TD>391</TD>
+<TD>354</TD>
 <TD>5</TD>
 </TR>
 </table><hr/></div>
@@ -58717,9 +58762,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Cincinnati Reds at St. Louis Cardinals</TD>
 <TD>1892-04-17</TD>
-<TD>2025-09-17</TD>
+<TD>2026-06-07</TD>
 <TD>493</TD>
-<TD>682</TD>
+<TD>685</TD>
 <TD>12</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -58829,7 +58874,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>1127</TD>
-<TD>1250</TD>
+<TD>1253</TD>
 <TD>23</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -58859,7 +58904,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>1251</TD>
-<TD>1406</TD>
+<TD>1409</TD>
 <TD>25</TD>
 </TR>
 </table><hr/></div>
@@ -63318,9 +63363,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Cleveland Guardians at Texas Rangers</TD>
 <TD>1972-05-02</TD>
-<TD>2026-03-02</TD>
-<TD>55</TD>
-<TD>75</TD>
+<TD>2026-06-07</TD>
+<TD>56</TD>
+<TD>77</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -63334,9 +63379,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Texas Rangers at Cleveland Guardians</TD>
 <TD>1972-05-12</TD>
-<TD>2026-02-25</TD>
+<TD>2026-06-30</TD>
 <TD>67</TD>
-<TD>63</TD>
+<TD>65</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -63405,8 +63450,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>252</TD>
-<TD>283</TD>
+<TD>253</TD>
+<TD>287</TD>
 <TD>3</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -63430,8 +63475,8 @@ hideAll()
 <TH>DAL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>316</TD>
-<TD>346</TD>
+<TR><TD>317</TD>
+<TD>350</TD>
 <TD>3</TD>
 </TR>
 </table><hr/></div>
@@ -63713,10 +63758,10 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Detroit Tigers at Cleveland Guardians</TD>
 <TD>1901-05-16</TD>
-<TD>2025-10-02</TD>
-<TD>488</TD>
+<TD>2026-06-14</TD>
+<TD>490</TD>
 <TD>439</TD>
-<TD>6</TD>
+<TD>7</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>Detroit Tigers at Cleveland Indians</TD>
@@ -63829,9 +63874,9 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>1211</TD>
+<TD>1213</TD>
 <TD>1201</TD>
-<TD>17</TD>
+<TD>18</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
 <TD>134</TD>
@@ -63864,9 +63909,9 @@ hideAll()
 <TH>DET Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>1392</TD>
+<TR><TD>1394</TD>
 <TD>1415</TD>
-<TD>19</TD>
+<TD>20</TD>
 </TR>
 </table><hr/></div>
 <div id="CLEvEDM" style="display:none">
@@ -64044,9 +64089,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Cleveland Guardians at Houston Astros</TD>
 <TD>2022-05-24</TD>
-<TD>2025-07-10</TD>
-<TD>5</TD>
-<TD>7</TD>
+<TD>2026-06-21</TD>
+<TD>6</TD>
+<TD>9</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -64179,8 +64224,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>71</TD>
-<TD>71</TD>
+<TD>72</TD>
+<TD>73</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -64214,8 +64259,8 @@ hideAll()
 <TH>HOU Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>184</TD>
-<TD>224</TD>
+<TR><TD>185</TD>
+<TD>226</TD>
 <TD>3</TD>
 </TR>
 </table><hr/></div>
@@ -65656,9 +65701,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Cleveland Guardians at Milwaukee Brewers</TD>
 <TD>1901-05-11</TD>
-<TD>2026-02-21</TD>
-<TD>73</TD>
-<TD>91</TD>
+<TD>2026-06-18</TD>
+<TD>74</TD>
+<TD>93</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -65735,8 +65780,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>225</TD>
-<TD>233</TD>
+<TD>226</TD>
+<TD>235</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -65755,8 +65800,8 @@ hideAll()
 <TH>MIL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>363</TD>
-<TD>394</TD>
+<TR><TD>364</TD>
+<TD>396</TD>
 <TD>2</TD>
 </TR>
 </table><hr/></div>
@@ -66449,9 +66494,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Cleveland Guardians at New York Yankees</TD>
 <TD>1903-06-04</TD>
-<TD>2025-06-05</TD>
-<TD>351</TD>
-<TD>538</TD>
+<TD>2026-06-04</TD>
+<TD>353</TD>
+<TD>539</TD>
 <TD>4</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -66513,9 +66558,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>New York Yankees at Cleveland Guardians</TD>
 <TD>1903-05-15</TD>
-<TD>2025-04-23</TD>
+<TD>2026-06-10</TD>
 <TD>441</TD>
-<TD>447</TD>
+<TD>450</TD>
 <TD>7</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -66746,8 +66791,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>984</TD>
-<TD>1296</TD>
+<TD>986</TD>
+<TD>1300</TD>
 <TD>16</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -66796,8 +66841,8 @@ hideAll()
 <TH>NY Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>1176</TD>
-<TD>1523</TD>
+<TR><TD>1178</TD>
+<TD>1527</TD>
 <TD>26</TD>
 </TR>
 </table><hr/></div>
@@ -68805,9 +68850,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Seattle Mariners at Cleveland Guardians</TD>
 <TD>1977-05-24</TD>
-<TD>2026-03-21</TD>
-<TD>62</TD>
-<TD>41</TD>
+<TD>2026-06-28</TD>
+<TD>64</TD>
+<TD>42</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -68882,8 +68927,8 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>275</TD>
-<TD>221</TD>
+<TD>277</TD>
+<TD>222</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -68907,8 +68952,8 @@ hideAll()
 <TH>SEA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>319</TD>
-<TD>295</TD>
+<TR><TD>321</TD>
+<TD>296</TD>
 <TD>2</TD>
 </TR>
 </table><hr/></div>
@@ -75727,9 +75772,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Texas Rangers at Kansas City Royals</TD>
 <TD>1972-05-15</TD>
-<TD>2026-03-06</TD>
-<TD>152</TD>
-<TD>170</TD>
+<TD>2026-06-11</TD>
+<TD>154</TD>
+<TD>171</TD>
 <TD>3</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -75803,8 +75848,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>337</TD>
-<TD>308</TD>
+<TD>339</TD>
+<TD>309</TD>
 <TD>9</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -75833,8 +75878,8 @@ hideAll()
 <TH>KC Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>392</TD>
-<TD>367</TD>
+<TR><TD>394</TD>
+<TD>368</TD>
 <TD>25</TD>
 </TR>
 </table><hr/></div>
@@ -76044,8 +76089,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Dallas Wings at Los Angeles Sparks</TD>
 <TD>2016-06-29</TD>
-<TD>2025-09-07</TD>
-<TD>4</TD>
+<TD>2026-06-06</TD>
+<TD>5</TD>
 <TD>12</TD>
 <TD>0</TD>
 </TR>
@@ -76105,7 +76150,7 @@ hideAll()
 <TD>2</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>14</TD>
+<TD>15</TD>
 <TD>20</TD>
 <TD>0</TD>
 </TR>
@@ -76115,7 +76160,7 @@ hideAll()
 <TH>LA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>472</TD>
+<TR><TD>473</TD>
 <TD>553</TD>
 <TD>25</TD>
 </TR>
@@ -76240,16 +76285,16 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Dallas Wings at Las Vegas Aces</TD>
 <TD>2018-06-28</TD>
-<TD>2025-08-17</TD>
+<TD>2026-06-26</TD>
 <TD>1</TD>
-<TD>15</TD>
+<TD>16</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Las Vegas Aces at Dallas Wings</TD>
 <TD>2018-05-13</TD>
-<TD>2026-05-29</TD>
-<TD>8</TD>
+<TD>2026-06-16</TD>
+<TD>9</TD>
 <TD>9</TD>
 <TD>0</TD>
 </TR>
@@ -76289,8 +76334,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>9</TD>
-<TD>24</TD>
+<TD>10</TD>
+<TD>25</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>XFL</TD>
@@ -76304,8 +76349,8 @@ hideAll()
 <TH>LV Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>36</TD>
-<TD>48</TD>
+<TR><TD>37</TD>
+<TD>49</TD>
 <TD>1</TD>
 </TR>
 </table><hr/></div>
@@ -76545,9 +76590,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Texas Rangers at Miami Marlins</TD>
 <TD>2014-08-19</TD>
-<TD>2024-06-02</TD>
+<TD>2026-06-24</TD>
+<TD>6</TD>
 <TD>5</TD>
-<TD>3</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -76647,8 +76692,8 @@ hideAll()
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>21</TD>
-<TD>15</TD>
+<TD>22</TD>
+<TD>17</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -76682,8 +76727,8 @@ hideAll()
 <TH>MIA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>121</TD>
-<TD>117</TD>
+<TR><TD>122</TD>
+<TD>119</TD>
 <TD>14</TD>
 </TR>
 </table><hr/></div>
@@ -76878,9 +76923,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Minnesota Twins at Texas Rangers</TD>
 <TD>1972-05-19</TD>
-<TD>2025-09-25</TD>
+<TD>2026-06-18</TD>
 <TD>156</TD>
-<TD>141</TD>
+<TD>144</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -76950,17 +76995,17 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Dallas Wings at Minnesota Lynx</TD>
 <TD>2016-06-05</TD>
-<TD>2025-09-02</TD>
+<TD>2026-06-10</TD>
 <TD>2</TD>
-<TD>14</TD>
+<TD>15</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Minnesota Lynx at Dallas Wings</TD>
 <TD>2016-07-17</TD>
-<TD>2026-05-15</TD>
+<TD>2026-06-28</TD>
 <TD>6</TD>
-<TD>11</TD>
+<TD>12</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -76987,7 +77032,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>289</TD>
-<TD>297</TD>
+<TD>300</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -77012,7 +77057,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>8</TD>
-<TD>25</TD>
+<TD>27</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -77022,7 +77067,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>499</TD>
-<TD>493</TD>
+<TD>498</TD>
 <TD>15</TD>
 </TR>
 </table><hr/></div>
@@ -78601,8 +78646,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Phoenix Mercury at Dallas Wings</TD>
 <TD>2016-06-22</TD>
-<TD>2025-09-12</TD>
-<TD>9</TD>
+<TD>2026-06-12</TD>
+<TD>10</TD>
 <TD>8</TD>
 <TD>0</TD>
 </TR>
@@ -78639,7 +78684,7 @@ hideAll()
 <TD>16</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>19</TD>
+<TD>20</TD>
 <TD>17</TD>
 <TD>0</TD>
 </TR>
@@ -78649,7 +78694,7 @@ hideAll()
 <TH>PHX Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>269</TD>
+<TR><TD>270</TD>
 <TD>272</TD>
 <TD>16</TD>
 </TR>
@@ -78876,6 +78921,14 @@ hideAll()
 <TD>5</TD>
 <TD>4</TD>
 </TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>Dallas Wings at Portland Fire</TD>
+<TD>2026-06-14</TD>
+<TD>2026-06-14</TD>
+<TD>0</TD>
+<TD>1</TD>
+<TD>0</TD>
+</TR>
 </table>
 <table><caption>DAL - POR by League:</caption>
 <TR><TH>League</TH>
@@ -78898,6 +78951,11 @@ hideAll()
 <TD>5</TD>
 <TD>4</TD>
 </TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>0</TD>
+<TD>1</TD>
+<TD>0</TD>
+</TR>
 </table>
 <table><caption>DAL - POR Total:</caption>
 <TR><TH>DAL Wins</TH>
@@ -78905,7 +78963,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>114</TD>
-<TD>119</TD>
+<TD>120</TD>
 <TD>17</TD>
 </TR>
 </table><hr/></div>
@@ -79265,9 +79323,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Dallas Wings at Golden State Valkyries</TD>
 <TD>2025-07-26</TD>
-<TD>2025-09-05</TD>
+<TD>2026-06-18</TD>
 <TD>0</TD>
-<TD>2</TD>
+<TD>3</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
@@ -79302,7 +79360,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>1</TD>
-<TD>3</TD>
+<TD>4</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -79312,7 +79370,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>158</TD>
-<TD>176</TD>
+<TD>177</TD>
 <TD>7</TD>
 </TR>
 </table><hr/></div>
@@ -79378,9 +79436,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>San Diego Padres at Texas Rangers</TD>
 <TD>1997-06-14</TD>
-<TD>2026-03-14</TD>
-<TD>31</TD>
-<TD>26</TD>
+<TD>2026-06-21</TD>
+<TD>33</TD>
+<TD>27</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -79486,8 +79544,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>52</TD>
-<TD>57</TD>
+<TD>54</TD>
+<TD>58</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -79516,8 +79574,8 @@ hideAll()
 <TH>SD Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>79</TD>
-<TD>99</TD>
+<TR><TD>81</TD>
+<TD>100</TD>
 <TD>2</TD>
 </TR>
 </table><hr/></div>
@@ -79952,16 +80010,16 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Dallas Wings at Seattle Storm</TD>
 <TD>2016-07-01</TD>
-<TD>2025-07-23</TD>
-<TD>6</TD>
+<TD>2026-06-23</TD>
+<TD>7</TD>
 <TD>12</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Seattle Storm at Dallas Wings</TD>
 <TD>2016-06-17</TD>
-<TD>2025-08-22</TD>
-<TD>4</TD>
+<TD>2026-06-02</TD>
+<TD>5</TD>
 <TD>12</TD>
 <TD>0</TD>
 </TR>
@@ -80029,7 +80087,7 @@ hideAll()
 <TD>3</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>10</TD>
+<TD>12</TD>
 <TD>24</TD>
 <TD>0</TD>
 </TR>
@@ -80044,7 +80102,7 @@ hideAll()
 <TH>SEA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>508</TD>
+<TR><TD>510</TD>
 <TD>563</TD>
 <TD>19</TD>
 </TR>
@@ -80111,9 +80169,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Texas Rangers at St. Louis Cardinals</TD>
 <TD>2011-10-20</TD>
-<TD>2024-07-31</TD>
-<TD>8</TD>
-<TD>5</TD>
+<TD>2026-06-03</TD>
+<TD>10</TD>
+<TD>6</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -80243,8 +80301,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>18</TD>
-<TD>11</TD>
+<TD>20</TD>
+<TD>12</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -80278,8 +80336,8 @@ hideAll()
 <TH>STL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>180</TD>
-<TD>136</TD>
+<TR><TD>182</TD>
+<TD>137</TD>
 <TD>21</TD>
 </TR>
 </table><hr/></div>
@@ -80537,8 +80595,8 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Texas Rangers at Toronto Blue Jays</TD>
 <TD>1977-07-01</TD>
-<TD>2025-08-17</TD>
-<TD>96</TD>
+<TD>2026-06-28</TD>
+<TD>100</TD>
 <TD>133</TD>
 <TD>0</TD>
 </TR>
@@ -80648,7 +80706,7 @@ hideAll()
 <TD>6</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>232</TD>
+<TD>236</TD>
 <TD>235</TD>
 <TD>0</TD>
 </TR>
@@ -80678,7 +80736,7 @@ hideAll()
 <TH>TOR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>313</TD>
+<TR><TD>317</TD>
 <TD>303</TD>
 <TD>14</TD>
 </TR>
@@ -82359,9 +82417,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Colorado Rockies at Los Angeles Angels</TD>
 <TD>2005-03-05</TD>
-<TD>2026-03-15</TD>
-<TD>18</TD>
-<TD>23</TD>
+<TD>2026-06-04</TD>
+<TD>20</TD>
+<TD>24</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -82550,8 +82608,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>262</TD>
-<TD>400</TD>
+<TD>264</TD>
+<TD>401</TD>
 <TD>8</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -82585,8 +82643,8 @@ hideAll()
 <TH>LA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>538</TD>
-<TD>721</TD>
+<TR><TD>540</TD>
+<TD>722</TD>
 <TD>26</TD>
 </TR>
 </table><hr/></div>
@@ -83091,9 +83149,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Miami Marlins at Colorado Rockies</TD>
 <TD>2012-08-17</TD>
-<TD>2025-09-18</TD>
+<TD>2026-07-01</TD>
 <TD>23</TD>
-<TD>20</TD>
+<TD>22</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -83187,7 +83245,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>117</TD>
-<TD>130</TD>
+<TD>132</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -83222,7 +83280,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>212</TD>
-<TD>202</TD>
+<TD>204</TD>
 <TD>5</TD>
 </TR>
 </table><hr/></div>
@@ -83248,9 +83306,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Milwaukee Brewers at Colorado Rockies</TD>
 <TD>1998-05-15</TD>
-<TD>2026-03-05</TD>
+<TD>2026-06-07</TD>
 <TD>76</TD>
-<TD>51</TD>
+<TD>54</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -83294,7 +83352,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>127</TD>
-<TD>123</TD>
+<TD>126</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -83314,7 +83372,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>214</TD>
-<TD>180</TD>
+<TD>183</TD>
 <TD>2</TD>
 </TR>
 </table><hr/></div>
@@ -83380,9 +83438,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Colorado Rockies at Minnesota Twins</TD>
 <TD>2003-06-11</TD>
-<TD>2024-06-12</TD>
-<TD>6</TD>
-<TD>9</TD>
+<TD>2026-06-28</TD>
+<TD>7</TD>
+<TD>11</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -83539,8 +83597,8 @@ hideAll()
 <TD>4</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>12</TD>
-<TD>15</TD>
+<TD>13</TD>
+<TD>17</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -83584,8 +83642,8 @@ hideAll()
 <TH>MIN Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>252</TD>
-<TD>220</TD>
+<TR><TD>253</TD>
+<TD>222</TD>
 <TD>25</TD>
 </TR>
 </table><hr/></div>
@@ -85887,9 +85945,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Pittsburgh Pirates at Colorado Rockies</TD>
 <TD>1993-05-31</TD>
-<TD>2025-08-03</TD>
-<TD>63</TD>
-<TD>55</TD>
+<TD>2026-06-21</TD>
+<TD>65</TD>
+<TD>56</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -85982,8 +86040,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>115</TD>
-<TD>128</TD>
+<TD>117</TD>
+<TD>129</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -86012,8 +86070,8 @@ hideAll()
 <TH>PIT Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>195</TD>
-<TD>190</TD>
+<TR><TD>197</TD>
+<TD>191</TD>
 <TD>7</TD>
 </TR>
 </table><hr/></div>
@@ -86366,9 +86424,9 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>San Antonio FC at Colorado Springs Switchbacks FC</TD>
 <TD>2017-06-25</TD>
-<TD>2025-10-05</TD>
+<TD>2026-06-25</TD>
 <TD>3</TD>
-<TD>3</TD>
+<TD>4</TD>
 <TD>3</TD>
 </TR>
 </table>
@@ -86405,7 +86463,7 @@ hideAll()
 </TR>
 <TR><TD>USL Championship</TD>
 <TD>3</TD>
-<TD>12</TD>
+<TD>13</TD>
 <TD>6</TD>
 </TR>
 </table>
@@ -86415,7 +86473,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>122</TD>
-<TD>179</TD>
+<TD>180</TD>
 <TD>7</TD>
 </TR>
 </table><hr/></div>
@@ -86481,9 +86539,9 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>Sacramento Republic FC at Colorado Springs Switchbacks FC</TD>
 <TD>2017-10-08</TD>
-<TD>2025-09-21</TD>
+<TD>2026-06-14</TD>
 <TD>4</TD>
-<TD>4</TD>
+<TD>5</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -86510,7 +86568,7 @@ hideAll()
 </TR>
 <TR><TD>USL Championship</TD>
 <TD>5</TD>
-<TD>8</TD>
+<TD>9</TD>
 <TD>2</TD>
 </TR>
 </table>
@@ -86520,7 +86578,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>150</TD>
-<TD>186</TD>
+<TD>187</TD>
 <TD>2</TD>
 </TR>
 </table><hr/></div>
@@ -89010,17 +89068,17 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Detroit Tigers at Houston Astros</TD>
 <TD>1999-07-15</TD>
-<TD>2025-04-30</TD>
-<TD>35</TD>
-<TD>41</TD>
+<TD>2026-06-17</TD>
+<TD>36</TD>
+<TD>43</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>Houston Astros at Detroit Tigers</TD>
 <TD>1998-06-08</TD>
-<TD>2025-08-20</TD>
-<TD>41</TD>
-<TD>35</TD>
+<TD>2026-06-28</TD>
+<TD>42</TD>
+<TD>38</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -89161,8 +89219,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>76</TD>
-<TD>76</TD>
+<TD>78</TD>
+<TD>81</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -89206,8 +89264,8 @@ hideAll()
 <TH>HOU Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>170</TD>
-<TD>184</TD>
+<TR><TD>172</TD>
+<TD>189</TD>
 <TD>3</TD>
 </TR>
 </table><hr/></div>
@@ -90653,9 +90711,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Minnesota Twins at Detroit Tigers</TD>
 <TD>1961-06-02</TD>
-<TD>2026-02-23</TD>
-<TD>244</TD>
-<TD>242</TD>
+<TD>2026-06-11</TD>
+<TD>246</TD>
+<TD>243</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -90783,8 +90841,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>462</TD>
-<TD>513</TD>
+<TD>464</TD>
+<TD>514</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -90823,8 +90881,8 @@ hideAll()
 <TH>MIN Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>675</TD>
-<TD>777</TD>
+<TR><TD>677</TD>
+<TD>778</TD>
 <TD>36</TD>
 </TR>
 </table><hr/></div>
@@ -91306,8 +91364,8 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Detroit Tigers at New York Yankees</TD>
 <TD>1903-06-11</TD>
-<TD>2026-03-15</TD>
-<TD>439</TD>
+<TD>2026-06-30</TD>
+<TD>441</TD>
 <TD>607</TD>
 <TD>10</TD>
 </TR>
@@ -91338,9 +91396,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>New York Yankees at Detroit Tigers</TD>
 <TD>1903-05-11</TD>
-<TD>2026-03-21</TD>
-<TD>554</TD>
-<TD>506</TD>
+<TD>2026-06-24</TD>
+<TD>555</TD>
+<TD>508</TD>
 <TD>7</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -91534,8 +91592,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>1078</TD>
-<TD>1207</TD>
+<TD>1081</TD>
+<TD>1209</TD>
 <TD>23</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -91584,8 +91642,8 @@ hideAll()
 <TH>NY Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>1436</TD>
-<TD>1614</TD>
+<TR><TD>1439</TD>
+<TD>1616</TD>
 <TD>55</TD>
 </TR>
 </table><hr/></div>
@@ -93707,9 +93765,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Seattle Mariners at Detroit Tigers</TD>
 <TD>1977-05-27</TD>
-<TD>2025-10-08</TD>
-<TD>128</TD>
-<TD>94</TD>
+<TD>2026-06-07</TD>
+<TD>130</TD>
+<TD>95</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -93800,8 +93858,8 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>237</TD>
-<TD>217</TD>
+<TD>239</TD>
+<TD>218</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -93835,8 +93893,8 @@ hideAll()
 <TH>SEA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>319</TD>
-<TD>300</TD>
+<TR><TD>321</TD>
+<TD>301</TD>
 <TD>1</TD>
 </TR>
 </table><hr/></div>
@@ -94102,8 +94160,8 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Detroit Tigers at Tampa Bay Rays</TD>
 <TD>2008-03-16</TD>
-<TD>2026-02-28</TD>
-<TD>29</TD>
+<TD>2026-06-03</TD>
+<TD>32</TD>
 <TD>39</TD>
 <TD>3</TD>
 </TR>
@@ -94208,7 +94266,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>117</TD>
+<TD>120</TD>
 <TD>115</TD>
 <TD>5</TD>
 </TR>
@@ -94243,7 +94301,7 @@ hideAll()
 <TH>TB Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>205</TD>
+<TR><TD>208</TD>
 <TD>214</TD>
 <TD>13</TD>
 </TR>
@@ -97396,9 +97454,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Indiana Fever at Connecticut Sun</TD>
 <TD>2003-06-26</TD>
-<TD>2025-08-17</TD>
+<TD>2026-06-13</TD>
 <TD>35</TD>
-<TD>12</TD>
+<TD>13</TD>
 <TD>1</TD>
 </TR>
 </table>
@@ -97415,7 +97473,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>61</TD>
-<TD>35</TD>
+<TD>36</TD>
 <TD>1</TD>
 </TR>
 </table>
@@ -97425,7 +97483,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>63</TD>
-<TD>41</TD>
+<TD>42</TD>
 <TD>5</TD>
 </TR>
 </table><hr/></div>
@@ -98425,9 +98483,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>New York Liberty at Connecticut Sun</TD>
 <TD>2003-07-06</TD>
-<TD>2026-05-03</TD>
+<TD>2026-06-08</TD>
 <TD>35</TD>
-<TD>24</TD>
+<TD>25</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -98469,7 +98527,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>62</TD>
-<TD>52</TD>
+<TD>53</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -98479,7 +98537,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>124</TD>
-<TD>127</TD>
+<TD>128</TD>
 <TD>18</TD>
 </TR>
 </table><hr/></div>
@@ -99010,10 +99068,10 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>Pittsburgh Riverhounds at Hartford Athletic</TD>
 <TD>2019-07-27</TD>
-<TD>2025-09-20</TD>
+<TD>2026-06-20</TD>
 <TD>1</TD>
 <TD>6</TD>
-<TD>1</TD>
+<TD>2</TD>
 </TR>
 </table>
 <table><caption>HFD - PIT by League:</caption>
@@ -99030,7 +99088,7 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>2</TD>
 <TD>13</TD>
-<TD>3</TD>
+<TD>4</TD>
 </TR>
 </table>
 <table><caption>HFD - PIT Total:</caption>
@@ -99040,7 +99098,7 @@ hideAll()
 </TR>
 <TR><TD>29</TD>
 <TD>43</TD>
-<TD>10</TD>
+<TD>11</TD>
 </TR>
 </table><hr/></div>
 <div id="HFDvPOR" style="display:none">
@@ -99780,8 +99838,8 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>Hartford Athletic at Tampa Bay Rowdies</TD>
 <TD>2019-04-06</TD>
-<TD>2025-10-18</TD>
-<TD>1</TD>
+<TD>2026-06-13</TD>
+<TD>2</TD>
 <TD>4</TD>
 <TD>2</TD>
 </TR>
@@ -99816,7 +99874,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>USL Championship</TD>
-<TD>2</TD>
+<TD>3</TD>
 <TD>10</TD>
 <TD>2</TD>
 </TR>
@@ -99826,7 +99884,7 @@ hideAll()
 <TH>TB Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>12</TD>
+<TR><TD>13</TD>
 <TD>24</TD>
 <TD>3</TD>
 </TR>
@@ -99869,9 +99927,17 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Connecticut Sun at Toronto Tempo</TD>
 <TD>2026-04-29</TD>
-<TD>2026-04-29</TD>
+<TD>2026-06-10</TD>
+<TD>1</TD>
 <TD>1</TD>
 <TD>0</TD>
+</TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>Toronto Tempo at Connecticut Sun</TD>
+<TD>2026-06-19</TD>
+<TD>2026-06-19</TD>
+<TD>0</TD>
+<TD>1</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -99893,7 +99959,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>1</TD>
-<TD>0</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -99903,7 +99969,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>28</TD>
-<TD>20</TD>
+<TD>22</TD>
 <TD>8</TD>
 </TR>
 </table><hr/></div>
@@ -100016,9 +100082,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Washington Mystics at Connecticut Sun</TD>
 <TD>2003-06-13</TD>
-<TD>2025-08-21</TD>
-<TD>36</TD>
-<TD>14</TD>
+<TD>2026-06-26</TD>
+<TD>37</TD>
+<TD>15</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -100039,8 +100105,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>61</TD>
-<TD>36</TD>
+<TD>62</TD>
+<TD>37</TD>
 <TD>1</TD>
 </TR>
 </table>
@@ -100049,8 +100115,8 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>85</TD>
-<TD>72</TD>
+<TR><TD>86</TD>
+<TD>73</TD>
 <TD>8</TD>
 </TR>
 </table><hr/></div>
@@ -100424,9 +100490,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Houston Astros at Kansas City Royals</TD>
 <TD>1997-06-16</TD>
-<TD>2025-04-27</TD>
-<TD>36</TD>
-<TD>27</TD>
+<TD>2026-06-14</TD>
+<TD>38</TD>
+<TD>28</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -100588,8 +100654,8 @@ hideAll()
 <TD>18</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>72</TD>
-<TD>63</TD>
+<TD>74</TD>
+<TD>64</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>NWSL</TD>
@@ -100628,8 +100694,8 @@ hideAll()
 <TH>KC Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>182</TD>
-<TD>173</TD>
+<TR><TD>184</TD>
+<TD>174</TD>
 <TD>28</TD>
 </TR>
 </table><hr/></div>
@@ -100695,9 +100761,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Houston Astros at Los Angeles Angels</TD>
 <TD>2007-06-19</TD>
-<TD>2025-09-28</TD>
-<TD>68</TD>
-<TD>45</TD>
+<TD>2026-06-11</TD>
+<TD>69</TD>
+<TD>47</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -100923,8 +100989,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>480</TD>
-<TD>492</TD>
+<TD>481</TD>
+<TD>494</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -100968,8 +101034,8 @@ hideAll()
 <TH>LA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>678</TD>
-<TD>731</TD>
+<TR><TD>679</TD>
+<TD>733</TD>
 <TD>3</TD>
 </TR>
 </table><hr/></div>
@@ -101774,9 +101840,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Minnesota Twins at Houston Astros</TD>
 <TD>1997-06-13</TD>
-<TD>2025-06-15</TD>
-<TD>28</TD>
-<TD>24</TD>
+<TD>2026-07-01</TD>
+<TD>29</TD>
+<TD>25</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -101903,8 +101969,8 @@ hideAll()
 <TD>5</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>58</TD>
-<TD>49</TD>
+<TD>59</TD>
+<TD>50</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -101943,8 +102009,8 @@ hideAll()
 <TH>MIN Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>212</TD>
-<TD>160</TD>
+<TR><TD>213</TD>
+<TD>161</TD>
 <TD>11</TD>
 </TR>
 </table><hr/></div>
@@ -103799,9 +103865,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Pittsburgh Pirates at Houston Astros</TD>
 <TD>1962-05-25</TD>
-<TD>2026-02-28</TD>
-<TD>205</TD>
-<TD>156</TD>
+<TD>2026-06-05</TD>
+<TD>206</TD>
+<TD>158</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -103862,8 +103928,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>354</TD>
-<TD>376</TD>
+<TD>355</TD>
+<TD>378</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -103882,8 +103948,8 @@ hideAll()
 <TH>PIT Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>387</TD>
-<TD>426</TD>
+<TR><TD>388</TD>
+<TD>428</TD>
 <TD>0</TD>
 </TR>
 </table><hr/></div>
@@ -105622,9 +105688,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Houston Astros at Toronto Blue Jays</TD>
 <TD>2000-03-15</TD>
-<TD>2025-09-11</TD>
-<TD>27</TD>
-<TD>31</TD>
+<TD>2026-06-24</TD>
+<TD>29</TD>
+<TD>32</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -105712,8 +105778,8 @@ hideAll()
 <TD>10</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>65</TD>
-<TD>51</TD>
+<TD>67</TD>
+<TD>52</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -105742,8 +105808,8 @@ hideAll()
 <TH>TOR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>123</TD>
-<TD>98</TD>
+<TR><TD>125</TD>
+<TD>99</TD>
 <TD>13</TD>
 </TR>
 </table><hr/></div>
@@ -106607,8 +106673,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Los Angeles Sparks at Indiana Fever</TD>
 <TD>2002-07-18</TD>
-<TD>2025-07-05</TD>
-<TD>12</TD>
+<TD>2026-06-28</TD>
+<TD>13</TD>
 <TD>18</TD>
 <TD>0</TD>
 </TR>
@@ -106645,7 +106711,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>19</TD>
+<TD>20</TD>
 <TD>42</TD>
 <TD>0</TD>
 </TR>
@@ -106655,7 +106721,7 @@ hideAll()
 <TH>LA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>94</TD>
+<TR><TD>95</TD>
 <TD>145</TD>
 <TD>0</TD>
 </TR>
@@ -108211,9 +108277,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Indiana Fever at New York Liberty</TD>
 <TD>2001-06-02</TD>
-<TD>2026-04-25</TD>
+<TD>2026-06-07</TD>
 <TD>25</TD>
-<TD>30</TD>
+<TD>31</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
@@ -108278,7 +108344,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>60</TD>
-<TD>46</TD>
+<TD>47</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -108288,7 +108354,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>317</TD>
-<TD>319</TD>
+<TD>320</TD>
 <TD>1</TD>
 </TR>
 </table><hr/></div>
@@ -109130,9 +109196,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Phoenix Mercury at Indiana Fever</TD>
 <TD>2001-07-01</TD>
-<TD>2025-07-30</TD>
-<TD>19</TD>
-<TD>15</TD>
+<TD>2026-06-24</TD>
+<TD>20</TD>
+<TD>16</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>World Hockey Association</TD>
@@ -109184,8 +109250,8 @@ hideAll()
 <TD>1</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>33</TD>
-<TD>33</TD>
+<TD>34</TD>
+<TD>34</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>World Hockey Association</TD>
@@ -109199,8 +109265,8 @@ hideAll()
 <TH>PHX Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>95</TD>
-<TD>109</TD>
+<TR><TD>96</TD>
+<TD>110</TD>
 <TD>3</TD>
 </TR>
 </table><hr/></div>
@@ -109322,9 +109388,9 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>Indy Eleven at Pittsburgh Riverhounds</TD>
 <TD>2018-05-11</TD>
-<TD>2025-10-11</TD>
+<TD>2026-06-13</TD>
 <TD>3</TD>
-<TD>4</TD>
+<TD>5</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>USL Championship</TD>
@@ -109374,7 +109440,7 @@ hideAll()
 </TR>
 <TR><TD>USL Championship</TD>
 <TD>6</TD>
-<TD>6</TD>
+<TD>7</TD>
 <TD>5</TD>
 </TR>
 </table>
@@ -109384,7 +109450,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>75</TD>
-<TD>91</TD>
+<TD>92</TD>
 <TD>5</TD>
 </TR>
 </table><hr/></div>
@@ -110656,6 +110722,14 @@ hideAll()
 <TD>0</TD>
 <TD>0</TD>
 </TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>Toronto Tempo at Indiana Fever</TD>
+<TD>2026-06-16</TD>
+<TD>2026-06-16</TD>
+<TD>1</TD>
+<TD>0</TD>
+<TD>0</TD>
+</TR>
 <TR><TD>World Hockey Association</TD>
 <TD>Indianapolis Racers at Toronto Toros</TD>
 <TD>1974-10-18</TD>
@@ -110694,6 +110768,11 @@ hideAll()
 <TD>0</TD>
 <TD>0</TD>
 </TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>1</TD>
+<TD>0</TD>
+<TD>0</TD>
+</TR>
 <TR><TD>World Hockey Association</TD>
 <TD>5</TD>
 <TD>5</TD>
@@ -110705,7 +110784,7 @@ hideAll()
 <TH>TOR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>70</TD>
+<TR><TD>71</TD>
 <TD>64</TD>
 <TD>0</TD>
 </TR>
@@ -110931,8 +111010,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Indiana Fever at Washington Mystics</TD>
 <TD>2001-07-22</TD>
-<TD>2025-09-07</TD>
-<TD>25</TD>
+<TD>2026-06-08</TD>
+<TD>26</TD>
 <TD>26</TD>
 <TD>0</TD>
 </TR>
@@ -110982,7 +111061,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>54</TD>
+<TD>55</TD>
 <TD>50</TD>
 <TD>0</TD>
 </TR>
@@ -110992,7 +111071,7 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>221</TD>
+<TR><TD>222</TD>
 <TD>184</TD>
 <TD>1</TD>
 </TR>
@@ -114533,9 +114612,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Kansas City Royals at Minnesota Twins</TD>
 <TD>1969-04-28</TD>
-<TD>2025-08-10</TD>
-<TD>190</TD>
-<TD>249</TD>
+<TD>2026-06-07</TD>
+<TD>193</TD>
+<TD>250</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -114625,8 +114704,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>485</TD>
-<TD>529</TD>
+<TD>488</TD>
+<TD>530</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -114650,8 +114729,8 @@ hideAll()
 <TH>MIN Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>523</TD>
-<TD>566</TD>
+<TR><TD>526</TD>
+<TD>567</TD>
 <TD>6</TD>
 </TR>
 </table><hr/></div>
@@ -117765,9 +117844,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>St. Louis Cardinals at Kansas City Royals</TD>
 <TD>1985-10-19</TD>
-<TD>2025-05-18</TD>
-<TD>27</TD>
-<TD>50</TD>
+<TD>2026-06-21</TD>
+<TD>29</TD>
+<TD>51</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -117918,8 +117997,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>65</TD>
-<TD>98</TD>
+<TD>67</TD>
+<TD>99</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -117958,8 +118037,8 @@ hideAll()
 <TH>STL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>153</TD>
-<TD>202</TD>
+<TR><TD>155</TD>
+<TD>203</TD>
 <TD>18</TD>
 </TR>
 </table><hr/></div>
@@ -118017,9 +118096,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Kansas City Royals at Tampa Bay Rays</TD>
 <TD>2008-07-04</TD>
-<TD>2025-05-01</TD>
-<TD>27</TD>
-<TD>37</TD>
+<TD>2026-06-25</TD>
+<TD>29</TD>
+<TD>39</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -118033,9 +118112,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Tampa Bay Rays at Kansas City Royals</TD>
 <TD>2008-07-25</TD>
-<TD>2025-06-26</TD>
+<TD>2026-06-30</TD>
 <TD>30</TD>
-<TD>26</TD>
+<TD>27</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -118088,8 +118167,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>99</TD>
-<TD>109</TD>
+<TD>101</TD>
+<TD>112</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -118108,8 +118187,8 @@ hideAll()
 <TH>TB Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>109</TD>
-<TD>127</TD>
+<TR><TD>111</TD>
+<TD>130</TD>
 <TD>0</TD>
 </TR>
 </table><hr/></div>
@@ -118390,9 +118469,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Kansas City Royals at Washington Nationals</TD>
 <TD>2010-06-21</TD>
-<TD>2024-09-26</TD>
-<TD>5</TD>
-<TD>4</TD>
+<TD>2026-06-17</TD>
+<TD>6</TD>
+<TD>6</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -118576,8 +118655,8 @@ hideAll()
 <TD>12</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>174</TD>
-<TD>154</TD>
+<TD>175</TD>
+<TD>156</TD>
 <TD>6</TD>
 </TR>
 <TR><TD>NWSL</TD>
@@ -118611,8 +118690,8 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>235</TD>
-<TD>203</TD>
+<TR><TD>236</TD>
+<TD>205</TD>
 <TD>24</TD>
 </TR>
 </table><hr/></div>
@@ -118774,9 +118853,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Las Vegas Aces at Los Angeles Sparks</TD>
 <TD>2018-07-01</TD>
-<TD>2026-05-10</TD>
+<TD>2026-06-03</TD>
 <TD>5</TD>
-<TD>10</TD>
+<TD>11</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
@@ -118842,7 +118921,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>9</TD>
-<TD>21</TD>
+<TD>22</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>XFL (2001)</TD>
@@ -118857,7 +118936,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>58</TD>
-<TD>72</TD>
+<TD>73</TD>
 <TD>2</TD>
 </TR>
 </table><hr/></div>
@@ -119524,8 +119603,8 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Los Angeles Dodgers at Minnesota Twins</TD>
 <TD>1965-10-06</TD>
-<TD>2024-04-10</TD>
-<TD>10</TD>
+<TD>2026-06-24</TD>
+<TD>13</TD>
 <TD>10</TD>
 <TD>0</TD>
 </TR>
@@ -119676,9 +119755,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Minnesota Lynx at Los Angeles Sparks</TD>
 <TD>2001-07-09</TD>
-<TD>2025-07-10</TD>
+<TD>2026-06-18</TD>
 <TD>35</TD>
-<TD>20</TD>
+<TD>21</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>World Hockey Association</TD>
@@ -119720,7 +119799,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>141</TD>
+<TD>144</TD>
 <TD>113</TD>
 <TD>0</TD>
 </TR>
@@ -119746,7 +119825,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>57</TD>
-<TD>54</TD>
+<TD>55</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>World Hockey Association</TD>
@@ -119760,8 +119839,8 @@ hideAll()
 <TH>MIN Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>446</TD>
-<TD>391</TD>
+<TR><TD>449</TD>
+<TD>392</TD>
 <TD>35</TD>
 </TR>
 </table><hr/></div>
@@ -120605,8 +120684,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>New York Liberty at Los Angeles Sparks</TD>
 <TD>2002-05-25</TD>
-<TD>2025-08-13</TD>
-<TD>15</TD>
+<TD>2026-06-22</TD>
+<TD>16</TD>
 <TD>13</TD>
 <TD>0</TD>
 </TR>
@@ -120698,7 +120777,7 @@ hideAll()
 <TD>1</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>29</TD>
+<TD>30</TD>
 <TD>32</TD>
 <TD>0</TD>
 </TR>
@@ -120718,7 +120797,7 @@ hideAll()
 <TH>NY Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>910</TD>
+<TR><TD>911</TD>
 <TD>802</TD>
 <TD>37</TD>
 </TR>
@@ -121681,17 +121760,17 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Los Angeles Angels at Arizona Diamondbacks</TD>
 <TD>2005-03-09</TD>
-<TD>2026-02-22</TD>
-<TD>21</TD>
-<TD>15</TD>
+<TD>2026-06-17</TD>
+<TD>22</TD>
+<TD>17</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>Los Angeles Dodgers at Arizona Diamondbacks</TD>
 <TD>1998-05-22</TD>
-<TD>2026-02-25</TD>
-<TD>136</TD>
-<TD>127</TD>
+<TD>2026-06-05</TD>
+<TD>138</TD>
+<TD>129</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -121849,8 +121928,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Los Angeles Sparks at Phoenix Mercury</TD>
 <TD>2001-07-12</TD>
-<TD>2026-05-22</TD>
-<TD>28</TD>
+<TD>2026-06-14</TD>
+<TD>29</TD>
 <TD>27</TD>
 <TD>0</TD>
 </TR>
@@ -121885,8 +121964,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>342</TD>
-<TD>255</TD>
+<TD>345</TD>
+<TD>259</TD>
 <TD>8</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -121910,7 +121989,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>61</TD>
+<TD>62</TD>
 <TD>48</TD>
 <TD>0</TD>
 </TR>
@@ -121920,8 +121999,8 @@ hideAll()
 <TH>PHX Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>752</TD>
-<TD>661</TD>
+<TR><TD>756</TD>
+<TD>665</TD>
 <TD>23</TD>
 </TR>
 </table><hr/></div>
@@ -121995,9 +122074,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Los Angeles Dodgers at Pittsburgh Pirates</TD>
 <TD>1958-05-27</TD>
-<TD>2025-09-04</TD>
-<TD>194</TD>
-<TD>175</TD>
+<TD>2026-06-11</TD>
+<TD>196</TD>
+<TD>176</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -122103,8 +122182,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>426</TD>
-<TD>330</TD>
+<TD>428</TD>
+<TD>331</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -122123,8 +122202,8 @@ hideAll()
 <TH>PIT Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>533</TD>
-<TD>431</TD>
+<TR><TD>535</TD>
+<TD>432</TD>
 <TD>20</TD>
 </TR>
 </table><hr/></div>
@@ -122238,8 +122317,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Portland Fire at Los Angeles Sparks</TD>
 <TD>2001-06-18</TD>
-<TD>2002-07-24</TD>
-<TD>3</TD>
+<TD>2026-06-07</TD>
+<TD>4</TD>
 <TD>0</TD>
 <TD>0</TD>
 </TR>
@@ -122271,7 +122350,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>7</TD>
+<TD>8</TD>
 <TD>0</TD>
 <TD>0</TD>
 </TR>
@@ -122281,7 +122360,7 @@ hideAll()
 <TH>POR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>206</TD>
+<TR><TD>207</TD>
 <TD>211</TD>
 <TD>4</TD>
 </TR>
@@ -122747,9 +122826,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Los Angeles Sparks at Golden State Valkyries</TD>
 <TD>2025-05-07</TD>
-<TD>2025-08-10</TD>
+<TD>2026-06-16</TD>
 <TD>2</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>XFL (2001)</TD>
@@ -122797,7 +122876,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>2</TD>
-<TD>3</TD>
+<TD>4</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>XFL (2001)</TD>
@@ -122812,7 +122891,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>1009</TD>
-<TD>882</TD>
+<TD>883</TD>
 <TD>8</TD>
 </TR>
 </table><hr/></div>
@@ -122854,9 +122933,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Los Angeles Dodgers at San Diego Padres</TD>
 <TD>1969-04-28</TD>
-<TD>2026-05-21</TD>
-<TD>257</TD>
-<TD>235</TD>
+<TD>2026-06-28</TD>
+<TD>259</TD>
+<TD>236</TD>
 <TD>3</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -122976,8 +123055,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>593</TD>
-<TD>485</TD>
+<TD>595</TD>
+<TD>486</TD>
 <TD>6</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -123001,8 +123080,8 @@ hideAll()
 <TH>SD Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>663</TD>
-<TD>532</TD>
+<TR><TD>665</TD>
+<TD>533</TD>
 <TD>9</TD>
 </TR>
 </table><hr/></div>
@@ -123307,9 +123386,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Los Angeles Angels at Seattle Mariners</TD>
 <TD>2005-03-24</TD>
-<TD>2026-03-03</TD>
+<TD>2026-07-01</TD>
 <TD>104</TD>
-<TD>97</TD>
+<TD>99</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -123443,8 +123522,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Los Angeles Sparks at Seattle Storm</TD>
 <TD>2001-06-17</TD>
-<TD>2025-09-02</TD>
-<TD>22</TD>
+<TD>2026-06-11</TD>
+<TD>23</TD>
 <TD>35</TD>
 <TD>0</TD>
 </TR>
@@ -123465,7 +123544,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>267</TD>
-<TD>227</TD>
+<TD>229</TD>
 <TD>6</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -123489,7 +123568,7 @@ hideAll()
 <TD>3</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>56</TD>
+<TD>57</TD>
 <TD>56</TD>
 <TD>0</TD>
 </TR>
@@ -123499,8 +123578,8 @@ hideAll()
 <TH>SEA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>541</TD>
-<TD>482</TD>
+<TR><TD>542</TD>
+<TD>484</TD>
 <TD>9</TD>
 </TR>
 </table><hr/></div>
@@ -123777,16 +123856,16 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Tampa Bay Rays at Los Angeles Angels</TD>
 <TD>2008-06-10</TD>
-<TD>2025-08-06</TD>
-<TD>22</TD>
-<TD>40</TD>
+<TD>2026-06-14</TD>
+<TD>24</TD>
+<TD>41</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>Tampa Bay Rays at Los Angeles Dodgers</TD>
 <TD>2013-08-10</TD>
-<TD>2024-08-25</TD>
-<TD>9</TD>
+<TD>2026-06-17</TD>
+<TD>12</TD>
 <TD>4</TD>
 <TD>0</TD>
 </TR>
@@ -123875,8 +123954,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>87</TD>
-<TD>98</TD>
+<TD>92</TD>
+<TD>99</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -123905,8 +123984,8 @@ hideAll()
 <TH>TB Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>128</TD>
-<TD>144</TD>
+<TR><TD>133</TD>
+<TD>145</TD>
 <TD>3</TD>
 </TR>
 </table><hr/></div>
@@ -124042,6 +124121,14 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>Los Angeles Sparks at Toronto Tempo</TD>
+<TD>2026-06-25</TD>
+<TD>2026-06-25</TD>
+<TD>0</TD>
+<TD>1</TD>
+<TD>0</TD>
+</TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Toronto Tempo at Los Angeles Sparks</TD>
 <TD>2026-05-16</TD>
 <TD>2026-05-17</TD>
@@ -124099,7 +124186,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>1</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>World Hockey Association</TD>
@@ -124114,7 +124201,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>229</TD>
-<TD>210</TD>
+<TD>211</TD>
 <TD>23</TD>
 </TR>
 </table><hr/></div>
@@ -125681,8 +125768,8 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>Louisville City FC at Phoenix Rising FC</TD>
 <TD>2023-06-18</TD>
-<TD>2023-06-18</TD>
-<TD>0</TD>
+<TD>2026-06-11</TD>
+<TD>1</TD>
 <TD>0</TD>
 <TD>1</TD>
 </TR>
@@ -125702,7 +125789,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>USL Championship</TD>
-<TD>2</TD>
+<TD>3</TD>
 <TD>0</TD>
 <TD>2</TD>
 </TR>
@@ -125712,7 +125799,7 @@ hideAll()
 <TH>PHX Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>2</TD>
+<TR><TD>3</TD>
 <TD>0</TD>
 <TD>2</TD>
 </TR>
@@ -126317,6 +126404,14 @@ hideAll()
 <TD>2</TD>
 </TR>
 <TR><TD>United Football League</TD>
+<TD>Louisville Kings at St. Louis Battlehawks</TD>
+<TD>2026-06-07</TD>
+<TD>2026-06-07</TD>
+<TD>1</TD>
+<TD>0</TD>
+<TD>0</TD>
+</TR>
+<TR><TD>United Football League</TD>
 <TD>St. Louis Battlehawks at Louisville Kings</TD>
 <TD>2026-05-01</TD>
 <TD>2026-05-01</TD>
@@ -126352,7 +126447,7 @@ hideAll()
 <TD>3</TD>
 </TR>
 <TR><TD>United Football League</TD>
-<TD>0</TD>
+<TD>1</TD>
 <TD>1</TD>
 <TD>0</TD>
 </TR>
@@ -126362,7 +126457,7 @@ hideAll()
 <TH>STL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>138</TD>
+<TR><TD>139</TD>
 <TD>166</TD>
 <TD>10</TD>
 </TR>
@@ -126561,8 +126656,8 @@ hideAll()
 <TR><TD>United Football League</TD>
 <TD>DC Defenders at Louisville Kings</TD>
 <TD>2026-05-16</TD>
-<TD>2026-05-16</TD>
-<TD>1</TD>
+<TD>2026-06-13</TD>
+<TD>2</TD>
 <TD>0</TD>
 <TD>0</TD>
 </TR>
@@ -126597,7 +126692,7 @@ hideAll()
 <TD>7</TD>
 </TR>
 <TR><TD>United Football League</TD>
-<TD>2</TD>
+<TD>3</TD>
 <TD>0</TD>
 <TD>0</TD>
 </TR>
@@ -126607,7 +126702,7 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>72</TD>
+<TR><TD>73</TD>
 <TD>64</TD>
 <TD>8</TD>
 </TR>
@@ -127053,8 +127148,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Minnesota Lynx at Las Vegas Aces</TD>
 <TD>2018-06-24</TD>
-<TD>2025-09-05</TD>
-<TD>8</TD>
+<TD>2026-06-14</TD>
+<TD>9</TD>
 <TD>7</TD>
 <TD>0</TD>
 </TR>
@@ -127091,7 +127186,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>15</TD>
+<TD>16</TD>
 <TD>14</TD>
 <TD>0</TD>
 </TR>
@@ -127101,7 +127196,7 @@ hideAll()
 <TH>MIN Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>46</TD>
+<TR><TD>47</TD>
 <TD>43</TD>
 <TD>1</TD>
 </TR>
@@ -127582,17 +127677,17 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Las Vegas Aces at New York Liberty</TD>
 <TD>2018-06-13</TD>
-<TD>2025-07-09</TD>
+<TD>2026-06-30</TD>
 <TD>7</TD>
-<TD>9</TD>
+<TD>10</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>New York Liberty at Las Vegas Aces</TD>
 <TD>2018-06-23</TD>
-<TD>2025-08-14</TD>
+<TD>2026-06-24</TD>
 <TD>13</TD>
-<TD>5</TD>
+<TD>6</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>XFL (2001)</TD>
@@ -127642,7 +127737,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>20</TD>
-<TD>14</TD>
+<TD>16</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>XFL (2001)</TD>
@@ -127657,7 +127752,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>44</TD>
-<TD>35</TD>
+<TD>37</TD>
 <TD>0</TD>
 </TR>
 </table><hr/></div>
@@ -128411,8 +128506,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Las Vegas Aces at Phoenix Mercury</TD>
 <TD>2018-06-10</TD>
-<TD>2025-10-11</TD>
-<TD>14</TD>
+<TD>2026-06-18</TD>
+<TD>15</TD>
 <TD>4</TD>
 <TD>0</TD>
 </TR>
@@ -128457,7 +128552,7 @@ hideAll()
 <TD>5</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>27</TD>
+<TD>28</TD>
 <TD>13</TD>
 <TD>0</TD>
 </TR>
@@ -128467,7 +128562,7 @@ hideAll()
 <TH>PHX Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>71</TD>
+<TR><TD>72</TD>
 <TD>56</TD>
 <TD>7</TD>
 </TR>
@@ -128652,6 +128747,14 @@ hideAll()
 <TD>1</TD>
 <TD>0</TD>
 </TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>Las Vegas Aces at Portland Fire</TD>
+<TD>2026-06-12</TD>
+<TD>2026-06-12</TD>
+<TD>1</TD>
+<TD>0</TD>
+<TD>0</TD>
+</TR>
 </table>
 <table><caption>LV - POR by League:</caption>
 <TR><TH>League</TH>
@@ -128679,13 +128782,18 @@ hideAll()
 <TD>2</TD>
 <TD>0</TD>
 </TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>1</TD>
+<TD>0</TD>
+<TD>0</TD>
+</TR>
 </table>
 <table><caption>LV - POR Total:</caption>
 <TR><TH>LV Wins</TH>
 <TH>POR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>56</TD>
+<TR><TD>57</TD>
 <TD>48</TD>
 <TD>0</TD>
 </TR>
@@ -128704,17 +128812,17 @@ hideAll()
 <TR><TD>National Hockey League</TD>
 <TD>Carolina Hurricanes at Vegas Golden Knights</TD>
 <TD>2017-12-13</TD>
-<TD>2025-10-21</TD>
-<TD>3</TD>
-<TD>5</TD>
+<TD>2026-06-15</TD>
+<TD>4</TD>
+<TD>7</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Hockey League</TD>
 <TD>Vegas Golden Knights at Carolina Hurricanes</TD>
 <TD>2018-01-21</TD>
-<TD>2025-10-28</TD>
-<TD>4</TD>
-<TD>4</TD>
+<TD>2026-06-12</TD>
+<TD>5</TD>
+<TD>6</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -128725,8 +128833,8 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>National Hockey League</TD>
-<TD>7</TD>
 <TD>9</TD>
+<TD>13</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -128735,8 +128843,8 @@ hideAll()
 <TH>RAL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>7</TD>
-<TD>9</TD>
+<TR><TD>9</TD>
+<TD>13</TD>
 <TD>0</TD>
 </TR>
 </table><hr/></div>
@@ -129020,8 +129128,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Golden State Valkyries at Las Vegas Aces</TD>
 <TD>2025-07-12</TD>
-<TD>2025-08-03</TD>
-<TD>2</TD>
+<TD>2026-06-21</TD>
+<TD>4</TD>
 <TD>0</TD>
 <TD>0</TD>
 </TR>
@@ -129072,7 +129180,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>4</TD>
+<TD>6</TD>
 <TD>1</TD>
 <TD>0</TD>
 </TR>
@@ -129087,7 +129195,7 @@ hideAll()
 <TH>SF Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>11</TD>
+<TR><TD>13</TD>
 <TD>8</TD>
 <TD>1</TD>
 </TR>
@@ -129557,8 +129665,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Seattle Storm at Las Vegas Aces</TD>
 <TD>2018-05-28</TD>
-<TD>2025-09-19</TD>
-<TD>15</TD>
+<TD>2026-06-09</TD>
+<TD>16</TD>
 <TD>6</TD>
 <TD>0</TD>
 </TR>
@@ -129601,7 +129709,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>26</TD>
+<TD>27</TD>
 <TD>13</TD>
 <TD>1</TD>
 </TR>
@@ -129616,7 +129724,7 @@ hideAll()
 <TH>SEA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>41</TD>
+<TR><TD>42</TD>
 <TD>23</TD>
 <TD>2</TD>
 </TR>
@@ -134793,10 +134901,10 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>Miami FC at Oakland Roots</TD>
 <TD>2023-04-30</TD>
-<TD>2023-04-30</TD>
+<TD>2026-06-14</TD>
 <TD>0</TD>
 <TD>0</TD>
-<TD>1</TD>
+<TD>2</TD>
 </TR>
 <TR><TD>USL Championship</TD>
 <TD>Oakland Roots at Miami FC</TD>
@@ -134831,7 +134939,7 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>0</TD>
 <TD>1</TD>
-<TD>1</TD>
+<TD>2</TD>
 </TR>
 </table>
 <table><caption>MIA - OAK Total:</caption>
@@ -134841,7 +134949,7 @@ hideAll()
 </TR>
 <TR><TD>30</TD>
 <TD>32</TD>
-<TD>2</TD>
+<TD>3</TD>
 </TR>
 </table><hr/></div>
 <div id="MIAvOKC" style="display:none">
@@ -135274,9 +135382,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Miami Marlins at Philadelphia Phillies</TD>
 <TD>2012-04-09</TD>
-<TD>2026-02-27</TD>
-<TD>46</TD>
-<TD>73</TD>
+<TD>2026-06-17</TD>
+<TD>47</TD>
+<TD>75</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -135390,8 +135498,8 @@ hideAll()
 <TD>3</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>249</TD>
-<TD>305</TD>
+<TD>250</TD>
+<TD>307</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -135425,8 +135533,8 @@ hideAll()
 <TH>PHI Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>407</TD>
-<TD>461</TD>
+<TR><TD>408</TD>
+<TD>463</TD>
 <TD>20</TD>
 </TR>
 </table><hr/></div>
@@ -135484,8 +135592,8 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Arizona Diamondbacks at Miami Marlins</TD>
 <TD>2012-04-27</TD>
-<TD>2025-04-17</TD>
-<TD>20</TD>
+<TD>2026-06-11</TD>
+<TD>23</TD>
 <TD>25</TD>
 <TD>0</TD>
 </TR>
@@ -135622,7 +135730,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>84</TD>
+<TD>87</TD>
 <TD>104</TD>
 <TD>0</TD>
 </TR>
@@ -135657,7 +135765,7 @@ hideAll()
 <TH>PHX Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>148</TD>
+<TR><TD>151</TD>
 <TD>177</TD>
 <TD>4</TD>
 </TR>
@@ -135700,9 +135808,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Miami Marlins at Pittsburgh Pirates</TD>
 <TD>2012-07-20</TD>
-<TD>2025-06-11</TD>
-<TD>14</TD>
-<TD>27</TD>
+<TD>2026-06-14</TD>
+<TD>16</TD>
+<TD>28</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -135782,8 +135890,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>109</TD>
-<TD>128</TD>
+<TD>111</TD>
+<TD>129</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -135807,8 +135915,8 @@ hideAll()
 <TH>PIT Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>200</TD>
-<TD>228</TD>
+<TR><TD>202</TD>
+<TD>229</TD>
 <TD>11</TD>
 </TR>
 </table><hr/></div>
@@ -136257,8 +136365,8 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>San Francisco Giants at Miami Marlins</TD>
 <TD>2012-05-24</TD>
-<TD>2025-06-01</TD>
-<TD>23</TD>
+<TD>2026-06-21</TD>
+<TD>26</TD>
 <TD>19</TD>
 <TD>0</TD>
 </TR>
@@ -136302,7 +136410,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>111</TD>
+<TD>114</TD>
 <TD>131</TD>
 <TD>0</TD>
 </TR>
@@ -136322,7 +136430,7 @@ hideAll()
 <TH>SF Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>158</TD>
+<TR><TD>161</TD>
 <TD>174</TD>
 <TD>0</TD>
 </TR>
@@ -137017,9 +137125,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Miami Marlins at St. Louis Cardinals</TD>
 <TD>2012-03-05</TD>
-<TD>2026-03-21</TD>
-<TD>31</TD>
-<TD>53</TD>
+<TD>2026-06-28</TD>
+<TD>33</TD>
+<TD>54</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -137120,8 +137228,8 @@ hideAll()
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>158</TD>
-<TD>219</TD>
+<TD>160</TD>
+<TD>220</TD>
 <TD>13</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -137150,8 +137258,8 @@ hideAll()
 <TH>STL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>191</TD>
-<TD>255</TD>
+<TR><TD>193</TD>
+<TD>256</TD>
 <TD>19</TD>
 </TR>
 </table><hr/></div>
@@ -137249,9 +137357,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Tampa Bay Rays at Miami Marlins</TD>
 <TD>2012-03-20</TD>
-<TD>2025-05-18</TD>
-<TD>10</TD>
-<TD>26</TD>
+<TD>2026-06-07</TD>
+<TD>12</TD>
+<TD>27</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -137336,8 +137444,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>70</TD>
-<TD>91</TD>
+<TD>72</TD>
+<TD>92</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -137371,8 +137479,8 @@ hideAll()
 <TH>TB Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>196</TD>
-<TD>256</TD>
+<TR><TD>198</TD>
+<TD>257</TD>
 <TD>18</TD>
 </TR>
 </table><hr/></div>
@@ -137782,8 +137890,8 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Miami Marlins at Washington Nationals</TD>
 <TD>2012-03-17</TD>
-<TD>2026-03-14</TD>
-<TD>60</TD>
+<TD>2026-06-03</TD>
+<TD>63</TD>
 <TD>86</TD>
 <TD>6</TD>
 </TR>
@@ -137949,7 +138057,7 @@ hideAll()
 <TD>5</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>237</TD>
+<TD>240</TD>
 <TD>218</TD>
 <TD>11</TD>
 </TR>
@@ -137989,7 +138097,7 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>441</TD>
+<TR><TD>444</TD>
 <TD>364</TD>
 <TD>33</TD>
 </TR>
@@ -139126,9 +139234,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Philadelphia Phillies at Milwaukee Brewers</TD>
 <TD>1998-07-13</TD>
-<TD>2025-09-04</TD>
-<TD>46</TD>
+<TD>2026-06-14</TD>
 <TD>48</TD>
+<TD>49</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -139197,8 +139305,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>248</TD>
-<TD>228</TD>
+<TD>250</TD>
+<TD>229</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -139217,8 +139325,8 @@ hideAll()
 <TH>PHI Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>424</TD>
-<TD>410</TD>
+<TR><TD>426</TD>
+<TD>411</TD>
 <TD>2</TD>
 </TR>
 </table><hr/></div>
@@ -139742,9 +139850,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>San Francisco Giants at Milwaukee Brewers</TD>
 <TD>1998-04-17</TD>
-<TD>2026-02-25</TD>
-<TD>63</TD>
-<TD>71</TD>
+<TD>2026-06-04</TD>
+<TD>65</TD>
+<TD>73</TD>
 <TD>3</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -139808,8 +139916,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>208</TD>
-<TD>215</TD>
+<TD>210</TD>
+<TD>217</TD>
 <TD>5</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -139828,8 +139936,8 @@ hideAll()
 <TH>SF Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>333</TD>
-<TD>307</TD>
+<TR><TD>335</TD>
+<TD>309</TD>
 <TD>6</TD>
 </TR>
 </table><hr/></div>
@@ -142597,9 +142705,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Minnesota Twins at Arizona Diamondbacks</TD>
 <TD>2004-07-03</TD>
-<TD>2024-06-27</TD>
-<TD>7</TD>
-<TD>8</TD>
+<TD>2026-06-21</TD>
+<TD>9</TD>
+<TD>9</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -142701,8 +142809,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Minnesota Lynx at Phoenix Mercury</TD>
 <TD>2001-08-02</TD>
-<TD>2026-05-13</TD>
-<TD>30</TD>
+<TD>2026-06-02</TD>
+<TD>31</TD>
 <TD>26</TD>
 <TD>0</TD>
 </TR>
@@ -142753,8 +142861,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>20</TD>
-<TD>13</TD>
+<TD>22</TD>
+<TD>14</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -142778,7 +142886,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>74</TD>
+<TD>75</TD>
 <TD>40</TD>
 <TD>0</TD>
 </TR>
@@ -142793,8 +142901,8 @@ hideAll()
 <TH>PHX Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>224</TD>
-<TD>195</TD>
+<TR><TD>227</TD>
+<TD>196</TD>
 <TD>11</TD>
 </TR>
 </table><hr/></div>
@@ -143058,8 +143166,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Portland Fire at Minnesota Lynx</TD>
 <TD>2001-07-11</TD>
-<TD>2002-07-10</TD>
-<TD>2</TD>
+<TD>2026-06-16</TD>
+<TD>3</TD>
 <TD>1</TD>
 <TD>0</TD>
 </TR>
@@ -143106,7 +143214,7 @@ hideAll()
 <TD>4</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>4</TD>
+<TD>5</TD>
 <TD>2</TD>
 <TD>0</TD>
 </TR>
@@ -143116,7 +143224,7 @@ hideAll()
 <TH>POR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>76</TD>
+<TR><TD>77</TD>
 <TD>107</TD>
 <TD>12</TD>
 </TR>
@@ -143446,16 +143554,16 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Golden State Valkyries at Minnesota Lynx</TD>
 <TD>2025-07-06</TD>
-<TD>2025-09-14</TD>
-<TD>3</TD>
+<TD>2026-06-05</TD>
+<TD>4</TD>
 <TD>0</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Minnesota Lynx at Golden State Valkyries</TD>
 <TD>2025-06-02</TD>
-<TD>2025-09-18</TD>
-<TD>3</TD>
+<TD>2026-06-20</TD>
+<TD>4</TD>
 <TD>0</TD>
 <TD>0</TD>
 </TR>
@@ -143487,7 +143595,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>6</TD>
+<TD>8</TD>
 <TD>0</TD>
 <TD>0</TD>
 </TR>
@@ -143497,7 +143605,7 @@ hideAll()
 <TH>SF Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>109</TD>
+<TR><TD>111</TD>
 <TD>119</TD>
 <TD>1</TD>
 </TR>
@@ -144125,8 +144233,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Seattle Storm at Minnesota Lynx</TD>
 <TD>2001-06-29</TD>
-<TD>2025-08-29</TD>
-<TD>36</TD>
+<TD>2026-06-06</TD>
+<TD>37</TD>
 <TD>17</TD>
 <TD>0</TD>
 </TR>
@@ -144178,7 +144286,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>52</TD>
+<TD>53</TD>
 <TD>51</TD>
 <TD>1</TD>
 </TR>
@@ -144188,7 +144296,7 @@ hideAll()
 <TH>SEA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>356</TD>
+<TR><TD>357</TD>
 <TD>402</TD>
 <TD>9</TD>
 </TR>
@@ -144271,9 +144379,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>St. Louis Cardinals at Minnesota Twins</TD>
 <TD>1987-10-17</TD>
-<TD>2024-08-25</TD>
-<TD>21</TD>
-<TD>13</TD>
+<TD>2026-06-14</TD>
+<TD>23</TD>
+<TD>14</TD>
 <TD>2</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -144424,8 +144532,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>35</TD>
-<TD>42</TD>
+<TD>37</TD>
+<TD>43</TD>
 <TD>3</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -144459,8 +144567,8 @@ hideAll()
 <TH>STL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>249</TD>
-<TD>300</TD>
+<TR><TD>251</TD>
+<TD>301</TD>
 <TD>51</TD>
 </TR>
 </table><hr/></div>
@@ -145304,17 +145412,17 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Minnesota Lynx at Washington Mystics</TD>
 <TD>2001-06-26</TD>
-<TD>2026-04-25</TD>
-<TD>17</TD>
+<TD>2026-06-24</TD>
+<TD>18</TD>
 <TD>18</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Washington Mystics at Minnesota Lynx</TD>
 <TD>2001-07-28</TD>
-<TD>2025-08-08</TD>
+<TD>2026-06-21</TD>
 <TD>25</TD>
-<TD>12</TD>
+<TD>13</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -145365,8 +145473,8 @@ hideAll()
 <TD>1</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>42</TD>
-<TD>30</TD>
+<TD>43</TD>
+<TD>31</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -145375,8 +145483,8 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>287</TD>
-<TD>225</TD>
+<TR><TD>288</TD>
+<TD>226</TD>
 <TD>20</TD>
 </TR>
 </table><hr/></div>
@@ -155235,9 +155343,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>New York Mets at Philadelphia Phillies</TD>
 <TD>1962-05-04</TD>
-<TD>2025-09-11</TD>
-<TD>255</TD>
-<TD>287</TD>
+<TD>2026-06-21</TD>
+<TD>256</TD>
+<TD>289</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -155299,9 +155407,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Philadelphia Phillies at New York Mets</TD>
 <TD>1962-04-27</TD>
-<TD>2025-08-27</TD>
-<TD>274</TD>
-<TD>263</TD>
+<TD>2026-06-28</TD>
+<TD>275</TD>
+<TD>265</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -155675,8 +155783,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>2195</TD>
-<TD>1681</TD>
+<TD>2197</TD>
+<TD>1685</TD>
 <TD>35</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -155740,8 +155848,8 @@ hideAll()
 <TH>PHI Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>3050</TD>
-<TD>2623</TD>
+<TR><TD>3052</TD>
+<TD>2627</TD>
 <TD>146</TD>
 </TR>
 </table><hr/></div>
@@ -156872,8 +156980,8 @@ hideAll()
 <TR><TD>National Basketball Association</TD>
 <TD>New York Knicks at San Antonio Spurs</TD>
 <TD>1976-12-14</TD>
-<TD>2026-01-01</TD>
-<TD>15</TD>
+<TD>2026-06-14</TD>
+<TD>18</TD>
 <TD>46</TD>
 <TD>0</TD>
 </TR>
@@ -156888,9 +156996,9 @@ hideAll()
 <TR><TD>National Basketball Association</TD>
 <TD>San Antonio Spurs at New York Knicks</TD>
 <TD>1976-10-23</TD>
-<TD>2026-03-01</TD>
-<TD>39</TD>
-<TD>22</TD>
+<TD>2026-06-11</TD>
+<TD>40</TD>
+<TD>23</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -156962,8 +157070,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
-<TD>55</TD>
-<TD>71</TD>
+<TD>59</TD>
+<TD>72</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>USL Championship</TD>
@@ -156987,8 +157095,8 @@ hideAll()
 <TH>SA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>94</TD>
-<TD>101</TD>
+<TR><TD>98</TD>
+<TD>102</TD>
 <TD>1</TD>
 </TR>
 </table><hr/></div>
@@ -157260,9 +157368,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>New York Liberty at Golden State Valkyries</TD>
 <TD>2025-06-26</TD>
-<TD>2025-09-03</TD>
+<TD>2026-06-28</TD>
 <TD>1</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>XFL (2001)</TD>
@@ -157302,7 +157410,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>3</TD>
-<TD>2</TD>
+<TD>3</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>XFL (2001)</TD>
@@ -157317,7 +157425,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>436</TD>
-<TD>494</TD>
+<TD>495</TD>
 <TD>0</TD>
 </TR>
 </table><hr/></div>
@@ -157383,9 +157491,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>New York Mets at San Diego Padres</TD>
 <TD>1969-06-06</TD>
-<TD>2025-07-30</TD>
-<TD>118</TD>
-<TD>144</TD>
+<TD>2026-06-07</TD>
+<TD>120</TD>
+<TD>145</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -157574,8 +157682,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>279</TD>
-<TD>270</TD>
+<TD>281</TD>
+<TD>271</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -157619,8 +157727,8 @@ hideAll()
 <TH>SD Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>357</TD>
-<TD>323</TD>
+<TR><TD>359</TD>
+<TD>324</TD>
 <TD>3</TD>
 </TR>
 </table><hr/></div>
@@ -158142,9 +158250,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>New York Mets at Seattle Mariners</TD>
 <TD>2005-06-18</TD>
-<TD>2024-08-11</TD>
-<TD>3</TD>
-<TD>9</TD>
+<TD>2026-06-03</TD>
+<TD>4</TD>
+<TD>11</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -158374,9 +158482,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>New York Liberty at Seattle Storm</TD>
 <TD>2002-05-31</TD>
-<TD>2025-09-06</TD>
+<TD>2026-06-26</TD>
 <TD>12</TD>
-<TD>18</TD>
+<TD>19</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
@@ -158405,8 +158513,8 @@ hideAll()
 <TD>3</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>290</TD>
-<TD>217</TD>
+<TD>291</TD>
+<TD>219</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -158446,7 +158554,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>29</TD>
-<TD>31</TD>
+<TD>32</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -158455,8 +158563,8 @@ hideAll()
 <TH>SEA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>435</TD>
-<TD>363</TD>
+<TR><TD>436</TD>
+<TD>366</TD>
 <TD>30</TD>
 </TR>
 </table><hr/></div>
@@ -158634,9 +158742,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>St. Louis Cardinals at New York Mets</TD>
 <TD>1962-04-18</TD>
-<TD>2026-03-20</TD>
-<TD>220</TD>
-<TD>234</TD>
+<TD>2026-06-11</TD>
+<TD>221</TD>
+<TD>236</TD>
 <TD>6</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -158920,8 +159028,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>1934</TD>
-<TD>1539</TD>
+<TD>1935</TD>
+<TD>1541</TD>
 <TD>33</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -158965,8 +159073,8 @@ hideAll()
 <TH>STL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>2229</TD>
-<TD>1836</TD>
+<TR><TD>2230</TD>
+<TD>1838</TD>
 <TD>77</TD>
 </TR>
 </table><hr/></div>
@@ -159344,17 +159452,17 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>New York Mets at Toronto Blue Jays</TD>
 <TD>1998-06-30</TD>
-<TD>2026-02-23</TD>
-<TD>11</TD>
-<TD>15</TD>
+<TD>2026-06-30</TD>
+<TD>12</TD>
+<TD>16</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>New York Yankees at Toronto Blue Jays</TD>
 <TD>1977-06-27</TD>
-<TD>2026-03-19</TD>
-<TD>212</TD>
-<TD>202</TD>
+<TD>2026-06-14</TD>
+<TD>214</TD>
+<TD>203</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -159581,6 +159689,14 @@ hideAll()
 <TD>0</TD>
 <TD>0</TD>
 </TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>Toronto Tempo at New York Liberty</TD>
+<TD>2026-06-03</TD>
+<TD>2026-06-03</TD>
+<TD>1</TD>
+<TD>0</TD>
+<TD>0</TD>
+</TR>
 <TR><TD>World Hockey Association</TD>
 <TD>New York Golden Blades/Jersey Knights at Toronto Toros</TD>
 <TD>1973-10-09</TD>
@@ -159625,8 +159741,8 @@ hideAll()
 <TD>19</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>483</TD>
-<TD>398</TD>
+<TD>486</TD>
+<TD>400</TD>
 <TD>3</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -159664,6 +159780,11 @@ hideAll()
 <TD>0</TD>
 <TD>3</TD>
 </TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>1</TD>
+<TD>0</TD>
+<TD>0</TD>
+</TR>
 <TR><TD>World Hockey Association</TD>
 <TD>3</TD>
 <TD>4</TD>
@@ -159675,8 +159796,8 @@ hideAll()
 <TH>TOR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>837</TD>
-<TD>705</TD>
+<TR><TD>841</TD>
+<TD>707</TD>
 <TD>66</TD>
 </TR>
 </table><hr/></div>
@@ -160440,9 +160561,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Washington Mystics at New York Liberty</TD>
 <TD>2001-06-16</TD>
-<TD>2025-09-09</TD>
-<TD>38</TD>
-<TD>18</TD>
+<TD>2026-06-19</TD>
+<TD>39</TD>
+<TD>19</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>XFL</TD>
@@ -160536,8 +160657,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>63</TD>
-<TD>44</TD>
+<TD>64</TD>
+<TD>45</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>XFL</TD>
@@ -160551,8 +160672,8 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>1897</TD>
-<TD>1505</TD>
+<TR><TD>1898</TD>
+<TD>1506</TD>
 <TD>117</TD>
 </TR>
 </table><hr/></div>
@@ -160969,8 +161090,8 @@ hideAll()
 <TR><TD>USL Championship</TD>
 <TD>Oakland Roots at Phoenix Rising FC</TD>
 <TD>2021-05-09</TD>
-<TD>2026-03-22</TD>
-<TD>1</TD>
+<TD>2026-06-21</TD>
+<TD>2</TD>
 <TD>3</TD>
 <TD>3</TD>
 </TR>
@@ -161005,7 +161126,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>USL Championship</TD>
-<TD>2</TD>
+<TD>3</TD>
 <TD>6</TD>
 <TD>5</TD>
 </TR>
@@ -161015,7 +161136,7 @@ hideAll()
 <TH>PHX Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>69</TD>
+<TR><TD>70</TD>
 <TD>59</TD>
 <TD>9</TD>
 </TR>
@@ -166723,9 +166844,9 @@ hideAll()
 <TR><TD>United Football League</TD>
 <TD>DC Defenders at Orlando Storm</TD>
 <TD>2026-05-23</TD>
-<TD>2026-05-23</TD>
+<TD>2026-06-07</TD>
 <TD>1</TD>
-<TD>0</TD>
+<TD>1</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>United Football League</TD>
@@ -166794,7 +166915,7 @@ hideAll()
 </TR>
 <TR><TD>United Football League</TD>
 <TD>2</TD>
-<TD>0</TD>
+<TD>1</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
@@ -166814,7 +166935,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>110</TD>
-<TD>83</TD>
+<TD>84</TD>
 <TD>13</TD>
 </TR>
 </table><hr/></div>
@@ -168479,9 +168600,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Pittsburgh Pirates at Philadelphia Phillies</TD>
 <TD>1887-07-04</TD>
-<TD>2026-02-22</TD>
-<TD>646</TD>
-<TD>566</TD>
+<TD>2026-06-30</TD>
+<TD>647</TD>
+<TD>567</TD>
 <TD>9</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -168608,8 +168729,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>1139</TD>
-<TD>1261</TD>
+<TD>1140</TD>
+<TD>1262</TD>
 <TD>14</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -168648,8 +168769,8 @@ hideAll()
 <TH>PIT Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>1414</TD>
-<TD>1465</TD>
+<TR><TD>1415</TD>
+<TD>1466</TD>
 <TD>57</TD>
 </TR>
 </table><hr/></div>
@@ -169177,8 +169298,8 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>San Diego Padres at Philadelphia Phillies</TD>
 <TD>1969-06-02</TD>
-<TD>2025-07-02</TD>
-<TD>152</TD>
+<TD>2026-06-04</TD>
+<TD>155</TD>
 <TD>106</TD>
 <TD>0</TD>
 </TR>
@@ -169270,7 +169391,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>296</TD>
+<TD>299</TD>
 <TD>221</TD>
 <TD>0</TD>
 </TR>
@@ -169300,7 +169421,7 @@ hideAll()
 <TH>SD Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>332</TD>
+<TR><TD>335</TD>
 <TD>245</TD>
 <TD>0</TD>
 </TR>
@@ -169389,6 +169510,14 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Premier Lacrosse League</TD>
+<TD>Philadelphia Waterdogs at Utah Archers</TD>
+<TD>2026-06-28</TD>
+<TD>2026-06-28</TD>
+<TD>1</TD>
+<TD>0</TD>
+<TD>0</TD>
+</TR>
+<TR><TD>Premier Lacrosse League</TD>
 <TD>Utah Archers at Philadelphia Waterdogs</TD>
 <TD>2025-07-12</TD>
 <TD>2025-07-12</TD>
@@ -169424,7 +169553,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Premier Lacrosse League</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 <TD>0</TD>
 </TR>
@@ -169434,7 +169563,7 @@ hideAll()
 <TH>SLC Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>47</TD>
+<TR><TD>48</TD>
 <TD>68</TD>
 <TD>6</TD>
 </TR>
@@ -170364,9 +170493,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Philadelphia Phillies at Toronto Blue Jays</TD>
 <TD>1993-10-16</TD>
-<TD>2026-02-28</TD>
-<TD>45</TD>
-<TD>62</TD>
+<TD>2026-06-10</TD>
+<TD>47</TD>
+<TD>63</TD>
 <TD>5</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -170491,8 +170620,8 @@ hideAll()
 <TD>10</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>91</TD>
-<TD>120</TD>
+<TD>93</TD>
+<TD>121</TD>
 <TD>10</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -170526,8 +170655,8 @@ hideAll()
 <TH>TOR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>328</TD>
-<TD>349</TD>
+<TR><TD>330</TD>
+<TD>350</TD>
 <TD>48</TD>
 </TR>
 </table><hr/></div>
@@ -170823,9 +170952,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Philadelphia Phillies at Washington Nationals</TD>
 <TD>2005-04-25</TD>
-<TD>2026-02-23</TD>
+<TD>2026-06-25</TD>
+<TD>96</TD>
 <TD>93</TD>
-<TD>92</TD>
 <TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -171106,8 +171235,8 @@ hideAll()
 <TD>8</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>896</TD>
-<TD>797</TD>
+<TD>899</TD>
+<TD>798</TD>
 <TD>26</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -171151,8 +171280,8 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>1323</TD>
-<TD>1151</TD>
+<TR><TD>1326</TD>
+<TD>1152</TD>
 <TD>68</TD>
 </TR>
 </table><hr/></div>
@@ -171540,8 +171669,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Phoenix Mercury at Portland Fire</TD>
 <TD>2001-06-05</TD>
-<TD>2002-08-12</TD>
-<TD>1</TD>
+<TD>2026-06-06</TD>
+<TD>2</TD>
 <TD>2</TD>
 <TD>0</TD>
 </TR>
@@ -171591,7 +171720,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>3</TD>
+<TD>4</TD>
 <TD>3</TD>
 <TD>0</TD>
 </TR>
@@ -171601,7 +171730,7 @@ hideAll()
 <TH>POR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>189</TD>
+<TR><TD>190</TD>
 <TD>144</TD>
 <TD>0</TD>
 </TR>
@@ -172068,8 +172197,8 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>San Francisco Giants at Arizona Diamondbacks</TD>
 <TD>1998-04-03</TD>
-<TD>2026-05-20</TD>
-<TD>124</TD>
+<TD>2026-07-01</TD>
+<TD>126</TD>
 <TD>145</TD>
 <TD>1</TD>
 </TR>
@@ -172164,9 +172293,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Phoenix Mercury at Golden State Valkyries</TD>
 <TD>2025-07-15</TD>
-<TD>2026-05-11</TD>
+<TD>2026-06-10</TD>
 <TD>2</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -172187,7 +172316,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>247</TD>
+<TD>249</TD>
 <TD>295</TD>
 <TD>2</TD>
 </TR>
@@ -172208,7 +172337,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>4</TD>
-<TD>2</TD>
+<TD>3</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -172217,8 +172346,8 @@ hideAll()
 <TH>SF Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>450</TD>
-<TD>457</TD>
+<TR><TD>452</TD>
+<TD>458</TD>
 <TD>4</TD>
 </TR>
 </table><hr/></div>
@@ -172789,16 +172918,16 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Phoenix Mercury at Seattle Storm</TD>
 <TD>2001-06-01</TD>
-<TD>2025-08-17</TD>
-<TD>21</TD>
+<TD>2026-06-04</TD>
+<TD>22</TD>
 <TD>40</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Seattle Storm at Phoenix Mercury</TD>
 <TD>2001-06-23</TD>
-<TD>2025-06-08</TD>
-<TD>28</TD>
+<TD>2026-06-20</TD>
+<TD>29</TD>
 <TD>31</TD>
 <TD>0</TD>
 </TR>
@@ -172835,7 +172964,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>49</TD>
+<TD>51</TD>
 <TD>71</TD>
 <TD>0</TD>
 </TR>
@@ -172845,7 +172974,7 @@ hideAll()
 <TH>SEA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>254</TD>
+<TR><TD>256</TD>
 <TD>256</TD>
 <TD>7</TD>
 </TR>
@@ -172888,10 +173017,10 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Arizona Diamondbacks at St. Louis Cardinals</TD>
 <TD>1998-04-14</TD>
-<TD>2025-05-25</TD>
-<TD>33</TD>
-<TD>61</TD>
-<TD>0</TD>
+<TD>2026-06-25</TD>
+<TD>35</TD>
+<TD>62</TD>
+<TD>1</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>St. Louis Cardinals at Arizona Diamondbacks</TD>
@@ -172983,9 +173112,9 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>75</TD>
-<TD>118</TD>
-<TD>0</TD>
+<TD>77</TD>
+<TD>119</TD>
+<TD>1</TD>
 </TR>
 <TR><TD>National Football League</TD>
 <TD>18</TD>
@@ -173008,9 +173137,9 @@ hideAll()
 <TH>STL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>153</TD>
-<TD>202</TD>
-<TD>8</TD>
+<TR><TD>155</TD>
+<TD>203</TD>
+<TD>9</TD>
 </TR>
 </table><hr/></div>
 <div id="PHXvTB" style="display:none">
@@ -173051,9 +173180,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Arizona Diamondbacks at Tampa Bay Rays</TD>
 <TD>2010-06-25</TD>
-<TD>2024-08-18</TD>
+<TD>2026-06-28</TD>
 <TD>4</TD>
-<TD>7</TD>
+<TD>10</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -173190,7 +173319,7 @@ hideAll()
 </TR>
 <TR><TD>Major League Baseball</TD>
 <TD>11</TD>
-<TD>20</TD>
+<TD>23</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -173220,7 +173349,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>43</TD>
-<TD>73</TD>
+<TD>76</TD>
 <TD>5</TD>
 </TR>
 </table><hr/></div>
@@ -173324,6 +173453,14 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>Phoenix Mercury at Toronto Tempo</TD>
+<TD>2026-06-27</TD>
+<TD>2026-06-27</TD>
+<TD>1</TD>
+<TD>0</TD>
+<TD>0</TD>
+</TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Toronto Tempo at Phoenix Mercury</TD>
 <TD>2026-05-20</TD>
 <TD>2026-05-20</TD>
@@ -173385,7 +173522,7 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>0</TD>
+<TD>1</TD>
 <TD>1</TD>
 <TD>0</TD>
 </TR>
@@ -173400,7 +173537,7 @@ hideAll()
 <TH>TOR Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>85</TD>
+<TR><TD>86</TD>
 <TD>66</TD>
 <TD>6</TD>
 </TR>
@@ -173577,9 +173714,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Washington Nationals at Arizona Diamondbacks</TD>
 <TD>2005-05-10</TD>
-<TD>2025-06-01</TD>
-<TD>28</TD>
-<TD>35</TD>
+<TD>2026-06-07</TD>
+<TD>29</TD>
+<TD>37</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -173742,8 +173879,8 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>59</TD>
-<TD>72</TD>
+<TD>60</TD>
+<TD>74</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -173777,8 +173914,8 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>195</TD>
-<TD>185</TD>
+<TR><TD>196</TD>
+<TD>187</TD>
 <TD>6</TD>
 </TR>
 </table><hr/></div>
@@ -174446,9 +174583,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Seattle Mariners at Pittsburgh Pirates</TD>
 <TD>2004-06-18</TD>
-<TD>2024-08-18</TD>
-<TD>4</TD>
-<TD>9</TD>
+<TD>2026-06-25</TD>
+<TD>6</TD>
+<TD>10</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -174491,8 +174628,8 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>9</TD>
-<TD>17</TD>
+<TD>11</TD>
+<TD>18</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -174511,8 +174648,8 @@ hideAll()
 <TH>SEA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>25</TD>
-<TD>34</TD>
+<TR><TD>27</TD>
+<TD>35</TD>
 <TD>0</TD>
 </TR>
 </table><hr/></div>
@@ -175676,6 +175813,14 @@ hideAll()
 <TD>2</TD>
 <TD>0</TD>
 </TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>Portland Fire at Golden State Valkyries</TD>
+<TD>2026-06-03</TD>
+<TD>2026-06-03</TD>
+<TD>0</TD>
+<TD>1</TD>
+<TD>0</TD>
+</TR>
 </table>
 <table><caption>POR - SF by League:</caption>
 <TR><TH>League</TH>
@@ -175688,6 +175833,11 @@ hideAll()
 <TD>145</TD>
 <TD>0</TD>
 </TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>0</TD>
+<TD>1</TD>
+<TD>0</TD>
+</TR>
 </table>
 <table><caption>POR - SF Total:</caption>
 <TR><TH>POR Wins</TH>
@@ -175695,7 +175845,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>138</TD>
-<TD>145</TD>
+<TD>146</TD>
 <TD>0</TD>
 </TR>
 </table><hr/></div>
@@ -176319,8 +176469,8 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Seattle Storm at Portland Fire</TD>
 <TD>2001-06-20</TD>
-<TD>2002-06-02</TD>
-<TD>1</TD>
+<TD>2026-06-18</TD>
+<TD>2</TD>
 <TD>2</TD>
 <TD>0</TD>
 </TR>
@@ -176372,7 +176522,7 @@ hideAll()
 <TD>1</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
-<TD>3</TD>
+<TD>4</TD>
 <TD>4</TD>
 <TD>0</TD>
 </TR>
@@ -176382,7 +176532,7 @@ hideAll()
 <TH>SEA Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>149</TD>
+<TR><TD>150</TD>
 <TD>158</TD>
 <TD>29</TD>
 </TR>
@@ -176901,9 +177051,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Portland Fire at Washington Mystics</TD>
 <TD>2001-08-03</TD>
-<TD>2002-08-02</TD>
+<TD>2026-06-28</TD>
 <TD>1</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
@@ -176943,7 +177093,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>3</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -176953,7 +177103,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>90</TD>
-<TD>60</TD>
+<TD>61</TD>
 <TD>18</TD>
 </TR>
 </table><hr/></div>
@@ -180055,9 +180205,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Washington Nationals at San Francisco Giants</TD>
 <TD>2005-05-07</TD>
-<TD>2025-08-10</TD>
-<TD>33</TD>
-<TD>33</TD>
+<TD>2026-06-10</TD>
+<TD>34</TD>
+<TD>35</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -180164,8 +180314,8 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>66</TD>
-<TD>69</TD>
+<TD>67</TD>
+<TD>71</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -180189,8 +180339,8 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>157</TD>
-<TD>127</TD>
+<TR><TD>158</TD>
+<TD>129</TD>
 <TD>1</TD>
 </TR>
 </table><hr/></div>
@@ -180827,9 +180977,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>San Diego Padres at St. Louis Cardinals</TD>
 <TD>1969-05-09</TD>
-<TD>2025-07-27</TD>
-<TD>87</TD>
-<TD>177</TD>
+<TD>2026-06-17</TD>
+<TD>88</TD>
+<TD>179</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -180927,8 +181077,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>218</TD>
-<TD>310</TD>
+<TD>219</TD>
+<TD>312</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Basketball Association</TD>
@@ -180952,8 +181102,8 @@ hideAll()
 <TH>STL Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>245</TD>
-<TD>334</TD>
+<TR><TD>246</TD>
+<TD>336</TD>
 <TD>1</TD>
 </TR>
 </table><hr/></div>
@@ -183060,9 +183210,9 @@ hideAll()
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Golden State Valkyries at Seattle Storm</TD>
 <TD>2025-07-16</TD>
-<TD>2026-05-09</TD>
+<TD>2026-06-13</TD>
 <TD>2</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
@@ -183102,7 +183252,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>2</TD>
-<TD>4</TD>
+<TD>5</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -183112,7 +183262,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>215</TD>
-<TD>188</TD>
+<TD>189</TD>
 <TD>3</TD>
 </TR>
 </table><hr/></div>
@@ -184131,9 +184281,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Seattle Mariners at Washington Nationals</TD>
 <TD>2005-06-10</TD>
-<TD>2024-05-26</TD>
-<TD>4</TD>
-<TD>10</TD>
+<TD>2026-06-14</TD>
+<TD>5</TD>
+<TD>12</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
@@ -184341,8 +184491,8 @@ hideAll()
 <TD>2</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>15</TD>
-<TD>25</TD>
+<TD>16</TD>
+<TD>27</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Rugby</TD>
@@ -184391,8 +184541,8 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>145</TD>
-<TD>136</TD>
+<TR><TD>146</TD>
+<TD>138</TD>
 <TD>15</TD>
 </TR>
 </table><hr/></div>
@@ -185553,9 +185703,9 @@ hideAll()
 <TR><TD>Major League Baseball</TD>
 <TD>Washington Nationals at Tampa Bay Rays</TD>
 <TD>2009-06-12</TD>
-<TD>2024-06-30</TD>
-<TD>10</TD>
-<TD>5</TD>
+<TD>2026-06-21</TD>
+<TD>12</TD>
+<TD>6</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -185661,8 +185811,8 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Major League Baseball</TD>
-<TD>21</TD>
-<TD>17</TD>
+<TD>23</TD>
+<TD>18</TD>
 <TD>0</TD>
 </TR>
 <TR><TD>National Football League</TD>
@@ -185696,8 +185846,8 @@ hideAll()
 <TH>WAS Wins</TH>
 <TH>Ties</TH>
 </TR>
-<TR><TD>114</TD>
-<TD>142</TD>
+<TR><TD>116</TD>
+<TD>143</TD>
 <TD>13</TD>
 </TR>
 </table><hr/></div>
@@ -186150,6 +186300,14 @@ hideAll()
 <TD>0</TD>
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
+<TD>Toronto Tempo at Washington Mystics</TD>
+<TD>2026-06-12</TD>
+<TD>2026-06-12</TD>
+<TD>0</TD>
+<TD>1</TD>
+<TD>0</TD>
+</TR>
+<TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>Washington Mystics at Toronto Tempo</TD>
 <TD>2026-05-08</TD>
 <TD>2026-05-08</TD>
@@ -186206,7 +186364,7 @@ hideAll()
 </TR>
 <TR><TD>Women&#39;s National Basketball Association</TD>
 <TD>0</TD>
-<TD>1</TD>
+<TD>2</TD>
 <TD>0</TD>
 </TR>
 </table>
@@ -186216,7 +186374,7 @@ hideAll()
 <TH>Ties</TH>
 </TR>
 <TR><TD>210</TD>
-<TD>191</TD>
+<TD>192</TD>
 <TD>32</TD>
 </TR>
 </table><hr/></div>
