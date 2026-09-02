@@ -1,0 +1,518 @@
+<HTML>
+<STYLE>
+<!--
+TABLE { 
+       border-collapse: collapse;
+       border-spacing: 1px;
+       width: 48px;
+       font-size: 100%;
+       font-weight: inherit;
+       color: inherit;
+}
+
+TBODY { 
+       font-size: inherit;
+       font-weight: inherit;
+       color: inherit;
+}
+
+
+TR {
+       vertical-align: middle;
+       font-size: inherit;
+       font-weight: inherit; 
+       color: inherit;
+}
+
+TD { 
+       text-align: center; 
+       padding: 0px;
+       font-size: inherit;
+       font-weight: inherit;
+       color: inherit;
+}
+
+DIV {
+       font-size: inherit;
+       font-weight: inherit;
+} 
+  
+TABLE.grid {   
+       border-width: 1px;
+       border-collapse: collapse;
+       border-spacing: 1px;
+}
+
+TR.grid { 
+       height: 54px; 
+       vertical-align: middle; 
+}
+
+TD.grid { 
+       width: 54px; 
+       border-style:solid; 
+       border-width:1px; 
+       border-color: #000000;
+       padding: 1px;
+       text-align: center;
+       font-size: 10pt;
+       color: inherit;
+}
+
+SPAN {
+       font-size: inherit;
+       font-weight: inherit;
+       color: inherit;
+} 
+-->
+</STYLE>
+<SCRIPT language="javascript"> 
+var Grid = new Array();
+
+var HNineSets = new Array();
+var VNineSets = new Array();
+var SNineSets = new Array();
+
+var selected_square;
+
+function NumberSet() {
+       this.number = new Object();
+}
+
+NumberSet.prototype.length = function() {
+  var len = 0;
+  for (property in this.number) {
+    len++; 
+  }
+  return len;
+}
+
+NumberSet.prototype.getFirst = function() {
+    for (property in this.number) {
+       return property;  
+    }
+}
+
+NumberSet.prototype.clear = function() {
+    for (property in this.number) {
+       delete this.number[property];  
+    }
+}
+
+function Square(r, c) {
+       this.row = r;
+       this.col = c;
+       this.dom_square = document.getElementById("" + r + c);
+       this.values = new NumberSet();
+       this.dom_sub_square = new Array();
+       for (var i=1; i <= 9; i++) {
+           this.dom_sub_square[i] = document.getElementById("" + r + c + i); 
+       } 
+       this.valid = true;
+}
+
+Square.prototype.getValue = function() {
+       if (this.values.length() > 1) {
+           return null;
+       }               
+       for (var i=1; i <= 9; i++) {
+           if (this.values.number[i]) {
+               return i;
+           }
+       }
+} 
+
+Square.prototype.updateView = function() {
+       var elem = null;
+       this.dom_square.style.color="#000000";
+       for (var i=1; i <= 9; i++) { 
+           elem = this.dom_sub_square[i]; 
+           var num = this.values.number[i];
+           if (num) {
+               elem.innerHTML = " " + i + " "; 
+           } else {
+               elem.innerHTML = "";
+           }
+       } 
+       if (this.values.length() == 1) {
+           this.valid = true;
+           this.dom_sub_square[this.values.getFirst()].style.fontSize = "30pt";
+       } else {
+           for (var i=1; i <= 9; i++) {
+              this.dom_sub_square[i].style.fontSize = "10pt";
+           }
+       } 
+       this.HNineSet.makeAllValid();
+       this.VNineSet.makeAllValid();
+       this.SNineSet.makeAllValid();
+       this.HNineSet.validityCheck();
+       this.VNineSet.validityCheck();
+       this.SNineSet.validityCheck();
+       if (this.locked) {
+           this.dom_square.style.fontWeight = "bold";
+       } 
+}
+
+Square.prototype.lock = function() {
+       if (this.values.length() == 1) {
+           this.locked = true;
+           this.updateView();
+       } 
+}
+
+Square.prototype.show_nineset_possibilities = function() {
+    this.HNineSet.showPossibilities();
+    this.VNineSet.showPossibilities();
+    this.SNineSet.showPossibilities();
+}
+
+Square.prototype.show_possibilities = function() { 
+       if (this.values.length() == 1) {
+           return;
+       }
+       for (var i=1; i <=9; i++) {
+           if (this.HNineSet.hasNumber(i)
+           ||  this.VNineSet.hasNumber(i)
+           ||  this.SNineSet.hasNumber(i)) {
+               delete this.values.number[i];
+           } else {
+               this.values.number[i] = 1;
+           }  
+       }
+       this.updateView();  
+} 
+
+Square.prototype.clear_guesses = function() { 
+       if (this.locked == 1) {
+           return;
+       } 
+       this.values.clear();
+       this.updateView();
+}
+
+function NineSet(type, index) {
+       this.squares = new Array();
+       if (type == 'H') {
+           for (var i=1; i <= 9; i++) {
+               this.squares[i] = Grid["" + i + index];
+               this.squares[i].HNineSet = this;
+           }
+       }
+       if (type == 'V') {
+           for (var i=1; i <= 9; i++) {
+               this.squares[i] = Grid["" + index + i];
+               this.squares[i].VNineSet = this;
+           }
+       }
+       if (type == 'S') {
+           var c = (index - 1) % 3;
+           var r = (index - 1 - c) / 3;
+           for (var i=1; i <= 9; i++) {
+               var mod = ((i - 1) % 3);
+               var y = (c * 3) + mod + 1;
+               var x = (r * 3) + ((i - 1 - mod) / 3) + 1;
+               this.squares[i] = Grid["" + x + y]; 
+               this.squares[i].SNineSet = this;
+           }
+       }
+}
+
+NineSet.prototype.hasNumber = function(num) {
+       for (var i=1; i <= 9; i++) {
+           if (this.squares[i].values.length() == 1) {
+               if (this.squares[i].values.getFirst() == num) {
+                   return true;
+               }
+           }
+       }
+       return false;      
+} 
+
+NineSet.prototype.makeAllValid = function() {
+       for (var i=1; i <= 9; i++) {
+           this.squares[i].valid = true; 
+           this.squares[i].dom_square.style.color = "#000000";
+       }   
+       
+}
+
+NineSet.prototype.validityCheck = function() {
+       var set = { };
+       for (var i=1; i <= 9; i++) {
+           if (this.squares[i].values.length() == 1) {
+               var val = this.squares[i].values.getFirst();
+               if (set[val]) {
+                   set[val].valid = false;
+                   set[val].dom_square.style.color = "#FF0000"
+                   this.squares[i].valid = false;
+                   this.squares[i].dom_square.style.color = "#FF0000"
+               }
+               set[val] = this.squares[i];  
+           }
+       }
+}
+
+NineSet.prototype.showPossibilities = function() {
+    for (var i=1; i <= 9; i++) {
+      if (this.squares[i].values.length() != 1) {
+          this.squares[i].show_possibilities();
+      }
+    }
+}
+  
+
+var shiftNumbers = { "!":1,
+                     "@":2,
+                     "#":3,
+                     "$":4,
+                     "%":5,
+                     "^":6,
+                     "&":7,
+                     "*":8,
+                     "(":9
+};
+
+function handleKeyDown(evt) {
+       var keyCode;
+       if(window.event) {
+           keyCode = window.event.keyCode;
+           window.event.returnValue = false; 
+       } else {
+           keyCode = evt.which   
+       } 
+       if (keyCode == 37) {
+           var r = selected_square.row;
+           var c = selected_square.col;
+           if (c > 1) {
+               unSelect();
+               selected_square = Grid["" + r + (c - 1)];
+               selected_square.dom_square.style.backgroundColor = "#DDDDFF";
+           }
+           return true;
+       }
+       if (keyCode == 38) {
+           var r = selected_square.row;
+           var c = selected_square.col;
+           if (r > 1) {
+               unSelect();
+               selected_square = Grid["" + (r - 1) + c];
+               selected_square.dom_square.style.backgroundColor = "#DDDDFF";
+           }
+           return true;
+       }
+       if (keyCode == 39) {
+           var r = selected_square.row;
+           var c = selected_square.col;
+           if (c < 9) {
+               unSelect();
+               selected_square = Grid["" + r  + (c + 1)];
+               selected_square.dom_square.style.backgroundColor = "#DDDDFF";
+           }
+           return true;
+       }
+       if (keyCode == 40) {
+           var r = selected_square.row;
+           var c = selected_square.col;
+           if (r < 9) {
+               unSelect();
+               selected_square = Grid["" + (r + 1) + c];
+               selected_square.dom_square.style.backgroundColor = "#DDDDFF";
+           }
+           return true;
+       } 
+       var keyString = String.fromCharCode(keyCode); 
+       if (selected_square != null) {
+           if (!selected_square.locked) {
+               if (keyCode == 8 || keyCode == 32) { 
+                   selected_square.values.clear();
+                   selected_square.updateView();
+                   return false;
+               }
+               if (keyCode == 63) {
+                   selected_square.show_possibilities();
+               } 
+               var number_key = shiftNumbers[keyString];
+               if (!number_key) {
+                   var number_key = keyCode - 48; 
+                   if (number_key >= 1 && number_key <= 9) { 
+                       toggleSquare(selected_square, number_key, false);
+                   }
+               } else {
+                   toggleSquare(selected_square, number_key, true);
+               }
+           } 
+       }
+       return true;     
+}
+
+
+function handleKeyPress(evt) {
+       var keyCode;
+       if(window.event) {
+           keyCode = window.event.keyCode;
+           window.event.returnValue = false; 
+       } else {
+           keyCode = evt.which   
+       } 
+       var keyString = String.fromCharCode(keyCode); 
+       if (selected_square != null) {
+           if (!selected_square.locked) {
+               if (keyCode == 8 || keyCode == 32) { 
+                   selected_square.values.clear();
+                   selected_square.updateView();
+                   return false;
+               }
+               if (keyCode == 63) {
+                   selected_square.show_possibilities();
+               } 
+               var number_key = shiftNumbers[keyString];
+               if (!number_key) {
+                   var number_key = keyCode - 48; 
+                   if (number_key >= 1 && number_key <= 9) { 
+                       toggleSquare(selected_square, number_key, false);
+                   }
+               } else {
+                   toggleSquare(selected_square, number_key, true);
+               }
+           } 
+       }
+       return true;
+}
+
+function toggleSquare(square, number_value, shift) {
+       if (square.values.number[number_value]) {
+           delete square.values.number[number_value];
+           square.dom_sub_square[number_value].style.textDecoration="none";
+       } else {
+           square.values.number[number_value] = true;
+           if (shift) {
+              square.dom_sub_square[number_value].style.textDecoration="underline";
+           }
+       }
+       square.updateView();
+}
+
+function unSelect() {
+       if (selected_square) {
+           selected_square.dom_square.style.backgroundColor = "#FFFFFF";
+       }
+} 
+
+function squareSelected(dom_square) {
+       var square = Grid[dom_square.id]
+             
+       unSelect();
+
+       selected_square = square;
+       dom_square.style.backgroundColor = "#DDDDFF";
+}
+
+function lockAll() {
+       for (var r=1; r <= 9; r++) {
+           for (var c=1; c <= 9; c++) { 
+               Grid["" + r + c].lock();
+           }
+       }
+} 
+
+function showAllPossibilities() {
+       for (var r=1; r <= 9; r++) {
+           for (var c=1; c <= 9; c++) { 
+               Grid["" + r + c].show_possibilities();
+           }
+       }      
+} 
+
+function clearAllGuesses() {
+       for (var r=1; r <= 9; r++) {
+           for (var c=1; c <= 9; c++) { 
+               Grid["" + r + c].clear_guesses();                
+           }
+       }      
+}
+
+function writeModel() {
+       unSelect();
+}
+
+// var idocument = document.getElementById('content_frame').contentWindow.document;
+
+
+
+</SCRIPT>
+ <body>
+   <form style="display:none;" id="sessionForm">
+   <textarea row="24" cols="80" id="sessionField"></textarea>
+  </form>
+<SCRIPT language="javascript">
+document.writeln('<TABLE id="main_table" class="grid"><TBODY>');
+if (document.getElementById('sessionField').value.length == 0) {
+document.open();
+for (var a=0; a < 3; a++) {
+       document.writeln('<TR class="grid">');
+       for (var b=0; b < 3; b++) {
+           document.writeln('<TD class="grid">');
+           document.writeln('<TABLE class="grid"><TBODY>');  
+           var grid_id;
+           for (var c=0; c < 3; c++) {
+               document.writeln('<TR class="grid">'); 
+               for (var d=0; d < 3; d++) {
+                   grid_id = (((a * 3) + c) + 1) + "" + (((b * 3) + d) + 1);
+                   document.writeln('<TD class="grid" id="' + grid_id + '" onClick="squareSelected(this)">');
+                   document.writeln('<TABLE><TBODY>');
+                   for (var e=0; e < 3; e++) {
+                       document.writeln('<TR>');
+                       for (var f=0; f < 3; f++) {
+                           document.write('<TD><SPAN id="' + grid_id + ((e*3 + f) + 1) + '"></SPAN></TD');
+                       }
+                       document.writeln('</TR>');
+                   }
+                   document.writeln('</TBODY></TABLE>');
+                   document.writeln('</TD>');
+               }
+               document.writeln('</TR>');
+           } 
+           document.writeln('</TBODY></TABLE>');
+           document.writeln('</TD>');
+       }     
+       document.writeln('</TR>');     
+}
+
+
+} else {
+
+document.writeln(document.getElementById('sessionField').value);
+
+}
+
+document.writeln('</TBODY></TABLE>');
+
+document.writeln('<INPUT type="button" onClick="lockAll()" value="Lock"/>');
+       
+document.writeln('<INPUT type="button" onClick="writeModel()" value="Save"/>');
+
+document.writeln('<INPUT type="button" onClick="showAllPossibilities()" value="Show All Possibilities"/>');
+
+document.writeln('<INPUT type="button" onClick="clearAllGuesses()" value="Clear All Guesses"/>');
+ 
+document.close();
+
+document.onkeypress = handleKeyPress;  
+
+document.onkeydown = handleKeyDown;
+
+for (var y=1; y <= 9; y++) {
+       for (var x=0; x <= 9; x++) {
+           Grid["" + x + y] = new Square(x, y);
+       }
+}
+
+for (var i=1; i <= 9; i++) {
+       HNineSets[i] = new NineSet('H', i);
+       VNineSets[i] = new NineSet('V', i);
+       SNineSets[i] = new NineSet('S', i);
+}
+</SCRIPT>
+
+ </body>
+</HTML>

@@ -1,0 +1,64 @@
+body {
+    background-color: #222;
+    color: #BBB;
+}
+
+h1 {
+    width: 100%;
+    text-align:left;
+}
+
+h1 a{
+    float:right;
+    font-size: 50%;
+}
+
+a:link {
+    color: #4AF;
+}
+
+a:visited {
+    color: #A4F;
+}
+
+p {
+    line-height: 1.5em;
+}
+
+select {
+    background-color: white;
+}
+
+li.footnote {
+    font-size: 75%;
+}
+
+table#results {
+    width: 100%;
+}
+
+table#results tr:nth-child(even) { background: #221; }
+table#results tr:nth-child(odd) { background: #111; }
+
+table.gaps {
+    width: 80%;
+    border-collapse: collapse;
+}
+
+table.gaps tr td {
+    border:solid 1px #666;
+}
+
+table.lastmods {
+    width: 50%;
+    border-collapse: collapse;
+}
+
+table.lastmods tr td {
+    border:solid 1px #666;
+}
+
+ul.schema {
+    list-style: none;
+}
+
