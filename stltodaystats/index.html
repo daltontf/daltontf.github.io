@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel='stylesheet' type='text/css' href='styles.css'>
+  <title>STLtoday High School Sports Stats DB</title>
+</head>
+<script src='./sql-wasm.js'></script>
+<script src='functions.js'></script>
+<script src="prism.js"></script>
+<script src="syntax.js"></script>
+
+<link rel="stylesheet" href="syntax.css">
+<link rel="stylesheet" href="prism.css">
+
+<body onload="init('./queries.js')">
+<div style="display:flex">
+  <h1>STLtoday High School Sports StatsDB</h1>
+  <a href="dblastmods.html">Database&nbsp;Info</a>&nbsp;
+  <a href="about.html">About</a>
+</div>
+
+  <p>Sport:
+    <select id="selectSport">
+      <option value="baseball">Baseball</option>
+      <option value="basketballb">Basketball - Boys</option>
+      <option value="basketballg">Basketball - Girls</option>
+      <option value="fieldhockey">Field Hockey</option>
+      <option value="football">Football</option>
+      <option value="hockey">Hockey</option>
+      <option value="lacrosseb">Lacrosse - Boys</option>
+      <option value="lacrosseg">Lacrosse - Girls</option>
+      <option value="soccerb">Soccer - Boys</option>
+      <option value="soccerg">Soccer - Girls</option>
+      <option value="softball">Softball</option>
+      <option value="volleyballb">Volleyball - Boys</option>
+      <option value="volleyballg">Volleyball - Girls</option>
+      <option value="waterpolob">Water Polo - Boys</option>
+      <option value="waterpolog">Water Polo - Girls</option>
+    </select>
+  </p>
+  <p>
+    School: <select id="selectSchool"></select>
+  </p>
+  <p>
+    Queries: <select id="selectQuery"></select>
+  </p>
+  <p>
+    Show Query: <input id="showQuery" type="checkbox"/>
+  </p>
+  <p>
+    <div id="query-container" style="display:none" >
+      <textarea id="query" spellcheck="false" oninput="code_update(this.value); code_sync_scroll(this);" onscroll="code_sync_scroll(this);" onkeydown="code_check_tab(this, event);"></textarea>
+      <pre id="highlighting" aria-hidden="true"><code class="language-sql match-braces" id="highlighting-content"></code>      </pre>
+    </div>
+  </p>
+  <p>
+    <button id="execute">Execute</button>
+  </p>
+  <p>
+    <table id="results"></table>
+  </p>
+</body>
+</html>
